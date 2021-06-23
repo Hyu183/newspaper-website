@@ -1,9 +1,16 @@
-#reg{
+.reg{
     width: 40%;
     padding-top: 30px;
+    padding-bottom: 20px;
 }
 
-#form-reg{
+.form-reg{
     padding: 25px;
     background-color: #f5f4ef;
+}
+
+.posting{
+    width: 90%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
