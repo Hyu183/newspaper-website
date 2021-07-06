@@ -18,28 +18,8 @@ app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form g
     extended: true
 }));
 
-app.get('/', function(req, res) {
-    res.render('index');
-});
-
-app.get('/index', function(req, res) {
-    res.render('index');
-});
-
-app.get('/about', function(req, res) {
-    res.render('about');
-});
-
-app.get('/details', function(req, res) {
-    res.render('details');
-});
-
-app.get('/category', function(req, res) {
-    res.render('category');
-});
-
 //Đường dẫn final bằng app.use + router.get
-app.use('/admin/categories/', require('./controllers/category.route'));
+app.use('/', require('./controllers/category.route'));
 
 
 
