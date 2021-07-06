@@ -16,8 +16,8 @@ router.get('/', function(req, res) {
 
 });
 
-router.get('/add', function(req, res) {
-    res.render('vwCategories/add');
+router.get('/about', function(req, res) {
+    res.render('vwCategories/about');
 })
 
 router.post('/add', function(req, res) {

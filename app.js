@@ -19,14 +19,19 @@ app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form g
 }));
 
 app.get('/', function(req, res) {
-
     res.render('index');
 });
 
-
+app.get('/index', function(req, res) {
+    res.render('index');
+});
 
 app.get('/about', function(req, res) {
     res.render('about');
+});
+
+app.get('/details', function(req, res) {
+    res.render('details');
 });
 
 //Đường dẫn final bằng app.use + router.get
