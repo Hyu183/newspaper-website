@@ -32,6 +32,10 @@ router.get('/category', function(req, res) {
     res.render('vwCategories/category');
 });
 
+router.get('/latest_news', function(req, res) {
+    res.render('vwCategories/latest_news');
+});
+
 router.post('/add', function(req, res) {
     const new_category = {
         CatID: -1,
