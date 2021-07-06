@@ -34,6 +34,10 @@ app.get('/details', function(req, res) {
     res.render('details');
 });
 
+app.get('/category', function(req, res) {
+    res.render('category');
+});
+
 //Đường dẫn final bằng app.use + router.get
 app.use('/admin/categories/', require('./controllers/category.route'));
 
