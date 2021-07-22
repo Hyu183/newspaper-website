@@ -16,6 +16,12 @@ const router = express.Router();
 
 // });
 
+router.get('/getCategoryData', async function(req, res) {
+    const list = await categoryModel.all();
+    console.log(list);
+})
+
+
 router.get('/', function(req, res) {
     res.render('vwCategories/index');
 })

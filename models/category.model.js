@@ -1,19 +1,9 @@
-const list = [
-    { CatID: 1, CatName: 'Laptop' },
-    { CatID: 2, CatName: 'Phone' },
-    { CatID: 3, CatName: 'Quần áo' },
-    { CatID: 4, CatName: 'Giày dép' },
-    { CatID: 5, CatName: 'Trang sức' },
-    { CatID: 6, CatName: 'Khác' },
-];
+const db = require('../database/db');
 
-
-
-module.exports = {
-
+module.exports = {  
 
     all() {
-        return list;
+        return db.select().from('category');
     },
 
     add(category) {
