@@ -2,6 +2,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const morgan = require('morgan');
 const path = require('path');
+const hbs_sections = require('express-handlebars-sections');
 
 const app = express();
 app.use(morgan('dev'));
@@ -9,7 +10,10 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 
 app.engine('hbs', exphbs({
-    defaultLayout: 'main.hbs'
+    defaultLayout: 'main.hbs',
+    helpers:{
+        section: hbs_sections()
+    }
 }));
 app.set('view engine', 'hbs');
 
