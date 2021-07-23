@@ -1,0 +1,22 @@
+./
+controllers
+	category.route.js
+models
+	category.model.js
+public
+	css
+	fonts
+	img
+	js
+	scss
+views
+	layouts
+		main.hbs
+	vwCategories
+		about.hbs
+		category.hbs
+		details.hbs
+		index.hbs
+		latest_news.hbs
+app.js
+package.json

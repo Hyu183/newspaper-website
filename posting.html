@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+        <link rel='stylesheet' type='text/css' href='style.css'/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>		<script src="editor.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#txtEditor").Editor();
+			});
+		</script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link href="editor.css" type="text/css" rel="stylesheet"/>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Posting article</title>
+	</head>
+	<body>
+		<div class="container posting">
+            <h1 class="text-center">Write new article</h1>
+            <form>
+                <div class="form-group">
+                    <label for="title">Article title</label>
+                    <input type="text" class="form-control" id="artical-title" aria-describedby="Title" placeholder="Title">
+                </div>
+
+                <div class="form-group">
+                    <label for="abstract">Abstract</label>
+                    <textarea class="form-control" id="abstract" rows="4"></textarea>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Thumbnail</span>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="thumbnail">
+                      <label class="custom-file-label" for="thumbnail">Choose image</label>
+                    </div>
+                  </div>
+
+                <label>Content</label>
+			    <textarea id="txtEditor"></textarea> 
+                <br>
+                <label for="category">Select category</label>
+                <select class="form-control" id="category">
+                <option>Finance</option>
+                <option>Politics</option>
+                <option>Sport</option>
+                </select>
+
+                <div class="form-group">
+                    <label for="tag">Tags</label>
+                    <textarea class="form-control" id="tag" rows="2"></textarea>
+                </div>
+
+                <br>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Submit article</button>
+                </div>
+            </form>
+		</div>
+	</body>
+</html>
+
+<!-- editor source: https://www.jqueryscript.net/text/Responsive-WYSIWYG-Text-Editor-with-jQuery-Bootstrap-LineControl-Editor.html -->
