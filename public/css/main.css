@@ -673,7 +673,7 @@ hr {
 
 /* line 281, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_common.scss */
 
-.btn {
+/* .btn {
     background: #ff656a;
     -moz-user-select: none;
     text-transform: uppercase;
@@ -696,12 +696,12 @@ hr {
     border: 0;
     overflow: hidden;
     margin: 0;
-}
+} */
 
 
 /* line 305, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_common.scss */
 
-.btn::before {
+/* .btn::before {
     content: "";
     position: absolute;
     left: 0;
@@ -716,16 +716,16 @@ hr {
     transform-origin: 0 0;
     transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
     transform: scaleX(0);
-}
+} */
 
 
 /* line 323, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_common.scss */
 
-.btn:hover::before {
+/* .btn:hover::before {
     transform: scaleX(1);
     color: #fff !important;
     z-index: -1;
-}
+} */
 
 
 /* line 333, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_common.scss */

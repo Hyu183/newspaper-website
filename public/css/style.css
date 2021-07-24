@@ -417,7 +417,7 @@ hr {
     background: #ff3500
 }
 
-.btn {
+/* .btn {
     background: #ff656a;
     -moz-user-select: none;
     text-transform: uppercase;
@@ -463,7 +463,7 @@ hr {
     transform: scaleX(1);
     color: #fff !important;
     z-index: -1
-}
+} */
 
 .header-btn {
     text-transform: uppercase
