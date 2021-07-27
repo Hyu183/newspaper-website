@@ -24,6 +24,7 @@ app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form g
 
 //Đường dẫn final bằng app.use + router.get
 app.use('/', require('./controllers/category.route'));
+app.use('/admin', require('./controllers/admin.route'));
 
 
 
