@@ -50,6 +50,10 @@ router.get('/register', function(req, res) {
     res.render('vwCategories/register');
 });
 
+router.get('/userInfo', function(req, res) {
+    res.render('vwCategories/userInfo');
+});
+
 router.post('/add', function(req, res) {
     const new_category = {
         CatID: -1,
@@ -62,19 +66,19 @@ router.post('/add', function(req, res) {
 
 })
 
-router.get('/editor',function(req,res){
+router.get('/editor', function(req, res) {
     res.render('vwEditor/editor');
 })
 
-router.get('/editorPostList',function(req,res){
+router.get('/editorPostList', function(req, res) {
     res.render('vwEditor/editorPostList');
 })
 
-router.get('/writer',function(req,res){
+router.get('/writer', function(req, res) {
     res.render('vwWriter/writer');
 })
 
-router.get('/posting',function(req,res){
+router.get('/posting', function(req, res) {
     res.render('vwWriter/posting');
 })
 
