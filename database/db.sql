@@ -13,6 +13,8 @@
 
  Date: 28/07/2021 17:00:03
 */
+CREATE DATABASE IF NOT EXISTS newspaperdb;
+use newspaperdb;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
