@@ -276,7 +276,7 @@ INSERT INTO `user_types` VALUES (3, 'admin');
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL unique,
   `email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `birthday` date NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
