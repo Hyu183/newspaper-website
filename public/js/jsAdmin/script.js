@@ -17,8 +17,7 @@ $(document).ready(function () {
     $(table).DataTable({
       "columns": [
         { "width": "5%" },
-        { "width": "85%" },
-        { orderable: false,"width": "5%" },
+        { "width": "90%" },
         { orderable: false,"width": "5%" }
       ]
       
@@ -42,3 +41,5 @@ $(document).ready(function () {
 
   });
 });
+
+
