@@ -42,14 +42,6 @@ router.get('/latest_news', function(req, res) {
     res.render('vwCategories/latest_news');
 });
 
-router.get('/sign_in', function(req, res) {
-    res.render('vwCategories/sign_in');
-});
-
-router.get('/register', function(req, res) {
-    res.render('vwCategories/register');
-});
-
 router.get('/userInfo', function(req, res) {
     res.render('vwCategories/userInfo');
 });
