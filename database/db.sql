@@ -277,6 +277,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL unique,
+  `name` varchar(200) NOT NULL,
   `email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `birthday` date NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -289,10 +290,10 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'duong', 'duong@gmail.com', '2000-01-01', '123', 0);
-INSERT INTO `users` VALUES (2, 'tran', 'dgg@gmail.com', '2004-01-01', '123', 0);
-INSERT INTO `users` VALUES (3, 'toan', 'eg@gmail.com', '2005-01-01', '123', 1);
-INSERT INTO `users` VALUES (4, 'quan', 'durhong@gmail.com', '2002-01-01', '123', 2);
-INSERT INTO `users` VALUES (5, 'tuan', 'tuan@gmail.com', '2001-01-07', '123', 3);
+INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000-01-01', '123', 0);
+INSERT INTO `users` VALUES (2, 'tran', 'Nguyen duong', 'dgg@gmail.com', '2004-01-01', '123', 0);
+INSERT INTO `users` VALUES (3, 'toan', 'Nguyen duong', 'eg@gmail.com', '2005-01-01', '123', 1);
+INSERT INTO `users` VALUES (4, 'quan', 'Nguyen duong', 'durhong@gmail.com', '2002-01-01', '123', 2);
+INSERT INTO `users` VALtagstagsusersUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3);
 
 SET FOREIGN_KEY_CHECKS = 1;
