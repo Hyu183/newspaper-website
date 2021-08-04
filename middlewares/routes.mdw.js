@@ -3,4 +3,5 @@ module.exports = function (app){
     app.use('/', require('../controllers/category.route'));
     app.use('/admin', require('../controllers/admin.route'));
     app.use('/user', require('../controllers/user.route'));
+    app.use('/', require('../controllers/writer.route'));
 }
