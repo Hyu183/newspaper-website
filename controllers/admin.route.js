@@ -31,21 +31,21 @@ router.get('/posts',function(req,res){
 })
 
 router.get('/categories',async function(req,res){
-    const categories = await categoryModel.all();
+    //const categories = await categoryModel.all();
 
     res.render('vwAdmin/categories', {
         layout: 'admin.hbs',
         categoryActive: true,
-        categories
+       // categories
     });
 })
 
 router.get('/categories/add',async function(req,res){
-    const mainCategories = await categoryModel.allMainCategories();
+    //const mainCategories = await categoryModel.allMainCategories();
     res.render('vwAdmin/addCategory', {
         layout: 'admin.hbs',
         categoryActive: true,
-        mainCategories
+        //mainCategories
     });
 })
 
@@ -65,11 +65,11 @@ router.post('/categories/add',async function(req,res){
     const new_category = req.body;
     await categoryModel.add(new_category);
     
-    const mainCategories = await categoryModel.allMainCategories();
+    //const mainCategories = await categoryModel.allMainCategories();
     res.render('vwAdmin/addCategory', {
         layout: 'admin.hbs',
         categoryActive: true,
-        mainCategories
+        //mainCategories
     });
 })
 
