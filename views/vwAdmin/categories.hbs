@@ -5,7 +5,7 @@
                 <div class="card-header bg-dark text-white d-flex justify-content-between">
                     <h4><span><i class="bi bi-table me-2"></i></span> Danh sách chuyên mục</h4>
 
-                    <a class="btn btn-success" href="#" role="button">
+                    <a class="btn btn-success" href="/admin/categories/add" role="button">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
                         Thêm
                     </a>
@@ -18,44 +18,23 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Tên Chuyên mục</th>
                                     <th scope="col">&nbsp;</th>
-                                    <th scope="col">&nbsp;</th>
+                                  
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each this.categories }}
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Chính trị</td>
+                                    <th scope="row">{{id}}</th>
+                                    <td>{{title}}</td>
                                     <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
+                                        <a name="" id="" class="btn btn-primary btn-sm" href="/admin/categories/edit" role="button"
                                             title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button"
-                                            title="Delete">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Kinh doanh</td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
-                                            title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button"
-                                            title="Delete">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
 
-
+                                </tr>
+                                 {{/each}}
                             </tbody>
 
                         </table>
