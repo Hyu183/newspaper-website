@@ -7,6 +7,8 @@ const app = express();
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
+app.use('/module', express.static(path.join(__dirname, 'node_modules')))
+
 
 app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form gửi về
     extended: true

@@ -1,4 +1,4 @@
-<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+<script src="/module/ckeditor/ckeditor.js"></script>
 
 <div class="container posting my-5">
     <h1 class="text-center">Write new article</h1>
@@ -47,15 +47,10 @@
         </div>
 
     </form>
-
-            <script>
-            ClassicEditor
-                .create( document.querySelector( '#editor' ) )
-                .then( editor => {
-                    window.editor = editor;
-                } )
-                .catch( error => {
-                    console.error( 'There was a problem initializing the editor.', error );
-                } );
-        </script>
 </div>
+<script>
+    CKEDITOR.replace( 'editor', {
+        filebrowserBrowseUrl: '/img',
+        filebrowserUploadUrl: '/upload_img'
+    });
+</script>
