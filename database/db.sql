@@ -294,6 +294,6 @@ INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000
 INSERT INTO `users` VALUES (2, 'tran', 'Nguyen duong', 'dgg@gmail.com', '2004-01-01', '123', 0);
 INSERT INTO `users` VALUES (3, 'toan', 'Nguyen duong', 'eg@gmail.com', '2005-01-01', '123', 1);
 INSERT INTO `users` VALUES (4, 'quan', 'Nguyen duong', 'durhong@gmail.com', '2002-01-01', '123', 2);
-INSERT INTO `users` VALtagstagsusersUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3);
+INSERT INTO `users` VALUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3);
 
 SET FOREIGN_KEY_CHECKS = 1;
