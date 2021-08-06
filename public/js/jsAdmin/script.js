@@ -4,10 +4,9 @@ $(document).ready(function () {
       "columns": [
         { "width": "5%" },
         { "width": "35%" },
-        { orderable: false,"width": "35%" },
+        { orderable: false,"width": "40%" },
         { "width": "15%" },
-        { orderable: false,"width": "5%" },
-        {orderable: false, "width": "5%" }
+        { orderable: false,"width": "5%" }
       ]
       
     });

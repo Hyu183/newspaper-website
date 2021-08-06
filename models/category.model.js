@@ -37,6 +37,7 @@ module.exports = {
             return null;
         }
 
+        rows[0].parent_id =  rows[0].parent_id === null?0:  rows[0].parent_id;
         rows[0].parent_title =  rows[0].parent_title === null?'Không':  rows[0].parent_title;
         return rows[0];
     },
@@ -45,6 +46,7 @@ module.exports = {
         const id = category.id;
         delete category.id;
         delete category.parent_title;
+        delete category.parent_id;
         
         return db('category')
             .where( 'id', id)

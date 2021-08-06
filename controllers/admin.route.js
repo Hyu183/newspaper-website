@@ -1,6 +1,8 @@
 const express = require('express');
 const categoryModel = require('../models/category.model');
 const tagModel = require('../models/tag.model');
+const userModel = require('../models/user.model')
+
 
 const router = express.Router();
 
@@ -10,14 +12,110 @@ const router = express.Router();
 //     console.log(list);
 // })
 
-router.get('/',function(req,res){
+router.get('/users',function(req,res){
     res.render('vwAdmin/users', {
         layout: 'admin.hbs',
+        userMenuActive: true,
         userActive: true
     });
 })
 
-router.get('/tags',async function(req,res){
+router.get('/users/add',function(req,res){
+
+    const url = req.headers.referer || '/';
+    
+    res.render('vwAdmin/addUser', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        userActive: true,
+        url
+    });
+})
+
+router.post('/users/add',function(req,res){
+
+    console.log(req.body);
+
+    res.render('vwAdmin/addUser', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        userActive: true
+    });
+})
+
+router.get('/is-username-available',async function(req,res){
+    const username = req.query.username;
+    const user = await userModel.findByUsername(username);
+    if(user===null){
+        return res.json(true);
+    }
+
+    res.json(false);
+})
+
+router.get('/users/edit',function(req,res){
+
+    
+
+    res.render('vwAdmin/editUser', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        userActive: true
+    });
+})
+
+router.post('/users/patch',function(req,res){
+    console.log("patch");
+    console.log(req.body);
+    res.redirect('/admin/users');
+})
+
+router.post('/users/del',function(req,res){
+    console.log("del");
+    console.log(req.body);
+    res.redirect('/admin/users');
+})
+
+
+
+router.get('/writers',function(req,res){
+    res.render('vwAdmin/usersWriters', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        writerActive: true
+    });
+})
+
+router.get('/writers/add',function(req,res){
+    res.render('vwAdmin/addUserWriter', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        writerActive: true
+    });
+})
+
+router.post('/writers/add',function(req,res){
+   
+    res.redirect('/admin/writers')
+})
+router.get('/editors',function(req,res){
+    res.render('vwAdmin/usersEditors', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        editorActive: true
+    });
+})
+
+
+router.get('/usersAdmin',function(req,res){
+    res.render('vwAdmin/usersAdmin', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        userAdminActive: true
+    });
+})
+
+router.get('/',async function(req,res){
 
     const tags = await tagModel.all();
 
@@ -60,7 +158,7 @@ router.get('/tags/edit',async function(req,res){
     const tagDetail = await tagModel.findByID(tag_id); 
 
     if(tagDetail === null){
-        return res.redirect('/admin/tags');
+        return res.redirect('/admin');
     }
     res.render('vwAdmin/editTag', {
         layout: 'admin.hbs',
@@ -74,14 +172,14 @@ router.post('/tags/patch',async function(req,res){
     
     await tagModel.patch(req.body);
  
-    res.redirect('/admin/tags');
+    res.redirect('/admin');
 })
 
 router.post('/tags/del',async function(req,res){
 
     await tagModel.del(req.body.id);
 
-    res.redirect('/admin/tags');
+    res.redirect('/admin');
 })
 
 router.get('/posts',function(req,res){
@@ -147,14 +245,14 @@ router.get('/categories/edit',async function(req,res){
 
 router.post('/categories/patch',async function(req,res){
 
-    await tagModel.patch(req.body);
+    await categoryModel.patch(req.body);
  
     res.redirect('/admin/categories');
 })
 
 router.post('/categories/del',async function(req,res){
 
-    await tagModel.del(req.body.id);
+    await categoryModel.del(req.body.id);
 
     res.redirect('/admin/categories');
 })

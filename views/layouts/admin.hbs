@@ -66,22 +66,49 @@
                         <hr class="dropdown-divider bg-light" />
                     </li>
                     <li>
-                        <a href="/admin" class="nav-link px-3 {{#if userActive}}active{{/if}}">
-                            <span class="me-2"><i class="fa fa-users" aria-hidden="true"></i></span>
-                            <span>Người dùng</span>
-                        </a>
-                    </li>
-                    <li class="my-1">
-                        <hr class="dropdown-divider bg-light " >
-                    </li>
-                    <li>
-                        <a href="/admin/tags" class="nav-link px-3 {{#if tagActive}}active{{/if}}">
+                        <a href="/admin" class="nav-link px-3 {{#if tagActive}}active{{/if}}">
                             <span class="me-2"><i class="fa fa-tag" aria-hidden="true"></i></i></span>
                             <span>Nhãn</span>
                         </a>
                     </li>
                     <li class="my-1">
-                        <hr class="dropdown-divider bg-light" >
+                        <hr class="dropdown-divider bg-light ">
+                    </li>
+                    <li>
+                        <a class="nav-link px-3 sidebar-link {{#if userMenuActive}}active {{/if}}" data-bs-toggle="collapse" href="#users">
+                            <span class="me-2"><i class="fa fa-users" aria-hidden="true"></i></span>
+                            <span>Người dùng</span>
+                            <span class="ms-auto">
+                                <span class="right-icon">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </span>
+                        </a>
+                        <div class="collapse" id="users">
+                            <ul class="navbar-nav ps-3">
+                                <li>
+                                    <a href="/admin/users" class="nav-link px-3 {{#if userActive}}active{{/if}}">
+                                        <span class="me-2"><i class="fa fa-user-circle-o" aria-hidden="true"></i></i></span>
+                                        <span>Độc giả</span>
+                                    </a>
+                                    <a href="/admin/writers" class="nav-link px-3 {{#if writerActive}}active{{/if}}">
+                                        <span class="me-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></i></span>
+                                        <span>Phóng viên</span>
+                                    </a>
+                                    <a href="/admin/editors" class="nav-link px-3 {{#if editorActive}}active{{/if}}">
+                                        <span class="me-2"><i class="fa fa-archive" aria-hidden="true"></i></span>
+                                        <span>Biên tập viên</span>
+                                    </a>
+                                    <a href="/admin/usersAdmin" class="nav-link px-3 {{#if userAdminActive}}active{{/if}}">
+                                        <span class="me-2"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                                        <span>Administrator</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="my-1">
+                        <hr class="dropdown-divider bg-light">
                     </li>
                     <li>
                         <a href="/admin/posts" class="nav-link px-3 {{#if postActive}}active{{/if}}">
@@ -90,7 +117,7 @@
                         </a>
                     </li>
                     <li class="my-1">
-                        <hr class="dropdown-divider bg-light" >
+                        <hr class="dropdown-divider bg-light">
                     </li>
                     <li>
                         <a href="/admin/categories" class="nav-link px-3 {{#if categoryActive}}active{{/if}}">
@@ -99,7 +126,7 @@
                         </a>
                     </li>
                     <li class="my-1">
-                        <hr class="dropdown-divider bg-light" >
+                        <hr class="dropdown-divider bg-light">
                     </li>
                 </ul>
             </nav>
@@ -107,7 +134,7 @@
     </div>
     <!-- offcanvas -->
     <main class="mt-5 pt-3">
-       {{{body}}}
+        {{{body}}}
     </main>
     <script src="/js/jsAdmin/bootstrap.bundle.min.js"></script>
     <script src="/js/jsAdmin/jquery-3.5.1.js"></script>
