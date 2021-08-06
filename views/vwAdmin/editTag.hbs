@@ -1,3 +1,40 @@
+{{#section 'js'}}
+
+
+<script>
+
+    $('#btn-delete').on('click', function (e) {
+        const frmAction = $('#btn-delete').attr("formaction");
+        $('#frmEditTag').attr("action", frmAction);
+        $('#frmEditTag').submit();
+    })
+
+    $('#btn-save').on('click', function (e) {
+        
+         const tag_name = $('#tag_name').val();
+        if (tag_name.length === 0) {
+            alert('Tên nhãn không được rỗng !!!');
+            return;
+        }
+
+    
+         $.getJSON(`/admin/is-tag-available?tag_name=${tag_name}`, function (data) {
+            if (data === false) {
+                alert('Tên nhãn đã tồn tại !!!');
+            }
+            else {
+                const frmAction = $('#btn-save').attr("formaction");
+                $('#frmEditTag').attr("action", frmAction);
+                $('#frmEditTag').submit();
+            }
+        })
+
+    })
+
+
+</script>
+{{/section}}
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 mb-3">
@@ -23,17 +60,17 @@
 
                         <div class="mt-3">
 
-                            <a class="btn btn-primary" href="/admin/tags/" role="button">
+                            <a class="btn btn-primary" href="/admin" role="button">
                                 <i class="fa fa-backward" aria-hidden="true"></i>
                                 Quay lại
                             </a>
                                                
-                            <button type="submit" class="btn btn-danger" formaction="/admin/tags/del">
+                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/tags/del">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 Xoá
                             </button>
                             
-                            <button type="submit" class="btn btn-success" formaction="/admin/tags/patch">
+                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/tags/patch">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                                 Lưu
                             </button>
