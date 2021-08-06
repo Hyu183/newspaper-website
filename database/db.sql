@@ -73,7 +73,7 @@ CREATE TABLE `articles`  (
   `author_id` int UNSIGNED NULL DEFAULT NULL,
   `category_id` int UNSIGNED NULL DEFAULT NULL,
   `thumbnail_image` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `view_number` int NULL DEFAULT NULL,
+  `view_number` int NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `author_id`(`author_id`) USING BTREE,
   INDEX `category_id`(`category_id`) USING BTREE,
@@ -282,6 +282,7 @@ CREATE TABLE `users`  (
   `birthday` date NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `user_type` int UNSIGNED NOT NULL,
+  `subcription_due_date` datetime default null,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_type`(`user_type`) USING BTREE,
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type`) REFERENCES `user_types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -290,10 +291,10 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000-01-01', '123', 0);
-INSERT INTO `users` VALUES (2, 'tran', 'Nguyen duong', 'dgg@gmail.com', '2004-01-01', '123', 0);
-INSERT INTO `users` VALUES (3, 'toan', 'Nguyen duong', 'eg@gmail.com', '2005-01-01', '123', 1);
-INSERT INTO `users` VALUES (4, 'quan', 'Nguyen duong', 'durhong@gmail.com', '2002-01-01', '123', 2);
-INSERT INTO `users` VALUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3);
+INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000-01-01', '123', 0, null);
+INSERT INTO `users` VALUES (2, 'tran', 'Nguyen duong', 'dgg@gmail.com', '2004-01-01', '123', 0, null);
+INSERT INTO `users` VALUES (3, 'toan', 'Nguyen duong', 'eg@gmail.com', '2005-01-01', '123', 1, null);
+INSERT INTO `users` VALUES (4, 'quan', 'Nguyen duong', 'durhong@gmail.com', '2002-01-01', '123', 2, null);
+INSERT INTO `users` VALUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3, null);
 
 SET FOREIGN_KEY_CHECKS = 1;
