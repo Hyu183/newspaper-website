@@ -1,0 +1,91 @@
+{{#section 'js'}}
+
+
+<script>
+
+    $('#btn-delete').on('click', function (e) {
+        alert("del");
+        const frmAction = $('#btn-delete').attr("formaction");
+        $('#frmEditUser').attr("action", frmAction);
+        $('#frmEditUser').submit();
+    })
+
+    $('#btn-save').on('click', function (e) {
+        alert("save");
+        const frmAction = $('#btn-save').attr("formaction");
+        $('#frmEditUser').attr("action", frmAction);
+        $('#frmEditUser').submit();
+    })
+
+
+</script>
+{{/section}}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="card border-dark">
+                <div class="card-header bg-dark text-white d-flex justify-content-between">
+                    <h4><span><i class="fa fa-user-plus" aria-hidden="true"></i></span> Chỉnh sửa</h4>
+                </div>
+                <div class="card-body">
+                    <form id="frmEditUser" method="POST">
+                        {{!-- <div class="row">
+                            <div class="col-8 form-group">
+                                <label for="title">Tên chuyên mục</label>
+                                <input type="text" class="form-control" id="title" name="title" autofocus>
+                            </div>
+
+
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="user_name">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="user_name" name="user_name" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday">Ngày sinh</label>
+                            <input type="text" class="form-control" id="birthday" name="birthday">
+                        </div>
+                        <div class="form-group">
+                            <label for="expired">Thời hạn đăng ký</label>
+                            <input type="text" class="form-control" id="expired" name="expired">
+                        </div>
+                        <div class="row">
+
+                        <div class="col-10  mt-3">
+
+                            <a class="btn btn-primary" href="/admin/users" role="button">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                Quay lại
+                            </a>
+                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/users/del">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                Xoá
+                            </button>
+                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/users/patch">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Lưu
+                            </button>
+
+
+                        </div>
+                        <div class="mt-3 col-2 ">
+                            <a name="" id="" class="btn btn-outline-success  btn-block " href="#" role="button">Gia hạn</a>
+                        </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -6,5 +6,13 @@ const addUser = (user) => {
 };
 
 module.exports = {
-    addUser
+    addUser,
+    
+    async findByUsername(username){
+        const rows = await db('users').where('user_name', username);
+         if(rows.length===0){
+             return null;
+         }
+         return rows[0];
+     },
 };
