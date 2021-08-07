@@ -20,6 +20,7 @@
         "bcryptjs": "^2.4.3",
         "connect-multiparty": "^2.2.0",
         "express": "^4.17.1",
+        "express-fileupload": "^1.2.1",
         "express-handlebars": "^5.3.2",
         "express-handlebars-sections": "^1.0.1",
         "knex": "^0.95.7",

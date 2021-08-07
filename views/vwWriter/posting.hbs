@@ -2,7 +2,7 @@
 
 <div class="container posting my-5">
     <h1 class="text-center">Write new article</h1>
-    <form action="/post_article" method="post">
+    <form action="/post_article" method="post" encType="multipart/form-data">
         <div class="form-group">
             <label for="title">Article title</label>
             <input type="text" class="form-control" name="title" id="artical-title" aria-describedby="Title" placeholder="Title">
@@ -18,9 +18,9 @@
                 <span class="input-group-text">Thumbnail</span>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="thumbnail_image" id="thumbnail_image">
                 <label class="custom-file-label" for="thumbnail">Choose image</label>
             </div>
+            <input type="file" name="thumbnail_image" accept="image/*"/>
         </div>
 
         <label>Content</label>
