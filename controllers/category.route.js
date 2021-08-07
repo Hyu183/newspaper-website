@@ -1,6 +1,6 @@
 const express = require('express');
 const categoryModel = require('../models/category.model');
-
+const articleModel = require('../models/article.model');
 const router = express.Router();
 
 // router.get('/', function(req, res) {
@@ -22,9 +22,6 @@ router.get('/getCategoryData', async function(req, res) {
 })
 
 
-router.get('/', function(req, res) {
-    res.render('vwCategories/index');
-})
 
 router.get('/about', function(req, res) {
     res.render('vwCategories/about');
@@ -74,4 +71,14 @@ router.get('/posting', function(req, res) {
     res.render('vwWriter/posting');
 })
 
+router.get('/', async function(req, res) {
+  const listTopWeek = await articleModel.getTopWeek();
+  const top1Week = listTopWeek.pop();
+  const count = [...Array(10).keys()];
+    res.render('vwCategories/index', {
+      count,
+      top1Week,
+      listTopWeek,
+    });
+})
 module.exports = router;
