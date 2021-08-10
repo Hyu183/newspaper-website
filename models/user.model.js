@@ -13,7 +13,6 @@ const checkAuthenticated = (req, res, next) => {
 }
 
 const checkNotAuthenticated = (req, res, next) => {
-    console.log("here12");
     if (req.isAuthenticated()){
         res.redirect('/');
     }

@@ -13,44 +13,39 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="data-user-table table table-hover table-bordered" style="width: 100%;">
+                        <table class="data-writer-table table table-hover table-bordered" style="width: 100%;">
                             <thead>
+
                                 <tr>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Username</th>
                                     <th scope="col">Họ và tên</th>
+                                    <th scope="col">Bút danh</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Loại tài khoản</th>
                                     <th scope="col">&nbsp;</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each writerList}}
+                                    
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Trần Văn A</td>
-                                    <td>a@gmail.com</td>
-                                    <td>Premium</td>
+                                    <th scope="row">{{id}}</th>
+                                    <td>{{user_name}}</td>
+                                    <td>{{name}}</td>
+                                    <td>{{pen_name}}</td>
+                                    <td>{{email}}</td>
+                                   
                                     <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
+                                        <a name="" id="" class="btn btn-primary btn-sm" href="/admin/writers/edit?id={{id}}" role="button"
                                             title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                 
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Nguyễn Văn B</td>
-                                    <td>b@gmail.com</td>
-                                    <td>Thường</td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
-                                            title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                   
-                                </tr>
+                                {{/each}}
+                             
 
 
                             </tbody>

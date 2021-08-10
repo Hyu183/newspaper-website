@@ -45,8 +45,6 @@ module.exports = {
     patch(category){
         const id = category.id;
         delete category.id;
-        delete category.parent_title;
-        delete category.parent_id;
         
         return db('category')
             .where( 'id', id)
