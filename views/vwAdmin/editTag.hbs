@@ -46,7 +46,7 @@
                     <form id="frmEditTag" method="POST" >
                         <div class="form-group">
                             <label for="id"> <strong>ID</strong> </label>
-                            <input type="text" readonly class="form-control" id="id" name="id"
+                            <input type="text" disabled class="form-control" id="id" name="id"
                                 value="{{tagDetail.id}}">
                         </div>
                         
@@ -65,12 +65,12 @@
                                 Quay lại
                             </a>
                                                
-                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/tags/del">
+                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/tags/del?id={{tagDetail.id}}">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 Xoá
                             </button>
                             
-                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/tags/patch">
+                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/tags/patch?id={{tagDetail.id}}">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                                 Lưu
                             </button>

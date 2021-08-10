@@ -47,7 +47,7 @@
                     <form id="frmEditCat" method="POST" >
                         <div class="form-group">
                             <label for="id"> <strong>ID</strong> </label>
-                            <input type="text" readonly class="form-control" id="id" name="id"
+                            <input type="text" disabled class="form-control" id="id" name="id"
                                 value="{{categoryDetail.id}}">
                         </div>
                         <div class="row">
@@ -59,14 +59,14 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="parent_title"><strong>Chuyên mục cha</strong></label>
-                                    <input type="text" readonly class="form-control" id="parent_title"
+                                    <input type="text" disabled class="form-control" id="parent_title"
                                         name="parent_title" value="{{categoryDetail.parent_title}}">
                                 </div>
                             </div>
                             <div class="col-1">
                                 <div class="form-group">
                                     <label for="parent_id"><strong>ID</strong></label>
-                                    <input type="text" readonly class="form-control" id="parent_id"
+                                    <input type="text" disabled class="form-control" id="parent_id"
                                         name="parent_id" value="{{categoryDetail.parent_id}}">
                                 </div>
                             </div>
@@ -80,12 +80,12 @@
                                 Quay lại
                             </a>
                             {{#if isNotParent}}                    
-                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/categories/del">
+                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/categories/del?id={{categoryDetail.id}}">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 Xoá
                             </button>
                             {{/if}}
-                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/categories/patch">
+                            <button id="btn-save" type="button" class="btn btn-success" formaction="/admin/categories/patch?id={{categoryDetail.id}}">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                                 Lưu
                             </button>
