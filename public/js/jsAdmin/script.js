@@ -3,9 +3,37 @@ $(document).ready(function () {
     $(table).DataTable({
       "columns": [
         { "width": "5%" },
-        { "width": "35%" },
-        { orderable: false,"width": "40%" },
+        { "width": "20%" },
+        { "width": "25%" },
+        { orderable: false,"width": "30%" },
         { "width": "15%" },
+        { orderable: false,"width": "5%" }
+      ]
+      
+    });
+
+  });
+  $(".data-writer-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "20%" },
+        { "width": "25%" },
+        { "width": "15%" },
+        { orderable: false,"width": "30%" },
+        { orderable: false,"width": "5%" }
+      ]
+      
+    });
+
+  });
+  $(".data-editAdmin-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "25%" },
+        { "width": "30%" },
+        { orderable: false,"width": "35%" },
         { orderable: false,"width": "5%" }
       ]
       

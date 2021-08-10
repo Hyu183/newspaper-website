@@ -6,51 +6,41 @@
                 <div class="card-header bg-dark text-white d-flex justify-content-between">
                     <h4><span><i class="bi bi-table me-2"></i></span> Danh sách biên tập viên</h4>
 
-                    <a class="btn btn-success" href="/admin/users/add" role="button">
+                    <a class="btn btn-success" href="/admin/editors/add" role="button">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                         Thêm
                     </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="data-user-table table table-hover table-bordered" style="width: 100%;">
+                        <table class="data-editAdmin-table table table-hover table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Username</th>
                                     <th scope="col">Họ và tên</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Loại tài khoản</th>
                                     <th scope="col">&nbsp;</th>
                                   
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each editorList}}                                    
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Trần Văn A</td>
-                                    <td>a@gmail.com</td>
-                                    <td>Premium</td>
+                                    <th scope="row">{{id}}</th>
+                                    <td>{{user_name}}</td>
+                                    <td>{{name}}</td>
+                                    <td>{{email}}</td>
                                     <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
+                                        <a name="" id="" class="btn btn-primary btn-sm" href="/admin/editors/edit?id={{id}}" role="button"
                                             title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                   
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Nguyễn Văn B</td>
-                                    <td>b@gmail.com</td>
-                                    <td>Thường</td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
-                                            title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
+                                {{/each}}
                                 
-                                </tr>
 
 
                             </tbody>
