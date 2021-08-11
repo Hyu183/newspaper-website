@@ -1,11 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const {addUser, checkNotAuthenticated} = require('../models/user.model');
+const {addUser, checkNotAuthenticated, checkAuthenticated} = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const initializePassport = require('../public/js/config/passport.config');
 const passport = require('passport');
+const moment = require('moment');
 
 initializePassport(passport);
+
+
+router.get('/userInfo', checkAuthenticated,function(req, res) {
+    req.user.then((user) =>
+    {
+        console.log(user);
+        res.render('vwCategories/userInfo', {
+            user_name: user.user_name,
+            name: user.name,
+            email: user.email,
+            birthdate: moment(user.birthday).format('DD-MM-YYYY')
+        });
+    })
+});
 
 
 router.get('/sign_in', checkNotAuthenticated, function(req, res) {
