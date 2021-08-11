@@ -41,6 +41,7 @@ router.post('/post_article', (req, res) => {
     let article = req.body;
     let tags = article['tag'];
     delete article['tag'];
+    delete article['main_category_id'];
 
     article['thumbnail_image'] = relativePath;
 
