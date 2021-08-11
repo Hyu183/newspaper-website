@@ -2,7 +2,27 @@ const express = require('express');
 const categoryModel = require('../models/category.model');
 const articleModel = require('../models/article.model');
 const router = express.Router();
-
+const moment = require('moment');
+moment.updateLocale('en', {
+  relativeTime : {
+      future: "trong %s",
+      past:   "%s trước",
+      s  : 'Vài giây trước',
+      ss : '%d giây',
+      m:  "1 phút",
+      mm: "%d phút",
+      h:  "1 giờ",
+      hh: "%d giờ",
+      d:  "1 ngày",
+      dd: "%d ngày",
+      w:  "1 tuần",
+      ww: "%d tuần",
+      M:  "1 tháng",
+      MM: "%d tháng",
+      y:  "1 năm",
+      yy: "%d năm"
+  }
+});
 // router.get('/', function(req, res) {
 //     const list = categoryModel.all(); //View model
 
@@ -74,11 +94,16 @@ router.get('/posting', function(req, res) {
 router.get('/', async function(req, res) {
   const listTopWeek = await articleModel.getTopWeek();
   const top1Week = listTopWeek.pop();
-  const count = [...Array(10).keys()];
-    res.render('vwCategories/index', {
-      count,
-      top1Week,
-      listTopWeek,
-    });
+  const listTopViews = await articleModel.getTopViews();
+  const listMostRecent = await articleModel.getMostRecent();
+  const listTop10Cats = await articleModel.getTop10Cats();
+  const listArticleOfTop10Cats = await articleModel.getArticleOfTop10Cats(listTop10Cats);
+  res.render('vwCategories/index', {
+    top1Week,
+    listTopWeek,
+    listTopViews,
+    listMostRecent,
+    listArticleOfTop10Cats
+  });
 })
 module.exports = router;
