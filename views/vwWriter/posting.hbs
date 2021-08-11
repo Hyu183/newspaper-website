@@ -2,7 +2,7 @@
 
 <div class="container posting my-5">
     <h1 class="text-center">Write new article</h1>
-    <form action="/post_article" method="post">
+    <form action="/post_article" method="post" encType="multipart/form-data">
         <div class="form-group">
             <label for="title">Article title</label>
             <input type="text" class="form-control" name="title" id="artical-title" aria-describedby="Title" placeholder="Title">
@@ -18,8 +18,8 @@
                 <span class="input-group-text">Thumbnail</span>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="thumbnail_image" id="thumbnail_image">
-                <label class="custom-file-label" for="thumbnail">Choose image</label>
+                <input type="file" class="custom-file-input" name="thumbnail_image" id="thumbnail_image" accept="image/*"/>
+                <label class="custom-file-label" for="thumbnail_image">Choose image</label>
             </div>
         </div>
 
@@ -30,10 +30,17 @@
 
         <br>
         <label for="category">Select category</label>
-        <select class="form-control" id="category" name="category_id">
-            <option value="1">Finance</option>
-            <option value="2">Politics</option>
-            <option value="3">Sport</option>
+        <select class="form-control" id="main_categoryList" name="main_category_id">
+            {{#each this.mainCategories}}
+                <option value={{id}}>{{title}}</option>
+            {{/each}}
+        </select>
+
+        <select class="form-control" id="subcategoryList" name="category_id">
+            <option value=-1 class="default">--Please choose subcategory--</option>
+            {{#each this.subCategories}}
+                <option value={{id}} class="parent-{{parent_id}} subcategory">{{title}} </option>
+            {{/each}}
         </select>
 
         <div class="form-group">
@@ -52,5 +59,34 @@
     CKEDITOR.replace( 'editor', {
         filebrowserBrowseUrl: '/img',
         filebrowserUploadUrl: '/upload_img'
+    });
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+<script>
+    $(window).load(function() {
+        $('#main_categoryList').trigger("change");
+    });
+
+    $('#main_categoryList').on('change', function () {
+        $("#subcategoryList").attr('disabled', false); //enable subcategory select
+        $("#subcategoryList").val("");
+        $(".subcategory").attr('disabled', true); //disable all category option
+        $(".subcategory").hide(); //hide all subcategory option
+        $(".parent-" + $(this).val()).attr('disabled', false); //enable subcategory of selected category/parent
+        $(".parent-" + $(this).val()).show(); 
+        $(".default" + $(this).val()).attr('disabled', false);
+        $(".default" + $(this).val()).show();
+        $("#subcategoryList").val("-1");
     });
 </script>

@@ -18,8 +18,8 @@
 
     $('#btn-delete').on('click', function (e) {
         const frmAction = $('#btn-delete').attr("formaction");
-        $('#frmEditUser').attr("action", frmAction);
-        $('#frmEditUser').submit();
+        $('#frmEditUserEditor').attr("action", frmAction);
+        $('#frmEditUserEditor').submit();
     })
 
     $('#btn-save').on('click', function (e) {
@@ -53,12 +53,6 @@
 
     })
 
-    $('#btn-extend').on('click',function(e){
-        e.preventDefault();
-        $('#frmExtendSubcription').submit();
-    })
-
-
 </script>
 {{/section}}
 
@@ -71,7 +65,7 @@
                     <h4><span><i class="fa fa-user-plus" aria-hidden="true"></i></span> Chỉnh sửa</h4>
                 </div>
                 <div class="card-body">
-                    <form id="frmEditUser" method="POST">
+                    <form id="frmEditUserEditor" method="POST">
                         <div class="form-group">
                             <label for="user_name">Tên đăng nhập</label>
                             <input type="text" class="form-control" id="user_name" disabled
@@ -94,24 +88,20 @@
                                 value="{{userDetail.birthday}}">
                         </div>
 
-                        <div class="form-group">
-                            <label for="expired">Thời hạn đăng ký</label>
-                            <input type="text" class="form-control" id="expired" name="expired" disabled
-                                value="{{userDetail.subcription_due_date}}">
-                        </div>
+                
                         <div class="form-group" id="newpass-placeholder" hidden>
                             <label for="newpass">Mật khẩu mới</label>
                             <input type="password" class="form-control" id="newpass" name="newpass">
                         </div>
 
                         <div class="row">
-                            <div class="col-8  mt-3">
-                                <a class="btn btn-primary" href="/admin/users" role="button">
+                            <div class="col-10  mt-3">
+                                <a class="btn btn-primary" href="/admin/editors" role="button">
                                     <i class="fa fa-backward" aria-hidden="true"></i>
                                     Quay lại
                                 </a>
                                 <button type="button" id="btn-delete" class="btn btn-danger"
-                                    formaction="/admin/users/del?id={{userDetail.id}}">
+                                    formaction="/admin/editors/del?id={{userDetail.id}}">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     Xoá
                                 </button>
@@ -121,7 +111,7 @@
                                     Lưu
                                 </button>
                                 <button id="btn-save-hidden" type="submit" class="btn btn-success"
-                                    formaction="/admin/users/patch?id={{userDetail.id}}" hidden>
+                                    formaction="/admin/editors/patch?id={{userDetail.id}}" hidden>
                                 </button>
 
                             </div>
@@ -130,14 +120,10 @@
                                     role="button">
                                     Đổi mật khẩu</a>
                             </div>
-                            <div class="mt-3 col-2 ">
-                                <button type="button" id="btn-extend" class="btn btn-outline-success btn-block" href="#">
-                                    Gia hạn
-                                </button>
-                            </div>
+                           
                         </div>
                     </form>
-                    <form id="frmExtendSubcription" method="POST" action="/admin/users/extendSubcription?id={{userDetail.id}}"></form>
+                    
                 </div>
             </div>
         </div>

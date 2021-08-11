@@ -1,9 +1,27 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const fileUpload = require('express-fileupload');
+const flash = require('express-flash');
+const session = require('express-session');
+const passport = require('passport');
+
+
+
+
 
 const app = express();
 
+app.use(flash());
+app.use(session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(fileUpload());
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
@@ -18,8 +36,6 @@ app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form g
 require('./middlewares/view.mdw')(app);
 require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
-
-
 
 
 

@@ -1,4 +1,5 @@
 const db = require('../database/db');
+const { findByUsername } = require('./user.model');
 
 module.exports = {  
 
@@ -7,7 +8,7 @@ module.exports = {
     },
   
     add(tag) {
-        return db('tags').insert(tag);
+        return db('tags').insert({tag_name: tag});
     },
 
     async findByID(id){
@@ -34,5 +35,13 @@ module.exports = {
             .where( 'id', id)
             .del();
     },
+
+    findByName(name){
+        return db('tags').select('id').where('tag_name', name);
+    },
+
+    addTagArticles(tagID, articleID){
+        return db('article_tags').insert({tag_id: tagID, article_id: articleID});
+    }
 
 };
