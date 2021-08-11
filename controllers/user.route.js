@@ -50,11 +50,10 @@ router.post('/register', async (req, res) => {
         email: req.body.email,
         user_name: req.body.username,
         password: hashedPassword,
-        birthday: '2000-01-01',
+        birthday: req.body.birthdate.split("/").reverse().join("-"),
         user_type: 0
     }
 
-    console.log(req.body);
     addUser(user).then(
         () => {
             console.log("success");
