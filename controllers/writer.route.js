@@ -5,10 +5,15 @@ const multipartMiddleware = multipart();
 const fs = require('fs');
 const path = require('path');
 const {addArticle} = require('../models/posting.model');
+const categoryModel = require('../models/category.model');
 
 
-router.get('/posting', function(req, res) {
-    res.render('vwWriter/posting.hbs');
+
+router.get('/posting', async function(req, res) {
+    const mainCategories = await categoryModel.allMainCategories();
+    const subCategories = await categoryModel.allSubCategories();
+
+    res.render('vwWriter/posting.hbs', {mainCategories: mainCategories, subCategories: subCategories});
 });
 
 router.post('/post_article', (req, res) => {

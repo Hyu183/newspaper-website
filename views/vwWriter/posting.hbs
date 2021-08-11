@@ -30,10 +30,17 @@
 
         <br>
         <label for="category">Select category</label>
-        <select class="form-control" id="category" name="category_id">
-            <option value="1">Finance</option>
-            <option value="2">Politics</option>
-            <option value="3">Sport</option>
+        <select class="form-control" id="main_categoryList" name="main_category_id">
+            {{#each this.mainCategories}}
+                <option value={{id}}>{{title}}</option>
+            {{/each}}
+        </select>
+
+        <select class="form-control" id="subcategoryList" name="subcategory_id">
+            <option value=-1 class="default">--Please choose subcategory--</option>
+            {{#each this.subCategories}}
+                <option value={{id}} class="parent-{{parent_id}} subcategory">{{title}} </option>
+            {{/each}}
         </select>
 
         <div class="form-group">
@@ -63,5 +70,23 @@
     $(".custom-file-input").on("change", function() {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+<script>
+    $(window).load(function() {
+        $('#main_categoryList').trigger("change");
+    });
+
+    $('#main_categoryList').on('change', function () {
+        $("#subcategoryList").attr('disabled', false); //enable subcategory select
+        $("#subcategoryList").val("");
+        $(".subcategory").attr('disabled', true); //disable all category option
+        $(".subcategory").hide(); //hide all subcategory option
+        $(".parent-" + $(this).val()).attr('disabled', false); //enable subcategory of selected category/parent
+        $(".parent-" + $(this).val()).show(); 
+        $(".default" + $(this).val()).attr('disabled', false);
+        $(".default" + $(this).val()).show();
+        $("#subcategoryList").val("-1");
     });
 </script>

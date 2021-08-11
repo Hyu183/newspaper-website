@@ -70,8 +70,4 @@ router.get('/writer', function(req, res) {
     res.render('vwWriter/writer');
 })
 
-router.get('/posting', function(req, res) {
-    res.render('vwWriter/posting');
-})
-
 module.exports = router;
