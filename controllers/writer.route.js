@@ -73,12 +73,17 @@ router.post('/upload_img', (req, res) => {
         } else if (err) {
             console.log(err);
         }
-            //console.log(req.file);
-            let fileName = req.file.filename;
-            let url = '/article_img/' + fileName;                    
+            console.log(req.file);
+            let filename = req.file.filename;
+            let url = '/article_img/' + filename;                    
             let msg = 'Upload successfully';
             let funcNum = req.query.CKEditorFuncNum;
-            res.status(200).send("<script>window.parent.CKEDITOR.tools.callFunction('"+funcNum+"','"+url+"','"+msg+"');</script>");
+            res.status(200).json(
+            {
+                uploaded: 1,
+                fileName: filename,
+                url: url
+            });
     })
 })
 

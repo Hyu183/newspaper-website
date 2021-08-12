@@ -1,11 +1,21 @@
-"Kama" Skin
+"Moono" Skin
 ====================
 
-"Kama" is the default skin of CKEditor 3.x.
-It's been ported to CKEditor 4 and fully featured.
+This skin has been chosen for the **default skin** of CKEditor 4.x.x (replaced by "Moono-lisa" skin since CKEditor 4.6.0),
+elected from the CKEditor [skin contest](https://ckeditor.com/blog/CKEditor-4-Skin-Contest-Winner/) and further shaped by
+the CKEditor team. "Moono" is maintained by the core developers.
 
 For more information about skins, please check the [CKEditor Skin SDK](https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_intro.html)
 documentation.
+
+Features
+-------------------
+"Moono" is a monochromatic skin, which offers a modern look coupled with gradients and transparency.
+It comes with the following features:
+
+- Chameleon feature with brightness,
+- high-contrast compatibility,
+- graphics source provided in SVG.
 
 Directory Structure
 -------------------
@@ -28,7 +38,8 @@ it's not loaded until the first menu open up,
 Other parts:
 - **skin.js**: the only JavaScript part of the skin that registers the skin, its browser specific files and its icons and defines the Chameleon feature,
 - **icons/**: contains all skin defined icons,
-- **images/**: contains a fill general used images.
+- **images/**: contains a fill general used images,
+- **dev/**: contains SVG source of the skin icons.
 
 License
 -------
