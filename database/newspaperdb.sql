@@ -13,6 +13,8 @@
 
  Date: 11/08/2021 09:44:33
 */
+CREATE DATABASE IF NOT EXISTS newspaperdb;
+use newspaperdb;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -303,11 +305,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000-01-01', '123', 0, '2022-01-03 19:43:30');
-INSERT INTO `users` VALUES (2, 'tran', 'Nguyen duong', 'dgg@gmail.com', '2004-01-01', '123', 0, '2021-08-16 19:43:56');
-INSERT INTO `users` VALUES (3, 'toan', 'Nguyen duong', 'eg@gmail.com', '2005-01-01', '123', 1, NULL);
-INSERT INTO `users` VALUES (4, 'quan', 'Nguyen duong', 'durhong@gmail.com', '2002-01-01', '123', 2, NULL);
-INSERT INTO `users` VALUES (5, 'tuan', 'Nguyen duong', 'tuan@gmail.com', '2001-01-07', '123', 3, NULL);
+INSERT INTO `users` VALUES (1, 'duong', 'Nguyen duong', 'duong@gmail.com', '2000-01-01', '$2a$10$C2pHtBStTViGyk3mjvfwZu.7JDvXi3GHp7GA3hPs4qydgWdLFFOXi', 0, '2022-01-03 19:43:30');
 INSERT INTO `users` VALUES (8, 'd', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-03', '$2a$10$C2pHtBStTViGyk3mjvfwZu.7JDvXi3GHp7GA3hPs4qydgWdLFFOXi', 0, '2021-08-15 18:24:44');
 INSERT INTO `users` VALUES (9, 'd123', '123', 'huytrquang1103@gmail.com', '2021-08-02', '$2a$10$5nvExbIcaAJ6j8rNHz9vBuwDG8VNSqvdBEXEKA7CZND9k3/1q2Nua', 0, '2021-08-16 19:45:22');
 INSERT INTO `users` VALUES (10, '31', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-04', '$2a$10$7d3N1QPW17SvJJYn8YCWT.Uuq.Gq4DovWu7.w1EsOqfARRdiLmYdK', 0, '2021-08-16 19:45:27');
@@ -315,5 +313,14 @@ INSERT INTO `users` VALUES (11, '124res', '12', 'huytrquang1103@gmail.com', '202
 INSERT INTO `users` VALUES (13, 'd1234124', 'Vip', 'a2bc@gmail.com', '2021-08-01', '$2a$10$S2qoE3ley0dwjFYjcImdQ.f8.giS6Jpjdth/a3nvmi2.lmZLAdYDi', 0, '2021-08-16 19:45:31');
 INSERT INTO `users` VALUES (23, 'huy', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-03', '$2a$10$/qlcAno7Asrcygtj1WUFCu.53gzFEVjvdiE.BdFdyYNNM.gHUZIXq', 1, NULL);
 INSERT INTO `users` VALUES (24, 'abc', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-03', '$2a$10$paqtt/AYK2za8KxPo2bo6eVHi0BTp/8v2gj7pzwAkCQKXCOoq8mzS', 1, NULL);
+
+DROP TABLE IF EXISTS category_assignment;
+create table category_assignment (
+	editor_id int unsigned,
+    category_id int unsigned,
+    primary key (editor_id, category_id),
+    foreign key (editor_id) references users(id),
+    foreign key (category_id) references category(id)
+);
 
 SET FOREIGN_KEY_CHECKS = 1;
