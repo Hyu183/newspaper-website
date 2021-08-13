@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {addUser, checkNotAuthenticated, checkAuthenticated} = require('../models/user.model');
+const {addUser, checkNotAuthenticated, checkAuthenticated, updateSubdate} = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const initializePassport = require('../public/js/config/passport.config');
 const passport = require('passport');
@@ -34,8 +34,24 @@ router.get('/subscribe', function(req, res) {
 
 router.post('/subscribe', function(req, res) {
     req.user.then((user) => {
-        console.log(user.id, req.body.no_day_buy);
-        res.render('vwUser/waiting', {message: "Thank you for buying subscription"});
+        const currSub = user.subcription_due_date;
+        const nDaybuy = req.body.no_day_buy;
+        let newSubdate;
+        if (user.subcription_due_date){
+            newSubdate = moment(currSub);
+            console.log("currday", newSubdate);
+        }
+        else{
+            newSubdate = moment();
+            console.log("curr date null", newSubdate);
+        }
+        newSubdate = newSubdate.add(nDaybuy, 'days');
+        const mysqlnewdate = newSubdate.toDate().toISOString().slice(0, 19).replace('T', ' ');
+        console.log(user.id, req.body.no_day_buy, mysqlnewdate);
+        updateSubdate(user.id, mysqlnewdate).then(() => {
+            const msg = "Thank you for buying premium, your subscription lasts until " + mysqlnewdate; 
+            res.render('vwUser/waiting', {message: msg});
+        });
     });
 });
 
