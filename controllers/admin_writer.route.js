@@ -39,17 +39,23 @@ router.post('/writers/add', async function (req, res) {
         birthday: req.body.birthday,
         user_type: 1
     }
+    
 
-    await userModel.add(user);
-
-    const _user = await userModel.findByUsername(user.user_name);
-
-    const writer = {
-        user_id: _user.id,
-        pen_name: req.body.penname
+    userModel.addUser(user).then(
+        async(id) => {                     
+            const writer = {
+                user_id: id ,
+                pen_name: req.body.penname
+            }
+        
+            await userModel.addPenName(writer);
+        }
+    ).catch((err) => {
+        console.log(err);
     }
+    );  
 
-    await userModel.addPenName(writer);
+    
 
     res.redirect('/admin/writers/add')
 })
@@ -65,7 +71,6 @@ router.get('/writers/edit', async function (req, res) {
 
     userDetail.pen_name = await userModel.findPenNameByID(req.query.id);
 
-    console.log(userDetail);
 
     res.render('vwAdmin/editUserWriter', {
         layout: 'admin.hbs',
