@@ -32,9 +32,10 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
+	config.extraPlugins = 'uploadimage';
+	config.uploadUrl = '/upload_img';
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
-
-	config.filebrowserUploadMethod = 'form';
+	config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}';
 };

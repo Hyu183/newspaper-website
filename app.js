@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(fileUpload());
+//app.use(fileUpload());
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));

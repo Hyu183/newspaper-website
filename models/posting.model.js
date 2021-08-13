@@ -3,10 +3,16 @@ const tagModel = require('../models/tag.model');
 
 const addArticle = (article, tags) =>
 {
-    const tagList = tags.split(" ");
-    console.log(tagList);
+    let tagList = tags;
+    if (tagList){
+        tagList = tags.split('|');
+    }
+    else
+        tagList = [];
+    console.log("taglist", tagList);
     return db('articles').insert(article).then( articleID => {
-        for (const tag of tagList){
+        tagList.forEach(tag => {
+            console.log(tag);
             db.select("id")
             .from("tags")
             .where("tag_name", tag)
@@ -14,7 +20,7 @@ const addArticle = (article, tags) =>
                 if (tagList.length === 0) {
                     tagModel.add(tag)
                     .then( (tagId) => {
-                        console.log(tagId, articleID);
+                        //console.log(tagId, articleID);
                         tagModel.addTagArticles(tagId, articleID).then(()=> console.log("add tag article"));
                     });
                 }
@@ -23,7 +29,7 @@ const addArticle = (article, tags) =>
                     tagModel.addTagArticles(tagList[0], articleID);
                 }
             });
-        }
+        });
     });
 }
 
