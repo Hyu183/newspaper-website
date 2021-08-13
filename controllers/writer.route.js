@@ -40,6 +40,9 @@ router.post('/post_article', (req, res) => {
         }
             relativePath = 'public/article_img/' + req.file.filename;
             console.log(req.body);
+            if (article['category_id'] === -1){
+                article['category_id'] = article['main_category_id'];
+            }
             let article = req.body;
             let tags = article['tag'];
             delete article['tag'];

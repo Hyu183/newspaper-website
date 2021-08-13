@@ -27,6 +27,18 @@ router.get('/sign_in', checkNotAuthenticated, function(req, res) {
     res.render('vwCategories/sign_in');
 });
 
+
+router.get('/subscribe', function(req, res) {
+    res.render('vwUser/subscription.hbs');
+});
+
+router.post('/subscribe', function(req, res) {
+    req.user.then((user) => {
+        console.log(user.id, req.body.no_day_buy);
+        res.render('vwUser/waiting', {message: "Thank you for buying subscription"});
+    });
+});
+
 router.get('/register', function(req, res) {
     res.render('vwCategories/register');
 });

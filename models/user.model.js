@@ -20,6 +20,11 @@ const checkNotAuthenticated = (req, res, next) => {
     return next();
 }
 
+const updateSubdate = (id, newDate) =>{
+    console.log(newDate);
+    return db('users').where({id: id}).update({subcription_due_date: newDate});
+}
+
 module.exports = {
     addUser,
     async findByUsername(username){
@@ -40,7 +45,7 @@ module.exports = {
 
      checkAuthenticated,
      checkNotAuthenticated,
-
+     updateSubdate,
     async findByID(id){
         const rows = await db('users')
                             .select('id','user_name','name','email','birthday','subcription_due_date')
