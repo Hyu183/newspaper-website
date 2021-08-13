@@ -13,13 +13,14 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="data-editAdmin-table table table-hover table-bordered" style="width: 100%;">
+                        <table class="data-editor-table table table-hover table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Họ và tên</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Phân công</th>
                                     <th scope="col">&nbsp;</th>
                                   
                                 </tr>
@@ -31,6 +32,12 @@
                                     <td>{{user_name}}</td>
                                     <td>{{name}}</td>
                                     <td>{{email}}</td>
+                                    <td>
+                                        <a name="" id="" class="btn btn-success btn-sm form-control" href="/admin/editors/assign?id={{id}}" role="button"
+                                            title="Assign">
+                                           <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a name="" id="" class="btn btn-primary btn-sm" href="/admin/editors/edit?id={{id}}" role="button"
                                             title="Edit">
