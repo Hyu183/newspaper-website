@@ -23,18 +23,7 @@ moment.updateLocale('en', {
       yy: "%d năm"
   }
 });
-// router.get('/', function(req, res) {
-//     const list = categoryModel.all(); //View model
 
-
-
-//     res.render('vwCategories/index', { // Controller
-//         categories: list,
-//         empty: list.length === 0
-//     });
-
-
-// });
 
 router.get('/getCategoryData', async function(req, res) {
     const list = await categoryModel.all();
@@ -89,6 +78,22 @@ router.get('/writer', function(req, res) {
 
 router.get('/posting', function(req, res) {
     res.render('vwWriter/posting');
+})
+
+router.get('/articles/:id', async (req, res) => {
+  const id = +req.params.id || 0;
+  const article = await articleModel.findByID(id);
+  if(!article){
+    res.redirect('/');
+  }
+
+  const randomArticles = await articleModel.getRandomArticlesFromCategory(article.category_id);
+  const numOfCmt = article.comments.length;
+  res.render('vwCategories/details', {
+    article,
+    randomArticles,
+    numOfCmt
+  });
 })
 
 router.get('/', async function(req, res) {

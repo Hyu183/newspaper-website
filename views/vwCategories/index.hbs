@@ -58,7 +58,7 @@
               <img src="{{top1Week.thumbnail_image}}" alt="">
               <div class="trend-top-cap">
                 <span>{{top1Week.category_name}}</span>
-                <h2><a href="/posts/{{top1Week.id}}">{{top1Week.title}}</a></h2>
+                <h2><a href="/articles/{{top1Week.id}}">{{top1Week.title}}</a></h2>
                 <p>{{formatTime top1Week.created_time}}</p>
               </div>
             </div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="trend-bottom-cap">
                       <span class="color1">{{this.category_name}}</span>
-                      <h4><a href="/posts/{{this.id}}">{{this.title}}</a></h4>
+                      <h4><a href="/articles/{{this.id}}">{{this.title}}</a></h4>
                       <p>{{formatTime this.created_time}}</p>
                     </div>
                   </div>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="trand-right-cap">
                   <span class="color1">{{category_name}}</span>
-                  <h4 class="mb-0"><a href="/posts/{{id}}">{{title}}</a></h4>
+                  <h4 class="mb-0"><a href="/articles/{{id}}">{{title}}</a></h4>
                   <p class="mb-0">{{formatTime created_time}}</p>
                 </div>
               </div>
@@ -129,7 +129,7 @@
                 <div class="weekly2-caption">
                   <span class="color1">{{category_name}}</span>
                   <p>{{timeFromNow created_time}}</p>
-                  <h4><a href="/posts/{{id}}">{{title}}</a></h4>
+                  <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                 </div>
               </div>
             {{/each}}
@@ -185,7 +185,7 @@
                               <div class="what-cap">
                                 <span class="color1">{{../name}}</span>
                                 <p>{{timeFromNow created_time}}</p>
-                                <h4><a href="/posts/{{id}}">{{title}}</a></h4>
+                                <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                               </div>
                             </div>
                           </div>
@@ -207,7 +207,7 @@
                               <div class="what-cap">
                                 <span class="color1">{{../name}}</span>
                                 <p>{{timeFromNow created_time}}</p>
-                                <h4><a href="/posts/{{id}}">{{title}}</a></h4>
+                                <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                               </div>
                             </div>
                           </div>

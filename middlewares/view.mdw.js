@@ -11,6 +11,9 @@ module.exports = function(app){
             },
             timeFromNow(sqlDateTime){
              return moment(sqlDateTime, 'YYYY-MM-DD hh:mm:ss').fromNow();
+            },
+            formatTimeWithHour(sqlDateTime){
+              return moment(sqlDateTime, 'YYYY/MM/DD').format('MMMM DD YYYY, h:mm a');
             }
         }
     }));
