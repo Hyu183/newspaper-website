@@ -9,8 +9,8 @@ module.exports = {
   
     add(tag) {
         return db('tags').insert({tag_name: tag});
-    },
-
+    },    
+    
     async findByID(id){
         const rows = await db('tags')
                     .where('id',id);
@@ -30,7 +30,17 @@ module.exports = {
             .update(tag);
     },
 
-    del(id){
+    async del(id){
+        //del article tag
+        await db('article_tags')
+                .where('tag_id',id)
+                .del()
+                .then(()=>{
+                    console.log("del article tag before del tag");
+                })
+
+
+        //del tag
         return db('tags')
             .where( 'id', id)
             .del();
@@ -42,6 +52,20 @@ module.exports = {
 
     addTagArticles(tagID, articleID){
         return db('article_tags').insert({tag_id: tagID, article_id: articleID});
-    }
+    },
 
+    delTagArticles(articleID,delList){
+        return db('article_tags')
+             .where( {
+                article_id: articleID              
+              })
+              .whereIn('tag_id',delList)
+             .del();
+    },
+
+    findByArticleID(articleID){
+        return db({a: 'article_tags'})
+                .join({t:'tags'},'a.tag_id','=','t.id')
+                .where('a.article_id',articleID);
+    }
 };

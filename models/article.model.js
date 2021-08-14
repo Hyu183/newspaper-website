@@ -78,5 +78,9 @@ module.exports = {
     LIMIT ${limit}`
     const rs = await db.raw(sql);
     return rs[0] || [];
+  },
+
+  addComment({content, article_id, post_time, commenter_id}){
+    return db('comments').insert({content, article_id, post_time, commenter_id});
   }
 };

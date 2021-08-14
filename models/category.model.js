@@ -1,4 +1,6 @@
+const { decodeBase64 } = require('bcryptjs');
 const db = require('../database/db');
+
 
 module.exports = {  
 
@@ -51,10 +53,36 @@ module.exports = {
             .update(category);
     },
 
-    del(id){
+    //only del child category
+    async del(catID,catParentID){
+        //del cat in article - replace with parent_id
+        await db('articles')
+                .where('category_id',catID)
+                .update({category_id: catParentID})
+                .then(()=>{
+                    console.log("replace with catParent_id");
+                });
+
+
+        //del cat in cat_assign
+        await db('category_assignment')
+                .where('category_id',catID)
+                .del()
+                .then(()=>{
+                    console.log("del cat in cat_assign");
+                })
+
+        //del in category
         return db('category')
-            .where( 'id', id)
+            .where( 'id', catID)
             .del();
     },
+
+    getAllExceptID(catID){
+        return db.select('c1.id','c1.title',{parent_id:'c2.id'},{parent_title:'c2.title'})
+                .from({c1:'category'})
+                .leftJoin({c2:'category'},'c2.id','=','c1.parent_id')
+                .whereNot('c1.id',catID);
+    }
 
 };

@@ -48,10 +48,6 @@ router.get('/latest_news', function(req, res) {
     res.render('vwCategories/latest_news');
 });
 
-router.get('/userInfo', function(req, res) {
-    res.render('vwCategories/userInfo');
-});
-
 router.post('/add', function(req, res) {
     const new_category = {
         CatID: -1,
@@ -86,16 +82,24 @@ router.get('/articles/:id', async (req, res) => {
   if(!article){
     res.redirect('/');
   }
-
+  const currentUser = await req.user;
+  const loggedIn  = !!currentUser;
   const randomArticles = await articleModel.getRandomArticlesFromCategory(article.category_id);
-  const numOfCmt = article.comments.length;
+  article.numOfCmt = article.comments.length;
   res.render('vwCategories/details', {
     article,
     randomArticles,
-    numOfCmt
+    currentUser,
+    loggedIn
   });
 })
 
+router.post('/articles/add-comment', async (req, res) => {
+  const {content, commenter_id, article_id} = req.body;
+  const post_time = moment().format('YYYY-MM-DD hh:mm:ss');
+  await articleModel.addComment({content, commenter_id, article_id, post_time})
+  res.end();
+})
 router.get('/', async function(req, res) {
   const listTopWeek = await articleModel.getTopWeek();
   const top1Week = listTopWeek.pop();

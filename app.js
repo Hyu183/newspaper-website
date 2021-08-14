@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
@@ -14,14 +14,20 @@ const app = express();
 
 app.use(flash());
 app.use(session({
-    secret: 'my secret',
+    name: 'sid',
+    secret: 'my $%^secret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 10,
+        sameSite: true,
+        secure: false
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(fileUpload());
+//app.use(fileUpload());
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));

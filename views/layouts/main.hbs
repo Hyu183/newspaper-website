@@ -74,10 +74,10 @@
             </div>
             <div class="col-4 d-flex justify-content-end py-1">
               <button type="button" class="btn btn-primary active btn-sm mr-1">
-                <a href="user/register">Subcribe</a>
+                <a href="/user/register">Subcribe</a>
               </button>
               <button type="button" class="btn btn-primary active btn-sm">
-                <a href="user/sign_in">Sign In</a>
+                <a href="/user/sign_in">Sign In</a>
               </button>
             </div>
           </div>
@@ -297,7 +297,6 @@
     window.onscroll = function () { myFunction() };
     var navbar = document.getElementById("navbar");
     var sticky = navbar.offsetTop + 80;
-    console.log(sticky)
     function myFunction() {
       if (window.pageYOffset >= sticky) {
         navbar.classList.add("sticky")

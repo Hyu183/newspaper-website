@@ -1,3 +1,9 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Include Bootstrap Datepicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+ 
  <div class="container user-info">
         <br>
         <h1 class="text-center">User info</h1>
@@ -8,26 +14,17 @@
                     <label for="user-name">User name</label>
                 </div>
                 <div class="col-10">
-                    <input type="text" class="form-control" id="user-name" value="Duong325">
+                    <input type="text" class="form-control" id="user-name" value={{this.user_name}}>
                 </div>
             </div>
 
 
             <div class="form-group row">
                 <div class="col-2 text-right">
-                    <label for="first-name">First Name</label>
+                    <label for="first-name">Name</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="first-name" value="Duong">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-2 text-right">
-                    <label for="last-name">Last Name</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="last-name" value="Nguyen">
+                    <input type="text" class="form-control" id="first-name" value={{this.name}}>
                 </div>
             </div>
 
@@ -36,7 +33,7 @@
                     <label for="email">Email</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="email" value="duong@gmail.com">
+                    <input type="text" class="form-control" id="email" value={{this.email}}>
                 </div>
             </div>
 
@@ -52,9 +49,29 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col-2 text-right">
+                    <label for="birthdaypicker">Birthday</label>
+                </div>
+                <div class="col">
+                    <div class="input-group date">
+                        <input type="text" name="birthdate" class="form-control" id="birthdaypicker" value={{birthdate}}>
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
         <br>
     </div>
+
+    <script>
+            $('#birthdaypicker').datepicker({
+                format: "dd/mm/yyyy"
+            });
+    </script>

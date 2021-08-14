@@ -80,7 +80,7 @@
                                 Quay lại
                             </a>
                             {{#if isNotParent}}                    
-                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/categories/del?id={{categoryDetail.id}}">
+                            <button id="btn-delete" type="button" class="btn btn-danger" formaction="/admin/categories/del?id={{categoryDetail.id}}&parent_id={{categoryDetail.parent_id}}">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 Xoá
                             </button>

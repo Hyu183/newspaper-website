@@ -27,7 +27,32 @@ $(document).ready(function () {
     });
 
   });
-  $(".data-editAdmin-table").each(function (_, table) {
+  $(".data-editor-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "20%" },
+        { "width": "30%" },
+        { orderable: false,"width": "30%" },
+        { orderable: false,"width": "10%" },
+        { orderable: false,"width": "5%" }
+      ]
+      
+    });
+
+  });
+  $(".data-assignedCat-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "10%" },
+        { orderable: false,"width": "45%" },
+        { "width": "45%" },
+      ]
+      
+    });
+
+  });
+  $(".data-admin-table").each(function (_, table) {
     $(table).DataTable({
       "columns": [
         { "width": "5%" },
@@ -57,11 +82,9 @@ $(document).ready(function () {
       "columns": [
         { "width": "5%" },
         { "width": "47%" },
-        { "width": "15%" },
-        { "width": "12%" },
-        { orderable: false,"width": "5%" },
-        { orderable: false,"width": "5%" },
-        {"width": "11%" }
+        { "width": "23%" },
+        { "width": "20%" },
+        { orderable: false,"width": "5%" },                
       ]
       
     });
