@@ -1,5 +1,6 @@
 const db = require('../database/db');
 const tagModel = require('../models/tag.model');
+const moment = require('moment');
 
 const addArticle = (article, tags) =>
 {
@@ -33,9 +34,24 @@ const addArticle = (article, tags) =>
     });
 }
 
+const checkStatusArticle = (is_approved, published_date)=>{
+    switch (is_approved){
+        case null:
+            return "Chưa duyệt";            
+        case 0:
+            return "Bị từ chối";
+        case 1:
+            const publishedDate = moment(published_date);
+            const today = moment();
+            const diffTime = publishedDate.diff(today);
+
+            return diffTime <= 0? "Đã xuất bản": "Chờ xuất bản";            
+    }
+}
+
 module.exports = {
     addArticle,
-
+    checkStatusArticle,
     getArticleList(){                           
         return db({a: 'articles'})
                 .select('a.id','a.title','a.category_id',{cat_title:'c.title'},'c.parent_title','app.is_approved', 'app.published_date')
@@ -45,6 +61,33 @@ module.exports = {
                         .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
                         .as('c')
                         ,'c.id','=','a.category_id');              
+    },
+
+    getWaitingArticlesByAuthorID(authorID){
+        return db({a: 'articles'})
+            .select('a.id','a.title',{cat_title:'c.title'},'c.parent_title')
+            .whereNotIn('a.id', db('approval')
+                                .select('article_id')
+                                )
+            .andWhere('a.author_id',authorID)
+            .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                    .from({c1:'category'})
+                    .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                    .as('c')
+                    ,'c.id','=','a.category_id');      
+    },
+
+    getRejectedArticlesByAuthorID(authorID){
+        return db({a: 'articles'})
+                .select('a.id','a.title',{cat_title:'c.title'},'c.parent_title')
+                .join({app:'approval'},'app.article_id','=','a.id')
+                .where('a.author_id',authorID)
+                .andWhere('app.')
+                .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                        .from({c1:'category'})
+                        .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                        .as('c')
+                        ,'c.id','=','a.category_id');      
     },
 
     async findByID(articleID){
