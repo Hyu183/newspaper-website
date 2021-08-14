@@ -68,13 +68,6 @@ router.get('/editorPostList', function(req, res) {
     res.render('vwEditor/editorPostList');
 })
 
-router.get('/writer', function(req, res) {
-    res.render('vwWriter/writer');
-})
-
-router.get('/posting', function(req, res) {
-    res.render('vwWriter/posting');
-})
 
 router.get('/articles/:id', async (req, res) => {
   const id = +req.params.id || 0;

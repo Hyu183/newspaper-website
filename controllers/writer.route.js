@@ -4,9 +4,10 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 const fs = require('fs');
 const path = require('path');
-const {addArticle} = require('../models/posting.model');
+const {addArticle, findArticleByAuthorID} = require('../models/posting.model');
 const categoryModel = require('../models/category.model');
 const multer = require('multer');
+const moment = require('moment');
 
 
 const storage = multer.diskStorage({
@@ -20,6 +21,41 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage: storage});
+
+
+router.get('/writer', function(req, res) {
+    req.user.then((user) =>
+    {
+        const id = user.id;
+        findArticleByAuthorID(id).then((arts) => {
+            let newArts = arts.map((art) => {
+                let approvalStatus = 'Chưa được duyệt';
+                if (art.editor_id === null)
+                    approvalStatus = 'Chưa được duyệt';
+                else if (art.is_approved === 1){
+                    let pubDate = moment(art.published_date);
+                    if (pubDate.isBefore()){
+                        approvalStatus = 'Đã xuất bản';
+                    }
+                    else{
+                        approvalStatus = 'Đã được duyệt & chờ xuất bản';
+                    }
+                }
+                else{
+                    approvalStatus = 'Bị từ chối';
+                }
+                return {
+                    id: art.id,
+                    title: art.title,
+                    status: approvalStatus,
+                    categoryTitle: art.catTitle
+                };
+            });
+            res.render('vwWriter/writer', {listArt: newArts});
+        });
+    });
+    
+})
 
 
 router.get('/posting', async function(req, res) {

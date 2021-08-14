@@ -72,21 +72,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Welcome To The Best Model Winner Contest At Look of the year</td>
-                                    <td>Kinh doanh</td>
-                                    <td>Đã duyệt</td>
-                                    <td>
-                                        <a name="" id="btn-edit" class="btn btn-primary btn-sm" href="#" role="button"
-                                            title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    
-                                </tr>
-
-
+                                
+                                    {{#each listArt}}
+                                        <tr>
+                                            <th scope="row">{{@index}}</th>
+                                                <td>{{title}}</td>
+                                                <td>{{categoryTitle}}</td>
+                                                <td>{{status}}</td>
+                                            <td>
+                                                <form action="/editArticle" method="post">
+                                                    <button type="submit" title="Edit" name="articleID" id="btn-edit" class="btn btn-primary btn-sm" value={{id}}>
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {{/each}}                                
+                                
                             </tbody>
                         </table>
                     </div>
