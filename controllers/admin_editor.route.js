@@ -60,7 +60,7 @@ router.get('/editors/edit', async function (req, res) {
         return res.redirect('/admin/editors');
     }
     userDetail.birthday = moment(userDetail.birthday).format("YYYY-MM-DD");
-    console.log(userDetail);
+    //console.log(userDetail);
 
     res.render('vwAdmin/editUserEditor', {
         layout: 'admin.hbs',
@@ -101,6 +101,11 @@ router.post('/editors/patch', async function (req, res) {
 
 router.post('/editors/del', async function (req, res) {
     const userID = req.query.id;
+    const newID = 1; // ID admin default: 1
+    await userModel.delEditorInApproval(userID,newID);
+
+    await userModel.delEditorInAssignCat(userID);
+
     await userModel.del(userID);
     res.redirect('/admin/editors');
 })
@@ -154,13 +159,14 @@ router.post('/editors/assign', async function (req, res) {
     }
 
     
-    if(typeof(deleteAssignedCat) !== 'undefined'){
-        if(deleteAssignedCat.length === 1){
+    if(typeof(deleteAssignedCat) !== 'undefined'){  
+      
+        if(typeof(deleteAssignedCat) === 'string'){
             let deleteList  = []
-            deleteList.push(deleteAssignedCat);
+            deleteList.push(deleteAssignedCat);            
             await assignCatModel.del(editorID,deleteList);
         }        
-        else{
+        else{          
             await assignCatModel.del(editorID,deleteAssignedCat);
         }
     }    

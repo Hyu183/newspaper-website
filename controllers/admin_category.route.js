@@ -46,6 +46,8 @@ router.get('/categories/edit', async function (req, res) {
     if (categoryDetail === null) {
         return res.redirect('/admin/categories');
     }
+    
+
     const isNotParent = categoryDetail.parent_title === 'Không' ? false : true;
 
     res.render('vwAdmin/editCategory', {
@@ -69,8 +71,11 @@ router.post('/categories/patch', async function (req, res) {
 })
 
 router.post('/categories/del', async function (req, res) {
+    
+    const catID = req.query.id;
+    const catParentID = req.query.parent_id;
 
-    await categoryModel.del(req.query.id);
+    await categoryModel.del(catID,catParentID);
 
     res.redirect('/admin/categories');
 })

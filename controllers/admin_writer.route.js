@@ -121,6 +121,8 @@ router.post('/writers/patch', async function (req, res) {
 
 router.post('/writers/del', async function (req, res) {
     const userID = req.query.id;
+    const newID = 1; // ID admin default: 1
+    await userModel.delWriterArticle(userID, newID);
     await userModel.delPenName(userID);
     await userModel.del(userID);
     res.redirect('/admin/writers');

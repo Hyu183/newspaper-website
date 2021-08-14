@@ -110,4 +110,23 @@ module.exports = {
             .where( 'id', id)
             .del();
     },
+
+    delEditorInApproval(editorID, newID){
+        return db('approval')
+             .where({editor_id: editorID})             
+             .update({editor_id: newID});
+    },
+
+    delEditorInAssignCat(editorID){
+        return db('category_assignment')
+             .where({editor_id: editorID})             
+             .del();
+    },
+
+    //replace with adminID
+    delWriterArticle(writerID, newID){
+        return db('articles')
+             .where({author_id: writerID})             
+             .update({author_id: newID});
+    },
 };
