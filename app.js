@@ -29,7 +29,7 @@ app.use(passport.session());
 
 //app.use(fileUpload());
 app.use(morgan('dev'));
-
+app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use('/module', express.static(path.join(__dirname, 'node_modules')))
 

@@ -28,7 +28,7 @@ router.get('/sign_in', checkNotAuthenticated, function(req, res) {
 });
 
 
-router.get('/subscribe', function(req, res) {
+router.get('/subscribe', checkAuthenticated, function(req, res) {
     res.render('vwUser/subscription.hbs');
 });
 

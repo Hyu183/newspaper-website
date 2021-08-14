@@ -40,7 +40,8 @@ const findArticleByAuthorID = (authorID) => {
             .where('author_id', authorID)
             .leftJoin('approval', 'articles.id', 'approval.article_id')
             .leftJoin('category', 'articles.category_id', 'category.id')
-            .select('articles.id', 'articles.title', 'articles.author_id', 'category.title as catTitle', 'approval.*');
+            .leftJoin('category as parentCategory', 'category.parent_id', 'parentCategory.id')
+            .select('articles.id', 'articles.title', 'articles.author_id', 'category.title as catTitle', 'approval.*', 'parentCategory.title as parentCatTitle');
 }
 
 const checkStatusArticle = (is_approved, published_date)=>{

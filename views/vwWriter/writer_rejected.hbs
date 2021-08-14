@@ -191,28 +191,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each articles }}
+                                {{#each articles}}
+                                    <tr>
+                                        <th scope="row">{{id}}</th>
+                                        <td>"{{title}}"</td>
+                                        <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
+                                        
+                                        <td>
+                                            <a name="" id="" class="btn btn-primary btn-sm" href="/writer/edit?id={{id}}"
+                                                role="button" title="Edit">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
 
-                                <tr>
-                                    <th scope="row">{{id}}</th>
-                                    <td>{{title}}</td>
-                                    <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
-                                    
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="/writer/edit?id={{id}}"
-                                            role="button" title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
+                                        <td>
+                                            {{!-- <form action="/rejectedReason" method="post">
+                                                <input type="submit" name="fe" value="Read"></input>
+                                                <input type="hidden" name="info" value={
+                                                    editorID: {{editor_id}},
+                                                    id: {{id}},
+                                                    rejectedReason: {{reject_reason}},
+                                                    title: {{title}},
+                                                    category: {{cat_title}},
+                                                }/>
+                                            </form> --}}
 
-                                    <td><a name="" id="" class="btn btn-success btn-sm" href="#" role="button">
-                                            <i class="fa fa-search" aria-hidden="true"></i>
-                                            Xem
-                                    </a></td>
-                                </tr>
+                                            <form action="/rejectReason" method="post">
+                                                 <input type="hidden" name="editor_id" value={{editor_id}}></input>
+                                                 <input type="hidden" name="title" value="{{title}}"></input>
+                                                 <input type="hidden" name="category" value="{{cat_title}}"></input>
+                                                 <input type="hidden" name="rejectedReason" value="{{reject_reason}}"></input>
+                                                <button type="submit" class="btn btn-outline-success mx-auto btn-block" value={{id}} name="articleID">Xem</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 {{/each}}                            
-
-
 
                             </tbody>
 

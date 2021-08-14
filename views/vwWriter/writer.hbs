@@ -149,9 +149,6 @@
                             class="list-group-item list-group-item-action {{#if wait}}active{{/if}}">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             Chưa duyệt 
-                            {{!-- {{#if ProductCount --}}
-                            {{!-- <span class="badge badge-pill badge-danger float-right">{{ProductCount</span> --}}
-                            {{!-- {{/if --}}
                         </a>                       
                         <a href="/writer/rejected"
                             class="list-group-item list-group-item-action">
@@ -185,35 +182,25 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Tên Bài Viết</th>
                                     <th scope="col">Chuyên mục</th>
-                                 
                                     <th scope="col">&nbsp;</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each waitingArticles }}
+                                {{#each articles}}
 
                                 <tr>
                                     <th scope="row">{{id}}</th>
                                     <td>{{title}}</td>
                                     <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
-                                   
                                     <td>
                                         <a name="" id="" class="btn btn-primary btn-sm" href="/writer/edit?id={{id}}"
                                             role="button" title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
-
-                                    {{!-- <td><a name="" id="" class="btn btn-success" href="#" role="button">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                            Duyệt
-                                        </a></td> --}}
                                 </tr>
                                 {{/each}}
-
-
-
                             </tbody>
 
                         </table>
