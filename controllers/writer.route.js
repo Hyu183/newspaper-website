@@ -7,7 +7,7 @@ const path = require('path');
 const {addArticle} = require('../models/posting.model');
 const categoryModel = require('../models/category.model');
 const multer = require('multer');
-
+const postingModel = require('../models/posting.model');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,6 +20,43 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage: storage});
+
+router.get('/writer', async function(req, res) {
+    // req.user.then(async(user) =>
+    // {    
+
+       
+
+        
+        res.render('vwWriter/writer',{           
+            wait: true
+        });
+   // });
+})
+
+router.get('/writer/rejected', async function(req, res) {
+    
+
+    res.render('vwWriter/writer_rejected',{
+        rejected :true
+    });
+})
+
+router.get('/writer/pending', async function(req, res) {
+    
+
+
+    res.render('vwWriter/writer_pending',{       
+        pending_publish :true
+    });
+})
+
+router.get('/writer/published', async function(req, res) {
+    
+    res.render('vwWriter/writer_published',{        
+        published :true
+    });
+})
 
 
 router.get('/posting', async function(req, res) {

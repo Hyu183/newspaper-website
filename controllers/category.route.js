@@ -62,8 +62,6 @@ router.get('/editorPostList', function(req, res) {
     res.render('vwEditor/editorPostList');
 })
 
-router.get('/writer', function(req, res) {
-    res.render('vwWriter/writer');
-})
+
 
 module.exports = router;

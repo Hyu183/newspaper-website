@@ -146,7 +146,7 @@
                     </h4>
                     <div class="list-group list-group-flush">                        
                         <a href="/writer"
-                            class="list-group-item list-group-item-action {{#if wait}}active{{/if}}">
+                            class="list-group-item list-group-item-action ">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             Chưa duyệt 
                             {{!-- {{#if ProductCount --}}
@@ -154,7 +154,7 @@
                             {{!-- {{/if --}}
                         </a>                       
                         <a href="/writer/rejected"
-                            class="list-group-item list-group-item-action">
+                            class="list-group-item list-group-item-action {{#if rejected}}active{{/if}}">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             Bị từ chối                           
                         </a>                       
@@ -179,25 +179,25 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="data-writerPostEdit-table table table-hover table-bordered" style="width: 100%;">
+                        <table class="data-writerPostRejected-table table table-hover table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tên Bài Viết</th>
-                                    <th scope="col">Chuyên mục</th>
-                                 
+                                    <th scope="col">Chuyên mục</th>                                    
                                     <th scope="col">&nbsp;</th>
+                                    <th scope="col">Lí do</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each waitingArticles }}
+                                {{#each articles }}
 
                                 <tr>
                                     <th scope="row">{{id}}</th>
                                     <td>{{title}}</td>
                                     <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
-                                   
+                                    
                                     <td>
                                         <a name="" id="" class="btn btn-primary btn-sm" href="/writer/edit?id={{id}}"
                                             role="button" title="Edit">
@@ -205,12 +205,12 @@
                                         </a>
                                     </td>
 
-                                    {{!-- <td><a name="" id="" class="btn btn-success" href="#" role="button">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                            Duyệt
-                                        </a></td> --}}
+                                    <td><a name="" id="" class="btn btn-success btn-sm" href="#" role="button">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                            Xem
+                                    </a></td>
                                 </tr>
-                                {{/each}}
+                                {{/each}}                            
 
 
 

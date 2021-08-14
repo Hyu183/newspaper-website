@@ -90,6 +90,43 @@ $(document).ready(function () {
     });
 
   });
+  $(".data-writerPostEdit-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "60%" },
+        { "width": "30%" },       
+        { orderable: false,"width": "5%" },                
+      ]
+      
+    });
+
+  });
+  $(".data-writerPostRejected-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "50%" },
+        { "width": "30%" },
+        { orderable: false,"width": "5%" },                
+        {orderable: false,"width": "10%" },       
+      ]
+      
+    });
+
+  });
+  $(".data-writerPost-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "47%" },
+        { "width": "23%" },       
+        { "width": "25%" },                
+      ]
+      
+    });
+
+  });
 });
 
 
