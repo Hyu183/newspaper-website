@@ -1,8 +1,8 @@
 ./
 controllers
-	category.route.js
+	main.route.js
 models
-	category.model.js
+	main.model.js
 public
 	css
 	fonts
@@ -12,7 +12,7 @@ public
 views
 	layouts
 		main.hbs
-	vwCategories
+	vwMain
 		about.hbs
 		category.hbs
 		details.hbs
