@@ -39,7 +39,11 @@ CREATE TABLE `approval`  (
 -- ----------------------------
 -- Records of approval
 -- ----------------------------
-INSERT INTO `approval` VALUES (1, 4, 1, NULL, '2021-07-18', '2021-07-14 14:17:17');
+INSERT INTO `approval` VALUES (1, 23, 1, NULL, '2021-07-18', '2021-07-14 14:17:17');
+INSERT INTO `approval` VALUES (6, 23, 1, NULL, '2021-07-18', '2021-07-14 14:17:17');
+INSERT INTO `approval` VALUES (3, 23, 0, 'Chưa rõ chi tiết', null, '2021-07-14 14:17:17');
+INSERT INTO `approval` VALUES (4, 23, 1, NULL, '2021-07-18', '2021-07-14 14:17:17');
+INSERT INTO `approval` VALUES (5, 23, 1, NULL, '2021-07-18', '2021-07-14 14:17:17');
 
 -- ----------------------------
 -- Table structure for article_tags

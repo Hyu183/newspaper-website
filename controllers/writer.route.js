@@ -4,7 +4,7 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 const fs = require('fs');
 const path = require('path');
-const {addArticle} = require('../models/posting.model');
+const {addArticle, findArticleByAuthorID} = require('../models/posting.model');
 const categoryModel = require('../models/category.model');
 const multer = require('multer');
 
@@ -20,6 +20,44 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage: storage});
+
+
+router.get('/writer', function(req, res) {
+    // req.user.then((user) =>
+    // {
+    //     const id = user.id;
+    //     console.log('here1');
+    //     findArticleByAuthorID(id).then((arts) => {
+    //         console.log(arts);
+    //         res.render('vwWriter/writer');
+    //     });
+    // });
+    console.log('here1');
+    findArticleByAuthorID(23).then((arts) => {
+        let newArts = arts.map((art) => {
+            let approvalStatus = 'Chưa được duyệt';
+            if (art.is_approved){
+                let pubDate = moment(published_date);
+                if (pubDate.isBefore()){
+                    approvalStatus = 'Đã xuất bản';
+                }
+                else{
+                    approvalStatus = 'Đã được duyệt & chờ xuất bản';
+                }
+            }
+            else{
+                approvalStatus = 'Bị từ chối';
+            }
+            return {
+                id: art.id,
+                title: art.title,
+                status: approvalStatus,
+                categoryTitle: art.categoryTitle
+            };
+        });
+        res.render('vwWriter/writer', {listArts: newArts});
+    });
+})
 
 
 router.get('/posting', async function(req, res) {
