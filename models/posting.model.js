@@ -32,6 +32,15 @@ const addArticle = (article, tags) =>
             });
         });
     });
+};
+
+const findArticleByAuthorID = (authorID) => {
+    console.log('auid', authorID);
+    return db('articles')
+            .where('author_id', authorID)
+            .leftJoin('approval', 'articles.id', 'approval.article_id')
+            .leftJoin('category', 'articles.category_id', 'category.id')
+            .select('articles.id', 'articles.title', 'articles.author_id', 'category.title as catTitle', 'approval.*');
 }
 
 const checkStatusArticle = (is_approved, published_date)=>{
@@ -52,6 +61,7 @@ const checkStatusArticle = (is_approved, published_date)=>{
 module.exports = {
     addArticle,
     checkStatusArticle,
+    findArticleByAuthorID,
     getArticleList(){                           
         return db({a: 'articles'})
                 .select('a.id','a.title','a.category_id',{cat_title:'c.title'},'c.parent_title','app.is_approved', 'app.published_date')

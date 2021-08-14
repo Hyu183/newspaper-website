@@ -349,7 +349,7 @@ hr {
 }
 
 .section-padding {
-    padding-top: 120px;
+    padding-top: 60px;
     padding-bottom: 120px
 }
 
@@ -3203,10 +3203,10 @@ hr {
 .whats-news-area .whats-news-caption .single-what-news .what-cap,
 .about-area .whats-news-caption .single-what-news .what-cap,
 .contact-section .whats-news-caption .single-what-news .what-cap {
-    padding: 25px 20px 10px 0;
+    padding: 1rem 0 0.5rem 0.3rem;
     background: #fff;
     position: absolute;
-    bottom: -63px;
+    top: 70%;
     left: 0;
     width: 80%;
     border-radius: 0 7px 0 0;
@@ -3247,7 +3247,7 @@ hr {
 .whats-news-area .whats-news-caption .single-what-news:hover .what-cap,
 .about-area .whats-news-caption .single-what-news:hover .what-cap,
 .contact-section .whats-news-caption .single-what-news:hover .what-cap {
-    bottom: -70px
+    top: 60%
 }
 
 .whats-news-area .single-follow .single-box,

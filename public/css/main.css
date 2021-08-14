@@ -10109,3 +10109,12 @@ del {
 
 
 /*# sourceMappingURL=main.css.map */
+.main-header{
+  background: #fff !important;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
