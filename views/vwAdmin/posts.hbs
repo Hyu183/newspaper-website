@@ -5,10 +5,7 @@
                 <div class="card-header bg-dark text-white d-flex justify-content-between">
                     <h4><span><i class="bi bi-table me-2"></i></span> Danh sách bài viết</h4>
 
-                    <a class="btn btn-success" href="#" role="button">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        Thêm
-                    </a>
+                    
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -20,52 +17,31 @@
                                     <th scope="col">Chuyên mục</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">&nbsp;</th>
-                                    <th scope="col">&nbsp;</th>
-                                    <th scope="col">&nbsp;</th>
+                                                            
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each articles }}
+                                    
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Welcome To The Best Model Winner Contest At Look of the year</td>
-                                    <td>Kinh doanh</td>
-                                    <td>Chưa duyệt</td>
+                                    <th scope="row">{{id}}</th>
+                                    <td>{{title}}</td>
+                                    <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
+                                    <td>{{status}}</td>
                                     <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
+                                        <a name="" id="" class="btn btn-primary btn-sm" href="/admin/posts/edit?id={{id}}" role="button"
                                             title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button"
-                                            title="Delete">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    <td><a name="" id="" class="btn btn-success" href="#" role="button">
+                                   
+                                    {{!-- <td><a name="" id="" class="btn btn-success" href="#" role="button">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                         Duyệt
-                                    </a></td>
+                                    </a></td> --}}
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Welcome To The Best Model Winner Contest At Look of the year</td>
-                                    <td>Chính trị</td>
-                                    <td>Đã duyệt</td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button"
-                                            title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button"
-                                            title="Delete">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
+                                {{/each}}
+                                
 
 
                             </tbody>

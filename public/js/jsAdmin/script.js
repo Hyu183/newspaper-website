@@ -82,11 +82,9 @@ $(document).ready(function () {
       "columns": [
         { "width": "5%" },
         { "width": "47%" },
-        { "width": "15%" },
-        { "width": "12%" },
-        { orderable: false,"width": "5%" },
-        { orderable: false,"width": "5%" },
-        {"width": "11%" }
+        { "width": "23%" },
+        { "width": "20%" },
+        { orderable: false,"width": "5%" },                
       ]
       
     });
