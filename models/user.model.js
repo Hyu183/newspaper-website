@@ -13,7 +13,6 @@ const checkAuthenticated = (req, res, next) => {
 }
 
 const checkNotAuthenticated = (req, res, next) => {
-    console.log("here12");
     if (req.isAuthenticated()){
         res.redirect('/');
     }
@@ -24,6 +23,10 @@ const updateSubdate = (id, newDate) =>{
     console.log(newDate);
     return db('users').where({id: id}).update({subcription_due_date: newDate});
 }
+
+const activateUser = (id) => {
+    return db('users').where('id', id).update({is_active: true});  
+};
 
 module.exports = {
     addUser,
@@ -46,6 +49,7 @@ module.exports = {
      checkAuthenticated,
      checkNotAuthenticated,
      updateSubdate,
+     activateUser,
     async findByID(id){
         const rows = await db('users')
                             .select('id','user_name','name','email','birthday','subcription_due_date')

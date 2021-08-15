@@ -5,9 +5,19 @@ const bcrypt = require('bcryptjs');
 const initializePassport = require('../public/js/config/passport.config');
 const passport = require('passport');
 const moment = require('moment');
+const userModel = require('../models/user.model');
+const sendMail = require('../public/js/sendEmail.js');
 
 initializePassport(passport);
 
+const generateOTP = () => {
+    const digits = '0123456789';
+    let OTP = '';
+    for (let i = 0; i < 6; i++ ) {
+        OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    return OTP;
+};
 
 router.get('/userInfo', checkAuthenticated,function(req, res) {
     req.user.then((user) =>
@@ -28,8 +38,23 @@ router.get('/sign_in', checkNotAuthenticated, function(req, res) {
 });
 
 
+router.get('/otp', function(req, res) {
+    res.render('vwUser/otp');
+});
+
 router.get('/subscribe', checkAuthenticated, function(req, res) {
     res.render('vwUser/subscription.hbs');
+});
+
+router.post('/otpConfirm',async (req, res) => {
+    const currOTP = req.body.otp;
+    const username = req.body.username;
+    const user = await userModel.findByUsername(username);
+    if (currOTP === user.otp){
+        userModel.activateUser(user.id);
+    } else {
+        res.render('vwUser/otp', {message: "Wrong OTP code!", username: username});
+    };
 });
 
 router.post('/subscribe', function(req, res) {
@@ -61,7 +86,7 @@ router.get('/register', function(req, res) {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureMessage: '/login',
+    failureRedirect: '/user/sign_in',
     failureFlash: true
 }))
 
@@ -73,20 +98,24 @@ router.post('/register', async (req, res) => {
         res.redirect('/register');
     }   
 
+    const generatedOTP = generateOTP();
     const user = {
         name: req.body.name,
         email: req.body.email,
         user_name: req.body.username,
         password: hashedPassword,
         birthday: req.body.birthdate.split("/").reverse().join("-"),
-        user_type: 0
+        user_type: 0,
+        otp: generatedOTP,
     }
 
     addUser(user).then(
         () => {
             console.log("success");
-            res.redirect('/');
-        }
+            sendMail(user.email, user.name, 'News Registing Conformation Email', 
+                "This is your conformation email for registing at News", user.otp);
+            res.render('vwUser/otp', {username: user.user_name});
+            }
     ).catch( (err) =>
         {
             console.log(err);

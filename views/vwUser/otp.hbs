@@ -1,0 +1,12 @@
+<div class="container py-5 px-3">
+    <form action="/user/otpConfirm" method="post">
+        {{#if message}}
+          <p class="text-danger display-7 text-center">message</p>
+        {{/if}}
+        <label class="h5" for="otp">Enter the OTP code sended to your email.</label>
+        <input class="form-control form-control-lg" id='otp' name='otp' type="text" placeholder="OTP Code">
+        <input type="hidden" name='username' value="{{username}}"/>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

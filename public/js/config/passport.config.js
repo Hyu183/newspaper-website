@@ -9,11 +9,14 @@ const initialize = (passport) => {
 
         const user = await findByUsername(username);
         if (user == null){
-            return done(null, false, {message: "Wrong username or password"});
+            return done(null, false, {message: "User is inactive <a href='/'>link text</a>"});
         }
 
         try {
             if (await bcrypt.compare(password, user.password)){
+                if (user.is_active === false){
+                    return done(null, false, {message: "User is inactive <a href='/'>link text</a>"});
+                }
                 console.log("login successful");
                 return done(null, user);
             } else {
