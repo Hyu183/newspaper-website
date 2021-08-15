@@ -60,13 +60,7 @@ router.post('/add', function(req, res) {
 
 })
 
-router.get('/editor', function(req, res) {
-    res.render('vwEditor/editor');
-})
 
-router.get('/editorPostList', function(req, res) {
-    res.render('vwEditor/editorPostList');
-})
 
 
 router.get('/articles/:id', async (req, res) => {
