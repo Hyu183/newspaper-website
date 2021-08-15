@@ -9,16 +9,21 @@ const initialize = (passport) => {
 
         const user = await findByUsername(username);
         if (user == null){
-            return done(null, false, {message: "User is inactive <a href='/'>link text</a>"});
+            const mgs = "<b>User is inactive <a href='/user/otp/" + username + "'>Activate account</a></b>";
+            return done(null, false, {message: mgs});
         }
 
         try {
             if (await bcrypt.compare(password, user.password)){
-                if (user.is_active === false){
-                    return done(null, false, {message: "User is inactive <a href='/'>link text</a>"});
+                if (user.is_active === 0){
+                    const mgs = "<b>User is inactive <a href='/user/otp/" + username + "'>Activate account</a></b>";
+                    return done(null, false, {message: mgs});
                 }
-                console.log("login successful");
-                return done(null, user);
+                else{
+                    console.log(user);
+                    console.log("login successful");
+                    return done(null, user);
+                }
             } else {
                 return done(null, false, {message: "Wrong username or password"});
             }
