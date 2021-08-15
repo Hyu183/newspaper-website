@@ -127,6 +127,32 @@ $(document).ready(function () {
     });
 
   });
+  $(".data-editorPostList-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "45%" },
+        { "width": "25%" },       
+        { "width": "20%" },       
+        { orderable: false,"width": "5%" },                
+      ]
+      
+    });
+
+  });
+  $(".data-editorApprovedList-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "3%" },
+        { "width": "38%" },
+        { "width": "25%" },       
+        { "width": "20%" },               
+        { "width": "14%" },               
+      ]
+      
+    });
+
+  });
 });
 
 

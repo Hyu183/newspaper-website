@@ -42,6 +42,19 @@ module.exports = {
               })
               .whereIn('category_id',delList)
              .del();
+    },
+
+    getAllAssignedCatExceptID(editorID,catID){
+        return db({ca:'category_assignment'})
+                .select('c.id','c.title','c.parent_title')
+                .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                        .from({c1:'category'})
+                        .leftJoin({c2:'category'},'c2.id','=','c1.parent_id')
+                        .as('c')
+                        ,'c.id','=','ca.category_id' )                
+                .where('ca.editor_id',editorID)
+                .andWhere('ca.category_id','<>',catID);
+        
     }
     
 };

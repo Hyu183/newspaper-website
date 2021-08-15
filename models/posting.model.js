@@ -117,6 +117,21 @@ module.exports = {
         return rows[0];
     },
 
+    async findArticleByID(articleID){
+        const rows = await db({a: 'articles'})
+                            .join(db.select({cat_id:'c1.id'},{cat_title:'c1.title'},{parent_title:'c2.title'})
+                                    .from({c1:'category'})
+                                    .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                                    .as('c')
+                                    ,'c.cat_id','=','a.category_id'
+                                    )                            
+                            .where('a.id',articleID)
+        if(rows.length === 0){
+            return null;
+        }  
+        return rows[0];
+    },
+
     async findAuthorByArticleID(id){
         const rows = await db({a:'articles'})
                 .select('u.id','u.name')
@@ -152,6 +167,16 @@ module.exports = {
                 editor_id: editorID,
                 is_approved: 1,
                 published_date: publish_date,
+                approved_date: approved_date});
+    },
+
+    addRejected(articleID,editorID,rejectReason,approved_date){
+        return db('approval')            
+            .insert({
+                article_id: articleID,
+                editor_id: editorID,
+                is_approved: 0,
+                reject_reason: rejectReason,
                 approved_date: approved_date});
     },
 
@@ -208,5 +233,48 @@ module.exports = {
                 .then(()=>{
                     console.log("del article");
                 })
+    },
+
+    findApprovedList(editorID){
+        return db({app: 'approval'})
+        .select('app.article_id','a.title','a.category_id',{cat_title:'c.title'},'c.parent_title', 'app.published_date')
+        .join({a: 'articles'},'app.article_id','=','a.id')
+        .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                .from({c1:'category'})
+                .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                .as('c')
+                ,'c.id','=','a.category_id')
+        .where('app.editor_id',editorID)
+        .andWhere('app.is_approved',1);
+    },
+
+    findRejectedList(editorID){
+        return db({app: 'approval'})
+        .select('app.article_id','a.author_id','a.title','a.category_id',{cat_title:'c.title'},'c.parent_title', 'app.approved_date','app.reject_reason')
+        .join({a: 'articles'},'app.article_id','=','a.id')
+        .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                .from({c1:'category'})
+                .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                .as('c')
+                ,'c.id','=','a.category_id')
+        .where('app.editor_id',editorID)
+        .andWhere('app.is_approved',0);
+    },
+
+    findPostList(editorID){
+        return db({ca: 'category_assignment'})
+        .select('a.id','a.title','a.created_time','a.category_id',{cat_title:'c.title'},'c.parent_title')
+        .join({a: 'articles'},'ca.category_id','=','a.category_id')
+        .join(db.select('c1.id','c1.title',{parent_title:'c2.title'})
+                .from({c1:'category'})
+                .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                .as('c')
+                ,'c.id','=','a.category_id')
+        .whereNotIn('a.id', db('approval')
+                                .select('article_id')
+                            )
+        .where('ca.editor_id',editorID);
+        
     }
+
 };

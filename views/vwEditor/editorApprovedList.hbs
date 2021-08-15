@@ -26,24 +26,24 @@
                         <i class="fa fa-archive" aria-hidden="true"></i>
                         Quản lý bài viết
                     </h4>
-                    <div class="list-group list-group-flush">                        
+                    <div class="list-group list-group-flush"> 
                         <a href="/editorAssignedCat"
                             class="list-group-item list-group-item-action">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             Chuyên mục được phân công  
-                        </a>   
+                        </a>                        
                         <a href="/editorPostList"
-                            class="list-group-item list-group-item-action {{#if wait}}active{{/if}} ">
-                            <i class="fa fa-caret-right" aria-hidden="true"></i>
-                            Chưa duyệt   
-                        </a>                       
-                        <a href="/editorRejectedList"
                             class="list-group-item list-group-item-action ">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
-                            Đã từ chối                         
-                        </a>                      
-                        <a href="/editorApprovedList"
+                            Chưa duyệt   
+                        </a>     
+                         <a href="/editorRejectedList"
                             class="list-group-item list-group-item-action">
+                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            Đã từ chối                         
+                        </a>                   
+                        <a href="/editorApprovedList"
+                            class="list-group-item list-group-item-action {{#if approved}}active{{/if}}">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             Đã duyệt                         
                         </a>                      
@@ -54,37 +54,33 @@
         <div class="col-md-9 ">
             <div class="card border-dark">
                 <div class="card-header bg-dark text-white d-flex justify-content-between">
-                    <h4 class="text-white"><span><i class="bi bi-table me-2"></i></span> Danh sách bài viết</h4>
+                    <h4 class="text-white"><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span> Danh sách bài viết</h4>
 
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="data-editorPostList-table table table-hover table-bordered" style="width: 100%;">
+                        <table class="data-editorApprovedList-table table table-hover table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tên Bài Viết</th>
                                     <th scope="col">Chuyên mục</th>
-                                    <th scope="col">Ngày viết</th>                                    
-                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Ngày xuất bản</th>                                    
+                                    <th scope="col">Trạng thái</th>                                    
+                                   
 
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each postList }}
+                                {{#each newArtList }}
 
                                 <tr>
-                                    <th scope="row">{{id}}</th>
+                                    <th scope="row">{{article_id}}</th>
                                     <td>{{title}}</td>
                                     <td>{{cat_title}} {{#if parent_title}} - ({{parent_title}}){{/if}}</td>
-                                    <td>{{created_time}}</td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="/editor?id={{id}}"
-                                            role="button" title="Edit">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-
+                                   <td>{{published_date}}</td>
+                                   <td>{{status}}</td>
+                                   
                                     {{!-- <td><a name="" id="" class="btn btn-success" href="#" role="button">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                             Duyệt
