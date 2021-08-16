@@ -3,8 +3,7 @@
     <h1 class="text-center">Sign In</h1>
     <br>
     {{#if messages.error}}
-        {{messages.error}}
-         <a href='/'>link text</a> 
+        {{{messages.error}}}
     {{/if}}
     <br>
     <form class="form-reg"  action="/user/login" method="POST">

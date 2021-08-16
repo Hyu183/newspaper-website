@@ -38,20 +38,37 @@ router.get('/sign_in', checkNotAuthenticated, function(req, res) {
 });
 
 
-router.get('/otp', function(req, res) {
-    res.render('vwUser/otp');
+router.get('/otp/:username', function(req, res) {
+    const username = req.params.username;
+    console.log(req.params.username);
+    res.render('vwUser/otp', {username: username});
+});
+
+router.get('/editArticle/:id', function(req, res) {
+    const id = req.params.id;
+    console.log(req.params.username);
+    res.render('vwUser/otp', {username: username});
+});
+
+router.post('/resentotp', async function(req, res) {
+    const username = req.body.username;
+    console.log(username);
+    const user = await userModel.findByUsername(username);
+    sendMail(user.email, user.name, 'News Registing Conformation Email', 
+                "This is your conformation email for registing at News", user.otp);
+    res.render('vwUser/otp', {username: username, message: "We have resended the OTP to your email."});
 });
 
 router.get('/subscribe', checkAuthenticated, function(req, res) {
     res.render('vwUser/subscription.hbs');
 });
 
-router.post('/otpConfirm',async (req, res) => {
+router.post('/otpConfirm', async (req, res) => {
     const currOTP = req.body.otp;
     const username = req.body.username;
     const user = await userModel.findByUsername(username);
     if (currOTP === user.otp){
-        userModel.activateUser(user.id);
+        userModel.activateUser(user.id).then(() => res.render('vwUser/waiting', {message: "Your account is activated!"}));
     } else {
         res.render('vwUser/otp', {message: "Wrong OTP code!", username: username});
     };

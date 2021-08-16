@@ -63,6 +63,10 @@ CREATE TABLE `article_tags`  (
 -- ----------------------------
 INSERT INTO `article_tags` VALUES (1, 1);
 INSERT INTO `article_tags` VALUES (1, 4);
+INSERT INTO `article_tags` VALUES (5, 1);
+INSERT INTO `article_tags` VALUES (5, 2);
+INSERT INTO `article_tags` VALUES (5, 3);
+INSERT INTO `article_tags` VALUES (5, 4);
 
 -- ----------------------------
 -- Table structure for articles
