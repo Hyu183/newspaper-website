@@ -1,10 +1,10 @@
 const express = require('express');
 const tagModel = require('../models/tag.model');
-
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 const router = express.Router();
 
 
-router.get('/', async function (req, res) {
+router.get('/',checkAuthenticated,isAdmin, async function (req, res) {
 
     const tags = await tagModel.all();
 
@@ -14,7 +14,7 @@ router.get('/', async function (req, res) {
         tags
     });
 })
-router.get('/tags/add', async function (req, res) {
+router.get('/tags/add',checkAuthenticated,isAdmin, async function (req, res) {
 
     res.render('vwAdmin/addTag', {
         layout: 'admin.hbs',
@@ -22,7 +22,7 @@ router.get('/tags/add', async function (req, res) {
 
     });
 })
-router.post('/tags/add', async function (req, res) {
+router.post('/tags/add',checkAuthenticated,isAdmin, async function (req, res) {
 
     const tag = req.body.tag_name;
     await tagModel.add(tag);
@@ -30,7 +30,7 @@ router.post('/tags/add', async function (req, res) {
     res.redirect('/admin/tags/add');
 })
 
-router.get('/is-tag-available', async function (req, res) {
+router.get('/is-tag-available',checkAuthenticated,isAdmin, async function (req, res) {
     const tag_name = req.query.tag_name;
     const list = await tagModel.all();
     let tags = []
@@ -41,7 +41,7 @@ router.get('/is-tag-available', async function (req, res) {
     res.json(!tags.includes(tag_name.toLowerCase()));
 })
 
-router.get('/tags/edit', async function (req, res) {
+router.get('/tags/edit',checkAuthenticated,isAdmin, async function (req, res) {
 
     const tag_id = req.query.id;
     const tagDetail = await tagModel.findByID(tag_id);
@@ -56,7 +56,7 @@ router.get('/tags/edit', async function (req, res) {
     });
 })
 
-router.post('/tags/patch', async function (req, res) {
+router.post('/tags/patch',checkAuthenticated,isAdmin, async function (req, res) {
 
     const updatedTag = {
         id: req.query.id,
@@ -68,7 +68,7 @@ router.post('/tags/patch', async function (req, res) {
     res.redirect('/admin');
 })
 
-router.post('/tags/del', async function (req, res) {
+router.post('/tags/del',checkAuthenticated,isAdmin, async function (req, res) {
 
     await tagModel.del(req.query.id);
 

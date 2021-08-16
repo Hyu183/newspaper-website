@@ -3,25 +3,12 @@ const moment = require('moment');
 const postingModel = require('../models/posting.model');
 const tagModel = require('../models/tag.model');
 const {getAllExceptID} = require('../models/category.model');
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
-// function checkStatusArticle(is_approved, published_date){
-//     switch (is_approved){
-//         case null:
-//             return "Chưa duyệt";            
-//         case 0:
-//             return "Bị từ chối";
-//         case 1:
-//             const publishedDate = moment(published_date);
-//             const today = moment();
-//             const diffTime = publishedDate.diff(today);
-
-//             return diffTime <= 0? "Đã xuất bản": "Chờ xuất bản";            
-//     }
-// }
 
 const router = express.Router();
 
-router.get('/posts',async function (req, res) {
+router.get('/posts',checkAuthenticated,isAdmin,async function (req, res) {
 
     const articles = await postingModel.getArticleList();
     
@@ -36,7 +23,7 @@ router.get('/posts',async function (req, res) {
     });
 })
 
-router.get('/posts/edit',async function (req, res) {
+router.get('/posts/edit',checkAuthenticated,isAdmin,async function (req, res) {
     const articleID = req.query.id;    
     const article = await postingModel.findByID(articleID);
     if(article === null){
@@ -85,7 +72,7 @@ router.get('/posts/edit',async function (req, res) {
 
 });
 
-router.post('/posts/patch',async function (req, res) {
+router.post('/posts/patch',checkAuthenticated,isAdmin,async function (req, res) {
     const articleID = req.query.id;
     //console.log(req.body);
 
@@ -137,7 +124,7 @@ router.post('/posts/patch',async function (req, res) {
 
 });
 
-router.post('/posts/del',async function (req, res) {
+router.post('/posts/del',checkAuthenticated,isAdmin,async function (req, res) {
     const articleID = req.query.id;
     console.log(articleID);   
     await postingModel.delArticle(articleID); 

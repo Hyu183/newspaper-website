@@ -19,6 +19,30 @@ const checkNotAuthenticated = (req, res, next) => {
     return next();
 }
 
+//checkAuthenticated before checking isAdmin
+const isAdmin = (req, res, next) => {
+    req.user.then((user) =>
+    {
+        if(user.user_type === 3){
+            return next();
+        }
+        res.redirect('/');
+    });   
+}
+
+//checkAuthenticated before checking isEditor
+const isEditor = (req, res, next) => {
+    req.user.then((user) =>
+    {
+        if(user.user_type === 2){
+            return next();
+        }
+        res.redirect('/');
+    });   
+}
+
+
+
 const updateSubdate = (id, newDate) =>{
     console.log(newDate);
     return db('users').where({id: id}).update({subcription_due_date: newDate});
@@ -50,6 +74,8 @@ module.exports = {
      checkNotAuthenticated,
      updateSubdate,
      activateUser,
+     isAdmin,
+     isEditor,
     async findByID(id){
         const rows = await db('users')
                             .select('id','user_name','name','email','birthday','subcription_due_date')

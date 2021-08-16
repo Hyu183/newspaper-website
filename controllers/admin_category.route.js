@@ -1,9 +1,10 @@
 const express = require('express');
 const categoryModel = require('../models/category.model');
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
 const router = express.Router();
 
-router.get('/categories', async function (req, res) {
+router.get('/categories',checkAuthenticated,isAdmin, async function (req, res) {
 
     res.render('vwAdmin/categories', {
         layout: 'admin.hbs',
@@ -11,7 +12,7 @@ router.get('/categories', async function (req, res) {
     });
 })
 
-router.get('/categories/add', async function (req, res) {
+router.get('/categories/add',checkAuthenticated,isAdmin, async function (req, res) {
     
     res.render('vwAdmin/addCategory', {
         layout: 'admin.hbs',
@@ -19,7 +20,7 @@ router.get('/categories/add', async function (req, res) {
     });
 })
 
-router.get('/is-category-available', async function (req, res) {
+router.get('/is-category-available',checkAuthenticated,isAdmin, async function (req, res) {
     const title = req.query.title;
     const parent_id = req.query.parent_id;
     const list = await categoryModel.findByParentID(parent_id);
@@ -31,14 +32,14 @@ router.get('/is-category-available', async function (req, res) {
     res.json(!titles.includes(title.toLowerCase()));
 })
 
-router.post('/categories/add', async function (req, res) {
+router.post('/categories/add',checkAuthenticated,isAdmin, async function (req, res) {
     const new_category = req.body;
     await categoryModel.add(new_category);
     
     res.redirect('/admin/categories/add');
 })
 
-router.get('/categories/edit', async function (req, res) {
+router.get('/categories/edit',checkAuthenticated,isAdmin, async function (req, res) {
 
     const category_id = req.query.id;
     const categoryDetail = await categoryModel.findByID(category_id);
@@ -58,7 +59,7 @@ router.get('/categories/edit', async function (req, res) {
     });
 })
 
-router.post('/categories/patch', async function (req, res) {
+router.post('/categories/patch',checkAuthenticated,isAdmin, async function (req, res) {
 
     const updatedCategory ={
         id: req.query.id,
@@ -70,7 +71,7 @@ router.post('/categories/patch', async function (req, res) {
     res.redirect('/admin/categories');
 })
 
-router.post('/categories/del', async function (req, res) {
+router.post('/categories/del',checkAuthenticated,isAdmin, async function (req, res) {
     
     const catID = req.query.id;
     const catParentID = req.query.parent_id;

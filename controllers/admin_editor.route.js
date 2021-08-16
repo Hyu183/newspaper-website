@@ -3,12 +3,12 @@ const moment = require('moment');
 const userModel = require('../models/user.model')
 const assignCatModel = require('../models/assignCat.model')
 const bcrypt = require('bcryptjs');
-
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
 
 const router = express.Router();
 
-router.get('/editors', async function (req, res) {
+router.get('/editors',checkAuthenticated,isAdmin, async function (req, res) {
 
     const editorList = await userModel.allUserByType(2);
 
@@ -19,14 +19,14 @@ router.get('/editors', async function (req, res) {
         editorList
     });
 })
-router.get('/editors/add', function (req, res) {
+router.get('/editors/add',checkAuthenticated,isAdmin, function (req, res) {
     res.render('vwAdmin/addUserEditor', {
         layout: 'admin.hbs',
         userMenuActive: true,
         editorActive: true
     });
 })
-router.post('/editors/add', function (req, res) {
+router.post('/editors/add',checkAuthenticated,isAdmin, function (req, res) {
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
     const user = {
@@ -53,7 +53,7 @@ router.post('/editors/add', function (req, res) {
     res.redirect('/admin/editors/add');
 })
 
-router.get('/editors/edit', async function (req, res) {
+router.get('/editors/edit',checkAuthenticated,isAdmin, async function (req, res) {
 
     const userDetail = await userModel.findByID(req.query.id);
 
@@ -71,7 +71,7 @@ router.get('/editors/edit', async function (req, res) {
     });
 })
 
-router.post('/editors/patch', async function (req, res) {
+router.post('/editors/patch',checkAuthenticated,isAdmin, async function (req, res) {
     console.log("editor patch");
 
     let updatedUser = {};
@@ -100,18 +100,21 @@ router.post('/editors/patch', async function (req, res) {
     res.redirect('/admin/editors');
 })
 
-router.post('/editors/del', async function (req, res) {
-    const userID = req.query.id;
-    const newID = 1; // ID admin default: 1
-    await userModel.delEditorInApproval(userID,newID);
-
-    await userModel.delEditorInAssignCat(userID);
-
-    await userModel.del(userID);
-    res.redirect('/admin/editors');
+router.post('/editors/del', checkAuthenticated,isAdmin,async function (req, res) {
+    req.user.then(async(user) =>
+    {
+        const userID = req.query.id;
+        const newID = user.id; // ID admin default: 1
+        await userModel.delEditorInApproval(userID,newID);
+    
+        await userModel.delEditorInAssignCat(userID);
+    
+        await userModel.del(userID);
+        res.redirect('/admin/editors');
+    });
 })
 
-router.get('/editors/assign', async function (req, res) {
+router.get('/editors/assign', checkAuthenticated,isAdmin, async function (req, res) {
 
     const userDetail = await userModel.findByID(req.query.id);
 
@@ -132,7 +135,7 @@ router.get('/editors/assign', async function (req, res) {
     });
 })
 
-router.post('/editors/assign', async function (req, res) {
+router.post('/editors/assign', checkAuthenticated,isAdmin, async function (req, res) {
    
     const editorID = req.query.id;
    
