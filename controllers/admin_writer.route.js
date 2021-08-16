@@ -2,12 +2,12 @@ const express = require('express');
 const moment = require('moment');
 const userModel = require('../models/user.model')
 const bcrypt = require('bcryptjs');
-
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
 
 const router = express.Router();
 
-router.get('/writers', async function (req, res) {
+router.get('/writers',checkAuthenticated,isAdmin, async function (req, res) {
 
     const writerList = await userModel.allWriter();
 
@@ -19,7 +19,7 @@ router.get('/writers', async function (req, res) {
     });
 })
 
-router.get('/writers/add', function (req, res) {
+router.get('/writers/add',checkAuthenticated,isAdmin, function (req, res) {
     res.render('vwAdmin/addUserWriter', {
         layout: 'admin.hbs',
         userMenuActive: true,
@@ -27,7 +27,7 @@ router.get('/writers/add', function (req, res) {
     });
 })
 
-router.post('/writers/add', async function (req, res) {
+router.post('/writers/add',checkAuthenticated,isAdmin, async function (req, res) {
 
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
@@ -37,7 +37,8 @@ router.post('/writers/add', async function (req, res) {
         name: req.body.name,
         email: req.body.email,
         birthday: req.body.birthday,
-        user_type: 1
+        user_type: 1,
+        is_active: true
     }
     
 
@@ -60,7 +61,7 @@ router.post('/writers/add', async function (req, res) {
     res.redirect('/admin/writers/add')
 })
 
-router.get('/writers/edit', async function (req, res) {
+router.get('/writers/edit',checkAuthenticated,isAdmin, async function (req, res) {
 
     const userDetail = await userModel.findByID(req.query.id);
 
@@ -80,7 +81,7 @@ router.get('/writers/edit', async function (req, res) {
     });
 })
 
-router.post('/writers/patch', async function (req, res) {
+router.post('/writers/patch',checkAuthenticated,isAdmin, async function (req, res) {
     console.log("writer patch");
 
     let updatedUser = {};
@@ -119,13 +120,16 @@ router.post('/writers/patch', async function (req, res) {
     res.redirect('/admin/writers');
 })
 
-router.post('/writers/del', async function (req, res) {
-    const userID = req.query.id;
-    const newID = 1; // ID admin default: 1
-    await userModel.delWriterArticle(userID, newID);
-    await userModel.delPenName(userID);
-    await userModel.del(userID);
-    res.redirect('/admin/writers');
+router.post('/writers/del', checkAuthenticated,isAdmin,async function (req, res) {
+    req.user.then(async(user) =>
+    {
+        const userID = req.query.id;
+        const newID = user.id; // ID admin default: 1
+        await userModel.delWriterArticle(userID, newID);
+        await userModel.delPenName(userID);
+        await userModel.del(userID);
+        res.redirect('/admin/writers');
+    });
 })
 
 module.exports = router;

@@ -2,12 +2,12 @@ const express = require('express');
 const moment = require('moment');
 const userModel = require('../models/user.model')
 const bcrypt = require('bcryptjs');
-
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
 
 const router = express.Router();
 
-router.get('/usersAdmin', async function (req, res) {
+router.get('/usersAdmin',checkAuthenticated,isAdmin,  async function (req, res) {
 
     const adminList = await userModel.allUserByType(3);
 
@@ -19,7 +19,7 @@ router.get('/usersAdmin', async function (req, res) {
     });
 })
 
-router.get('/usersAdmin/add', function (req, res) {
+router.get('/usersAdmin/add',checkAuthenticated,isAdmin,  function (req, res) {
     res.render('vwAdmin/addUserAdmin', {
         layout: 'admin.hbs',
         userMenuActive: true,
@@ -27,7 +27,7 @@ router.get('/usersAdmin/add', function (req, res) {
     });
 })
 
-router.post('/usersAdmin/add', function (req, res) {
+router.post('/usersAdmin/add',checkAuthenticated,isAdmin,  function (req, res) {
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
     const user = {
@@ -36,7 +36,8 @@ router.post('/usersAdmin/add', function (req, res) {
         name: req.body.name,
         email: req.body.email,
         birthday: req.body.birthday,
-        user_type: 3
+        user_type: 3,
+        is_active: true
     }
 
     userModel.addUser(user).then(
@@ -51,7 +52,7 @@ router.post('/usersAdmin/add', function (req, res) {
     res.redirect('/admin/usersAdmin/add');
 })
 
-router.get('/usersAdmin/edit', async function (req, res) {
+router.get('/usersAdmin/edit',checkAuthenticated,isAdmin,  async function (req, res) {
 
     const userDetail = await userModel.findByID(req.query.id);
 
@@ -68,7 +69,7 @@ router.get('/usersAdmin/edit', async function (req, res) {
     });
 })
 
-router.post('/usersAdmin/patch', async function (req, res) {
+router.post('/usersAdmin/patch',checkAuthenticated,isAdmin,  async function (req, res) {
     console.log("usersAdmin patch");
 
     let updatedUser = {};
@@ -97,7 +98,7 @@ router.post('/usersAdmin/patch', async function (req, res) {
     res.redirect('/admin/usersAdmin');
 })
 
-router.post('/usersAdmin/del', async function (req, res) {
+router.post('/usersAdmin/del',checkAuthenticated,isAdmin,  async function (req, res) {
     const userID = req.query.id;
     await userModel.del(userID);
     res.redirect('/admin/usersAdmin');

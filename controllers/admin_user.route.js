@@ -2,13 +2,13 @@ const express = require('express');
 const moment = require('moment');
 const userModel = require('../models/user.model')
 const bcrypt = require('bcryptjs');
-
+const {checkAuthenticated,isAdmin} = require('../models/user.model');
 
 
 const router = express.Router();
 
 
-router.get('/users', async function (req, res) {
+router.get('/users',checkAuthenticated,isAdmin, async function (req, res) {
 
     const userList = await userModel.allUserByType(0);
 
@@ -36,7 +36,7 @@ router.get('/users', async function (req, res) {
     });
 })
 
-router.get('/users/add', function (req, res) {
+router.get('/users/add',checkAuthenticated,isAdmin, function (req, res) {
 
     res.render('vwAdmin/addUser', {
         layout: 'admin.hbs',
@@ -45,7 +45,7 @@ router.get('/users/add', function (req, res) {
     });
 })
 
-router.post('/users/add', function (req, res) {
+router.post('/users/add',checkAuthenticated,isAdmin, function (req, res) {
 
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
@@ -55,12 +55,13 @@ router.post('/users/add', function (req, res) {
         name: req.body.name,
         email: req.body.email,
         birthday: req.body.birthday,
-        user_type: 0
+        user_type: 0,
+        is_active: true
     }
 
     userModel.addUser(user).then(
         () => {
-            console.log("success")
+            console.log("success");
         }
     ).catch((err) => {
         console.log(err);
@@ -70,7 +71,7 @@ router.post('/users/add', function (req, res) {
     res.redirect('/admin/users/add');
 })
 
-router.get('/is-username-available', async function (req, res) {
+router.get('/is-username-available',checkAuthenticated,isAdmin, async function (req, res) {
     const username = req.query.username;
     const user = await userModel.findByUsername(username);
     if (user === null) {
@@ -80,7 +81,7 @@ router.get('/is-username-available', async function (req, res) {
     res.json(false);
 })
 
-router.get('/users/edit', async function (req, res) {
+router.get('/users/edit',checkAuthenticated,isAdmin, async function (req, res) {
 
     const userDetail = await userModel.findByID(req.query.id);
 
@@ -111,7 +112,7 @@ router.get('/users/edit', async function (req, res) {
     });
 })
 
-router.post('/users/patch', async function (req, res) {
+router.post('/users/patch', checkAuthenticated,isAdmin,async function (req, res) {
     console.log("patch");
     console.log(req.body);
     let updatedUser = {};
@@ -140,13 +141,13 @@ router.post('/users/patch', async function (req, res) {
     res.redirect('/admin/users');
 })
 
-router.post('/users/del', async function (req, res) {
+router.post('/users/del',checkAuthenticated,isAdmin, async function (req, res) {
     const userID = req.query.id;
     await userModel.del(userID);
     res.redirect('/admin/users');
 })
 
-router.post('/users/extendSubcription', async function (req, res) {
+router.post('/users/extendSubcription',checkAuthenticated,isAdmin, async function (req, res) {
 
     const userID = req.query.id;
     const url = req.headers.referer || "/admin/users";
