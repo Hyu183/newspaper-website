@@ -35,7 +35,8 @@ router.post('/editors/add', function (req, res) {
         name: req.body.name,
         email: req.body.email,
         birthday: req.body.birthday,
-        user_type: 2
+        user_type: 2,
+        is_active: true
     }
 
     userModel.addUser(user).then(

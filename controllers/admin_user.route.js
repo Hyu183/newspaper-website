@@ -55,12 +55,13 @@ router.post('/users/add', function (req, res) {
         name: req.body.name,
         email: req.body.email,
         birthday: req.body.birthday,
-        user_type: 0
+        user_type: 0,
+        is_active: true
     }
 
     userModel.addUser(user).then(
         () => {
-            console.log("success")
+            console.log("success");
         }
     ).catch((err) => {
         console.log(err);
