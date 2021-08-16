@@ -8,6 +8,7 @@ const {addArticle, findArticleByAuthorID} = require('../models/posting.model');
 const categoryModel = require('../models/category.model');
 const multer = require('multer');
 const postingModel = require('../models/posting.model');
+const tagModel = require('../models/tag.model');
 const userModel = require('../models/user.model');
 const moment = require('moment');
 
@@ -117,6 +118,49 @@ router.get('/writer/published', function(req, res) {
         getArticles(id, 'Đã xuất bản', res);
     });
 })
+
+router.get('/editArticle/:id', async function(req, res) {
+    const id = req.params.id;
+    const article = await postingModel.findArticleByID2(id);
+    const tagList = await tagModel.findByArticleID(id);
+    const mainCategories = await categoryModel.allMainCategories();
+    const subCategories = await categoryModel.allSubCategories();
+
+    let tags = "";
+    tagList.forEach((tag, index) => {
+        tags += tag.tag_name;
+        if (index < tagList.length - 1)
+        {
+            tags += '|';
+        }
+    });
+
+    res.render('vwWriter/postingEdit.hbs', {
+        id: article.id,
+        title: article.title,
+        abstract: article.abstract,
+        thumbnail_image: article.thumbnail_image,
+        content: "",
+        mainCatID: article.parent_id,
+        subCatID: article.cat_id,
+        tags: tags,
+        mainCategories: mainCategories,
+        subCategories: subCategories
+    });
+});
+
+router.get('/getArticleContent/:id', async function(req, res){
+    const id = req.params.id;
+    console.log("here");
+    const article = await postingModel.findArticleByID2(id);
+    let content = article.content.replace(/(?:\r\n|\r|\n)/g, '');
+    console.log(content);
+    var response = {
+          content: content,
+          status: 'success'
+      };
+    res.send(response)
+  });
 
 router.get('/posting', async function(req, res) {
     const mainCategories = await categoryModel.allMainCategories();

@@ -44,6 +44,12 @@ router.get('/otp/:username', function(req, res) {
     res.render('vwUser/otp', {username: username});
 });
 
+router.get('/editArticle/:id', function(req, res) {
+    const id = req.params.id;
+    console.log(req.params.username);
+    res.render('vwUser/otp', {username: username});
+});
+
 router.post('/resentotp', async function(req, res) {
     const username = req.body.username;
     console.log(username);

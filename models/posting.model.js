@@ -132,6 +132,21 @@ module.exports = {
         return rows[0];
     },
 
+    async findArticleByID2(articleID){
+        const rows = await db({a: 'articles'})
+                            .join(db.select({cat_id:'c1.id'},{cat_title:'c1.title'},{parent_id:'c2.id'})
+                                    .from({c1:'category'})
+                                    .leftJoin({c2:'category'},'c1.parent_id','=','c2.id')
+                                    .as('c')
+                                    ,'c.cat_id','=','a.category_id'
+                                    )                            
+                            .where('a.id',articleID)
+        if(rows.length === 0){
+            return null;
+        }  
+        return rows[0];
+    },
+
     async findAuthorByArticleID(id){
         const rows = await db({a:'articles'})
                 .select('u.id','u.name')
