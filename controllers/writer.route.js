@@ -145,7 +145,8 @@ router.get('/editArticle/:id', async function(req, res) {
         subCatID: article.cat_id,
         tags: tags,
         mainCategories: mainCategories,
-        subCategories: subCategories
+        subCategories: subCategories,
+        disableEdit: postingModel.checkStatusArticle(article.is_approved, article.published_date)
     });
 });
 
