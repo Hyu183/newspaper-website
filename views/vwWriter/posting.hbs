@@ -23,6 +23,11 @@
             </div>
         </div>
 
+        <div class="containter border border-success text-center">
+            <img src="#" class="rounded mx-auto d-block" id=output alt="Thumbnail Preview">
+        </div>
+        <br>
+
         <label>Content</label>
         <textarea name="content" id="editor">
             
@@ -68,8 +73,18 @@
 <script>
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
-    var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        let output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+        const [file] = this.files;
+        console.log(this.files);
+        if (file) {
+            $("#output").src = URL.createObjectURL(file);
+        }
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>
 

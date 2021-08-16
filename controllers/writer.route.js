@@ -154,7 +154,6 @@ router.get('/getArticleContent/:id', async function(req, res){
     console.log("here");
     const article = await postingModel.findArticleByID2(id);
     let content = article.content.replace(/(?:\r\n|\r|\n)/g, '');
-    console.log(content);
     var response = {
           content: content,
           status: 'success'
