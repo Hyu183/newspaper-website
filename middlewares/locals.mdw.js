@@ -22,7 +22,6 @@ module.exports = function(app){
         res.locals.lcCategories = categories;
         res.locals.lcMainCategories = mainCategories;
         res.locals.currentUser = await req.user;
-        console.log(res.locals.currentUser)
         next();
     })
 }
