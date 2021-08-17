@@ -311,6 +311,7 @@ CREATE TABLE `articles`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `author_id`(`author_id`) USING BTREE,
   INDEX `category_id`(`category_id`) USING BTREE,
+  FULLTEXT KEY(title, abstract, content),
   CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `articles_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;

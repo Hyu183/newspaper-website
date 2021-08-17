@@ -230,39 +230,5 @@ router.post('/register', (req, res) => {
     })
 });
 
-// router.post('/register', async (req, res) => {
-//     let hashedPassword;
-//     try{
-//         hashedPassword = await bcrypt.hash(req.body.password, 10);
-//     } catch{
-//         res.redirect('/register');
-//     }   
-
-//     const generatedOTP = generateOTP();
-//     const user = {
-//         name: req.body.name,
-//         email: req.body.email,
-//         user_name: req.body.username,
-//         password: hashedPassword,
-//         birthday: req.body.birthdate.split("/").reverse().join("-"),
-//         user_type: 0,
-//         otp: generatedOTP,
-//     }
-
-//     addUser(user).then(
-//         () => {
-//             console.log("success");
-//             sendMail(user.email, user.name, 'News Registing Conformation Email', 
-//                 "This is your conformation email for registing at News", user.otp);
-//             res.render('vwUser/otp', {username: user.user_name});
-//             }
-//     ).catch( (err) =>
-//         {
-//             console.log(err);
-//             return;
-//         }        
-//     );
-// });
-
 
 module.exports = router;

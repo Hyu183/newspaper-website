@@ -185,6 +185,11 @@ module.exports = {
                 published_date: publish_date,
                 approved_date: approved_date});
     },
+    setPremium(articleID){
+        return db('articles')
+                .where('id',articleID)
+                .update('is_premium',1)
+    },
 
     addRejected(articleID,editorID,rejectReason,approved_date){
         return db('approval')            

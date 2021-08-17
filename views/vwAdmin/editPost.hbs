@@ -23,12 +23,12 @@
     $('#published_date').datetimepicker({
         format: 'd-m-Y H:i ',
         step: 5,
-        mask: true,        
+        mask: true,
     })
 
-   
-    $('#btn-save').on('click', function (e) {        
-        if($('#status').val() === "Chờ xuất bản"){
+
+    $('#btn-save').on('click', function (e) {
+        if ($('#status').val() === "Chờ xuất bản") {
             const publishDate = moment($('#modifiedPublished_date').val().trim(), "DD-MM-YYYY HH:mm", true);
             const today = moment();
             const diff = publishDate.diff(today);
@@ -38,8 +38,8 @@
             }
         }
 
-        
-        if($('#published_date').val() !== '__-__-____ __:__ ' && $('#published_date').val() !== undefined){
+
+        if ($('#published_date').val() !== '__-__-____ __:__ ' && $('#published_date').val() !== undefined) {
             const publishDate = moment($('#published_date').val().trim(), "DD-MM-YYYY HH:mm", true);
             const today = moment();
             const diff = publishDate.diff(today);
@@ -59,14 +59,15 @@
     $('#btn-publish').on('click', function (e) {
         e.preventDefault();
         $('#publishDate-placeholder').removeAttr('hidden');
+        $('#typeArt').removeAttr('hidden');
 
         $('#publish_date').focus();
-        
+
 
         //$('#publish_date').val(now);
         //$('#frmPublish').submit();
-        
-        
+
+
     })
 
 
@@ -100,7 +101,7 @@
                             </div>
                         </div>
                         {{#if editor}}
-                            
+
                         <div class="row">
                             <div class="form-group col-10">
                                 <label for="editor_name"><strong>Người duyệt</strong></label>
@@ -157,18 +158,26 @@
                         {{#if article.hasPublished_date}}
                         <div class="form-group">
                             <label for="modifiedPublished_date"><strong>Ngày xuất bản</strong></label>
-                            <input type="text" class="form-control" id="modifiedPublished_date" name="modifiedPublished_date"
-                                value="{{article.published_date}}" {{#unless article.canModifyDate}}disabled{{/unless}}>
+                            <input type="text" class="form-control" id="modifiedPublished_date"
+                                name="modifiedPublished_date" value="{{article.published_date}}" {{#unless
+                                article.canModifyDate}}disabled{{/unless}}>
                         </div>
                         {{/if}}
                         {{#if article.isDraft}}
-                            
+
                         <div class="form-group" id="publishDate-placeholder" hidden>
                             <label for="published_date"><strong>Ngày xuất bản</strong></label>
                             <input type="text" class="form-control" id="published_date" name="published_date">
                         </div>
+                        <div class="form-group" id="typeArt" hidden>
+                            <label for="isPremium"><strong>Loại bài</strong></label>
+                            <select class="form-control" id="isPremium" name="isPremium">
+                                <option value="0">Thường</option>
+                                <option value="1">Premium</option>
+                            </select>
+                        </div>
                         {{/if}}
-                        
+
 
                         <div class="row">
                             <div class="col-10  mt-3">
@@ -201,7 +210,7 @@
                             {{/if}}
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
         </div>

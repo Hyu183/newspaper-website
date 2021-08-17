@@ -34,6 +34,9 @@
     .what-cap{
       background-color: #f5f5f5 !important;
     }
+    a{
+      color: inherit;
+    }
   </style>
 {{/section}}
 {{#section "js"}}
@@ -57,7 +60,7 @@
             <div class="trend-top-img">
               <img src="{{top1Week.thumbnail_image}}" alt="">
               <div class="trend-top-cap">
-                <span>{{top1Week.category_name}}</span>
+                <span><a href="/categories/{{top1Week.category_id}}">{{top1Week.category_name}}</a></span>
                 <h2><a href="/articles/{{top1Week.id}}">{{top1Week.title}}</a></h2>
                 <p>{{formatTime top1Week.created_time}}</p>
               </div>
@@ -73,7 +76,7 @@
                       <img src="{{this.thumbnail_image}}" alt="">
                     </div>
                     <div class="trend-bottom-cap">
-                      <span class="color1">{{this.category_name}}</span>
+                      <span class="color1"><a href="/categories/{{category_id}}">{{this.category_name}}</a></span>
                       <h4><a href="/articles/{{this.id}}">{{this.title}}</a></h4>
                       <p>{{formatTime this.created_time}}</p>
                     </div>
@@ -95,7 +98,7 @@
                   <img src="{{thumbnail_image}}" width="140px" height="120px" alt="">
                 </div>
                 <div class="trand-right-cap">
-                  <span class="color1">{{category_name}}</span>
+                  <span class="color1"><a href="/categories/{{category_id}}">{{this.category_name}}</a></span>
                   <h4 class="mb-0"><a href="/articles/{{id}}">{{title}}</a></h4>
                   <p class="mb-0">{{formatTime created_time}}</p>
                 </div>
@@ -127,7 +130,7 @@
                   <img src="{{thumbnail_image}}" alt="">
                 </div>
                 <div class="weekly2-caption">
-                  <span class="color1">{{category_name}}</span>
+                  <span class="color1"><a href="/categories/{{category_id}}">{{this.category_name}}</a></span>
                   <p>{{timeFromNow created_time}}</p>
                   <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                 </div>
@@ -183,7 +186,7 @@
                                 <img src="{{thumbnail_image}}" alt="" width="450" height="270">
                               </div>
                               <div class="what-cap">
-                                <span class="color1">{{../name}}</span>
+                                <span class="color1"><a href="/categories/{{../id}}">{{../name}}</a></span>
                                 <p>{{timeFromNow created_time}}</p>
                                 <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                               </div>
@@ -205,7 +208,7 @@
                                 <img src="{{thumbnail_image}}" alt=""  width="450" height="270">
                               </div>
                               <div class="what-cap">
-                                <span class="color1">{{../name}}</span>
+                                <span class="color1"><a href="/categories/{{../id}}">{{../name}}</a></span>
                                 <p>{{timeFromNow created_time}}</p>
                                 <h4><a href="/articles/{{id}}">{{title}}</a></h4>
                               </div>
