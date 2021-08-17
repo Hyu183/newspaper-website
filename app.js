@@ -1,11 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-//const fileUpload = require('express-fileupload');
 const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
-
+const initializeFacebookPassport = require('./public/js/config/auth.facebook.js');
 
 
 
@@ -32,6 +31,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use('/module', express.static(path.join(__dirname, 'node_modules')))
+
+initializeFacebookPassport(passport);
 
 
 app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form gửi về

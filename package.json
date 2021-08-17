@@ -35,7 +35,10 @@
         "nodemailer": "^6.6.3",
         "nodemon": "^2.0.12",
         "passport": "^0.4.1",
-        "passport-local": "^1.0.0"
+        "passport-facebook": "^3.0.0",
+        "passport-google-oauth2": "^0.2.0",
+        "passport-local": "^1.0.0",
+        "request": "^2.88.2"
     },
     "bugs": {
         "url": "https://github.com/ttquang3010/Web-Project/issues"

@@ -3,12 +3,14 @@
 <!-- Include Bootstrap Datepicker -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
- 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
 <div class="container reg">
 
   <h1 class="text-center">Register</h1>
   <br>
-  <form class="form-reg" action="/user/register" method="POST" novalidate>
+  <form class="form-reg" id="form-reg" action="/user/register" method="POST" novalidate>
       <div class="form-group">
         <label for="exampleInputEmail1">Email</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
@@ -60,6 +62,11 @@
           You have to agree to continue.
         </div>
       </div>
+
+      <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="6Lc-5wgcAAAAAGSAF-r31dkyJiLP0G884UtYlpOm"</div>
+      </div>
+
       <button type="submit" class="btn btn-primary active btn-sm">Create Account</button>
 
       <hr style="width: 100%; height: 1px; background-color:gray;" />
@@ -69,13 +76,13 @@
 </div>
 
 <script>
-  (function() {
+  {{!-- (function() {
   'use strict';
   window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('form-reg');
+    let forms = document.getElementsByClassName('form-reg');
     // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
+    let validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
         if (form.checkValidity() === false) {
           event.preventDefault();
@@ -85,9 +92,48 @@
       }, false);
     });
     }, false);
-  })();
+  })(); --}}
 
   $('#birthdaypicker').datepicker({
         format: "dd/mm/yyyy"
     });
+</script>
+
+<script>
+  document.getElementById('form-reg').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.querySelector('#name').value;
+    const email = document.querySelector('#email').value;
+    const capcha = document.querySelector('#g-recaptcha-response').value;
+    const password = document.querySelector('#password').value;
+    const username = document.querySelector('#username').value;
+    const birthdate = document.querySelector('#birthdaypicker').value;
+    console.log(capcha);
+    fetch('/user/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        capcha: capcha,
+        password: password,
+        username: username,
+        birthdate: birthdate
+      })
+    }).then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.username){
+        const url =  "http://localhost:3000/user/otp/" + data.username;
+        console.log(url);
+        window.location.replace(url);
+      }
+      else{
+        alert(data.mgs);
+      }
+    })
+  })
 </script>

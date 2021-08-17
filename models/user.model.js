@@ -56,6 +56,10 @@ const updatePassword = (id, newPassword) => {
     return db('users').where('id', id).update({password: newPassword});  
 }
 
+const getUserGoogleByGoogleID = (googleID) => {
+    return db('UsersGoogle').where('googleID', googleID);
+};
+
 module.exports = {
     addUser,
     async findByUsername(username){
@@ -73,6 +77,7 @@ module.exports = {
          }
          return rows[0];
      },
+     getUserGoogleByGoogleID,
 
      checkAuthenticated,
      checkNotAuthenticated,

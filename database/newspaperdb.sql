@@ -806,4 +806,12 @@ INSERT INTO `users` VALUES (33, 'asdasdas', 'Trần Quang Huy', 'huytrquang1103@
 INSERT INTO `users` VALUES (34, 'admin', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-03', '$2a$10$O5MDZ1w67BiT/7JZ7XnqGOUTz9Z/tAVLr.aGp7UI9.3ZAhzc8TzF.', 3, NULL, '', 1);
 INSERT INTO `users` VALUES (35, 'editor', 'Trần Quang Huy', 'huytrquang1103@gmail.com', '2021-08-01', '$2a$10$ze1f9GVnMj3VXoC6NFWEw.bvuQ/v/m6lLcXYr1rBvJIja8PpXPzKm', 2, NULL, '', 1);
 
+
+create table UsersGoogle (
+	id int unsigned,
+    googleID varchar(40) not null,
+    primary key (googleID),
+    foreign key (id) references Users(id)
+);
+
 SET FOREIGN_KEY_CHECKS = 1;

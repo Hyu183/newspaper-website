@@ -3,12 +3,16 @@ const router = express.Router();
 const {addUser, checkNotAuthenticated, checkAuthenticated, updateSubdate} = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const initializePassport = require('../public/js/config/passport.config');
+const initializeGooglePassport = require('../public/js/config/auth.google.js');
+
+const request = require('request');
 const passport = require('passport');
 const moment = require('moment');
 const userModel = require('../models/user.model');
 const sendMail = require('../public/js/sendEmail.js');
 
-initializePassport(passport);
+//initializePassport(passport);
+initializeGooglePassport(passport);
 
 const generateOTP = () => {
     const digits = '0123456789';
@@ -31,6 +35,24 @@ router.get('/userInfo', checkAuthenticated,function(req, res) {
         });
     })
 });
+
+
+router.get("/auth/google", passport.authenticate("google", {
+    scope: ["profile", "email"]
+}));
+
+router.get("/google/callback", passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/user/login'
+    })
+);
+
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/user/sign_in' }));
 
 
 router.get('/sign_in', checkNotAuthenticated, function(req, res) {
@@ -155,39 +177,92 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }))
 
-router.post('/register', async (req, res) => {
-    let hashedPassword;
-    try{
-        hashedPassword = await bcrypt.hash(req.body.password, 10);
-    } catch{
-        res.redirect('/register');
-    }   
-
-    const generatedOTP = generateOTP();
-    const user = {
-        name: req.body.name,
-        email: req.body.email,
-        user_name: req.body.username,
-        password: hashedPassword,
-        birthday: req.body.birthdate.split("/").reverse().join("-"),
-        user_type: 0,
-        otp: generatedOTP,
+router.post('/register', (req, res) => {
+    if (
+        req.body.capcha === undefined ||
+        req.body.capcha === '' ||
+        req.body.capcha === null
+    )
+    {
+        return res.json({"success" : false, "mgs": "Please check the Capcha!"});
     }
+    const secretKey = '6Lc-5wgcAAAAAM2u5M7P-r2RbIJtm3keKDRYg2PJ';
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.capcha}
+    &remoteip=${req.socket.remoteAddress}`;
 
-    addUser(user).then(
-        () => {
-            console.log("success");
-            sendMail(user.email, user.name, 'News Registing Conformation Email', 
-                "This is your conformation email for registing at News", user.otp);
-            res.render('vwUser/otp', {username: user.user_name});
-            }
-    ).catch( (err) =>
-        {
-            console.log(err);
-            return;
-        }        
-    );
+    request(verifyUrl, async (err, response, body) => {
+        body = JSON.parse(body);
+        
+        if (body.success !== undefined && !body.success){
+            return res.json({"success" : false, "mgs": "Fail Capcha verification"});
+        }
+        let hashedPassword;
+        try{
+            hashedPassword = await bcrypt.hash(req.body.password, 10);
+        } catch{
+            res.redirect('/register');
+        }   
+
+        const generatedOTP = generateOTP();
+        const user = {
+            name: req.body.name,
+            email: req.body.email,
+            user_name: req.body.username,
+            password: hashedPassword,
+            birthday: req.body.birthdate.split("/").reverse().join("-"),
+            user_type: 0,
+            otp: generatedOTP,
+        }
+
+        addUser(user).then(
+            () => {
+                    console.log("success registing user");
+                    sendMail(user.email, user.name, 'News Registing Conformation Email', 
+                        "This is your conformation email for registing at News", user.otp);
+                    return res.json({"success" : true, "mgs": "Success", "username": user.user_name});
+                }
+        ).catch( (err) =>
+            {
+                console.log(err);
+                return res.json({"success" : true, "mgs": "Error on server side"});
+            }        
+        );
+    })
 });
+
+// router.post('/register', async (req, res) => {
+//     let hashedPassword;
+//     try{
+//         hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     } catch{
+//         res.redirect('/register');
+//     }   
+
+//     const generatedOTP = generateOTP();
+//     const user = {
+//         name: req.body.name,
+//         email: req.body.email,
+//         user_name: req.body.username,
+//         password: hashedPassword,
+//         birthday: req.body.birthdate.split("/").reverse().join("-"),
+//         user_type: 0,
+//         otp: generatedOTP,
+//     }
+
+//     addUser(user).then(
+//         () => {
+//             console.log("success");
+//             sendMail(user.email, user.name, 'News Registing Conformation Email', 
+//                 "This is your conformation email for registing at News", user.otp);
+//             res.render('vwUser/otp', {username: user.user_name});
+//             }
+//     ).catch( (err) =>
+//         {
+//             console.log(err);
+//             return;
+//         }        
+//     );
+// });
 
 
 module.exports = router;
