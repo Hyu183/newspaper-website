@@ -104,6 +104,19 @@ router.post('/otpConfirmPassword', async (req, res) => {
     };
 });
 
+router.post('/changeInfo', (req, res) => {
+    req.user.then((user) => {
+        let newUser = user;
+        newUser['name'] = req.body.name;
+        newUser['email'] = req.body.email;
+        newUser['birthday'] = req.body.birthdate.split("/").reverse().join("-");
+        console.log(newUser);
+        userModel.patch(newUser).then(() => {
+            res.render('vwUser/waiting', {message: "Your info has been changed!"});
+        });
+    });
+});
+
 router.post('/subscribe', function(req, res) {
     req.user.then((user) => {
         const currSub = user.subcription_due_date;
