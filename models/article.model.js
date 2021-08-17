@@ -6,8 +6,8 @@ module.exports = {
   },
 
   async findByID(id){
-    const sqlArticle = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    where a.id = ${id} and a.category_id = c.id and ap.article_id = a.id;`
+    const sqlArticle = `SELECT a.*, c.title as category_name, r.pen_name as author_name FROM articles a, category c, approval ap, reporters r
+    where a.id = ${id} and a.category_id = c.id and ap.article_id = a.id and r.user_id = a.author_id;`
     const rsArticle = await db.raw(sqlArticle);
     if(!rsArticle[0][0]) return null;
     const article = rsArticle[0][0];
