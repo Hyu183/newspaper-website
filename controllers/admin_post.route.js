@@ -75,7 +75,7 @@ router.get('/posts/edit',checkAuthenticated,isAdmin,async function (req, res) {
 router.post('/posts/patch',async function (req, res) {
     req.user.then(async(user) =>
     {
-
+        
         const articleID = req.query.id;
         //console.log(req.body);
     
@@ -119,6 +119,9 @@ router.post('/posts/patch',async function (req, res) {
             const publish_date = moment(req.body.published_date.trim(),"DD-MM-YYYY HH:mm",true).format("YYYY-MM-DD HH:mm:ss");        
             const approved_date = moment().format("YYYY-MM-DD HH:mm:ss"); 
             await postingModel.addApproval(articleID,editorID,publish_date,approved_date);
+            if(+req.body.isPremium === 1){
+                await postingModel.setPremium(articleID);
+            }
             console.log("add approval successfully");
         }    
         

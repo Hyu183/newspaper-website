@@ -139,7 +139,7 @@ router.post('/editor/approve', function (req, res) {
     req.user.then(async (user)=>{   
         const editorID = user.id;    
         const articleID = req.query.id || 0;
-    
+        
         if(articleID !== 0){
 
             //patch category
@@ -174,7 +174,10 @@ router.post('/editor/approve', function (req, res) {
             const approved_date = moment().format("YYYY-MM-DD HH:mm:ss"); 
             await postingModel.addApproval(articleID,editorID,publish_date,approved_date);
             console.log("add approval successfully");
-    
+            if(+req.body.isPremium === 1){
+                await postingModel.setPremium(articleID);
+            }
+
             res.redirect('/editorPostList');
         }
         else{
