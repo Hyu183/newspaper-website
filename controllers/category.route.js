@@ -3,6 +3,7 @@ const categoryModel = require('../models/category.model');
 const articleModel = require('../models/article.model');
 const router = express.Router();
 const moment = require('moment');
+const tagModel = require('../models/tag.model');
 moment.updateLocale('en', {
   relativeTime : {
       future: "trong %s",
@@ -29,8 +30,6 @@ router.get('/getCategoryData', async function(req, res) {
     const list = await categoryModel.all();
     console.log(list);
 })
-
-
 
 router.get('/about', function(req, res) {
     res.render('vwCategories/about');
@@ -60,6 +59,101 @@ router.post('/add', function(req, res) {
 
 })
 
+router.get('/tags/:id', async function (req, res) {
+  const tagID = +req.params.id || 0;
+
+  const tag = await tagModel.findByID(tagID)
+  if(!tag){
+    res.redirect('/');
+  }
+
+  const limit = 6;
+  let page = req.query.page || 1;
+  if (page < 1) page = 1;
+
+  const total = await articleModel.countByTagID(tagID);
+  let nPages = Math.floor(total / limit);
+  if (total % limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrent: i === +page
+    });
+  }
+
+  const offset = (page - 1) * limit;
+  const list = await articleModel.findByTagID(tagID, offset);
+  await Promise.all(list.map(async (a) => {
+    const rs = await articleModel.getArticleTags(a.id);
+    a.tags = rs;
+  }))
+
+  res.render('vwCategories/byTag', {
+    tag,
+    articles: list,
+    empty: list.length === 0,
+    page_numbers
+  });
+});
+
+router.get('/categories/:id', async function (req, res) {
+  const catID = +req.params.id || 0;
+
+  const category = await categoryModel.findByID(catID);
+  if(!category){
+    res.redirect('/');
+  }
+
+  const limit = 6;
+  let page = req.query.page || 1;
+  if (page < 1) page = 1;
+
+  const total = category.parent_id? await articleModel.countByCatID(catID)
+                                : await articleModel.countByCatParentID(catID);
+  let nPages = Math.floor(total / limit);
+  if (total % limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrent: i === +page
+    });
+  }
+
+  const offset = (page - 1) * limit;
+  const list = category.parent_id? await articleModel.findByCatID(catID, offset, limit)
+                                :await articleModel.findByCatParentID(catID, offset, limit);
+  await Promise.all(list.map(async (a) => {
+    const rs = await articleModel.getArticleTags(a.id);
+    a.tags = rs;
+  }))
+  console.log(total, list)
+  res.render('vwCategories/byCat', {
+    category,
+    articles: list,
+    empty: list.length === 0,
+    page_numbers
+  });
+});
+
+router.get('/search', async function (req, res) {
+  const keyword = req.query.keyword;
+  const list = await articleModel.search(keyword);
+  await Promise.all(list.map(async (a) => {
+    const rs = await articleModel.getArticleTags(a.id);
+    a.tags = rs;
+  }))
+
+  console.log(res.locals.lcMainCategories[0].subCat);
+  res.render('vwCategories/search', {
+    keyword,
+    articles: list,
+    empty: list.length === 0,
+  });
+});
 
 
 
