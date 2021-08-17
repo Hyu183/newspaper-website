@@ -73,54 +73,58 @@ router.get('/posts/edit',checkAuthenticated,isAdmin,async function (req, res) {
 });
 
 router.post('/posts/patch',checkAuthenticated,isAdmin,async function (req, res) {
-    const articleID = req.query.id;
-    //console.log(req.body);
+    req.user.then(async(user) =>
+    {
 
-    //patch category
-    if(req.body.category !== '-1'){       
-        await postingModel.patchCategory(articleID,req.body.category);
-    }
-
-    //add tag -add_tag
-    let tagList = req.body.add_tag;
-    if (tagList){
-        tagList = tagList.split('|');
-    }
-    else
-        tagList = [];
-    //console.log("taglist", tagList);    
-    postingModel.addTagList(tagList, articleID);
-
-    //remove tag - delTagList
-    if(req.body.delTagList !== undefined){
-        if(typeof(req.body.delTagList) === 'string'){
-            let deleteList  = []
-            deleteList.push(req.body.delTagList);
-            await tagModel.delTagArticles(articleID,deleteList);
-        }        
-        else{
-            await tagModel.delTagArticles(articleID,req.body.delTagList);
-        }
-    }
-
-    //patch publish_date
-    if(req.body.modifiedPublished_date !== undefined ){
-        const updatedDate = moment(req.body.modifiedPublished_date.trim(),"DD-MM-YYYY HH:mm",true).format("YYYY-MM-DD HH:mm:ss");
-        await postingModel.patchPublishDate(articleID, updatedDate);
-        console.log("modify publish_date successfully");
-    }
-
-    //publish article
-    if(req.body.published_date !== undefined &&  req.body.published_date !== '__-__-____ __:__ '){
-        const editorID = 1;//replace with current adminID
-        const publish_date = moment(req.body.published_date.trim(),"DD-MM-YYYY HH:mm",true).format("YYYY-MM-DD HH:mm:ss");        
-        const approved_date = moment().format("YYYY-MM-DD HH:mm:ss"); 
-        await postingModel.addApproval(articleID,editorID,publish_date,approved_date);
-        console.log("add approval successfully");
-    }    
+        const articleID = req.query.id;
+        //console.log(req.body);
     
-
-    res.redirect('/admin/posts')
+        //patch category
+        if(req.body.category !== '-1'){       
+            await postingModel.patchCategory(articleID,req.body.category);
+        }
+    
+        //add tag -add_tag
+        let tagList = req.body.add_tag;
+        if (tagList){
+            tagList = tagList.split('|');
+        }
+        else
+            tagList = [];
+        //console.log("taglist", tagList);    
+        postingModel.addTagList(tagList, articleID);
+    
+        //remove tag - delTagList
+        if(req.body.delTagList !== undefined){
+            if(typeof(req.body.delTagList) === 'string'){
+                let deleteList  = []
+                deleteList.push(req.body.delTagList);
+                await tagModel.delTagArticles(articleID,deleteList);
+            }        
+            else{
+                await tagModel.delTagArticles(articleID,req.body.delTagList);
+            }
+        }
+    
+        //patch publish_date
+        if(req.body.modifiedPublished_date !== undefined ){
+            const updatedDate = moment(req.body.modifiedPublished_date.trim(),"DD-MM-YYYY HH:mm",true).format("YYYY-MM-DD HH:mm:ss");
+            await postingModel.patchPublishDate(articleID, updatedDate);
+            console.log("modify publish_date successfully");
+        }
+    
+        //publish article
+        if(req.body.published_date !== undefined &&  req.body.published_date !== '__-__-____ __:__ '){
+            const editorID = user.id;//1;//replace with current adminID
+            const publish_date = moment(req.body.published_date.trim(),"DD-MM-YYYY HH:mm",true).format("YYYY-MM-DD HH:mm:ss");        
+            const approved_date = moment().format("YYYY-MM-DD HH:mm:ss"); 
+            await postingModel.addApproval(articleID,editorID,publish_date,approved_date);
+            console.log("add approval successfully");
+        }    
+        
+    
+        res.redirect('/admin/posts');
+    });
 
 });
 
