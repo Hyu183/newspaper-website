@@ -104,6 +104,11 @@ router.post('/otpConfirmPassword', async (req, res) => {
     };
 });
 
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
 router.post('/changeInfo', (req, res) => {
     req.user.then((user) => {
         let newUser = user;
