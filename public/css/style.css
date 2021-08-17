@@ -2627,7 +2627,7 @@ hr {
     border: none;
     color: #646363;
     cursor: pointer;
-    top: 2px
+    top: 0px;
 }
 
 .header-area .header-right-btn:hover .search-box {
@@ -3912,7 +3912,7 @@ hr {
     font-size: 15px;
     text-align: center;
     background: none;
-    padding: 0 10px;
+    padding: 5px 15px;
     box-shadow: none;
     outline: 0
 }
@@ -3934,12 +3934,12 @@ hr {
 .pagination-area .page-item.active .page-link::before {
     position: absolute;
     content: "";
-    width: 38px;
+    width: 33px;
     height: 3px;
     background: #fc3f00;
     top: -50px;
-    top: -24px;
-    left: 0
+    top: -10px;
+    left: 3px;
 }
 
 .pagination-area .page-item.active .page-link:hover {
