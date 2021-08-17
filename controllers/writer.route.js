@@ -135,6 +135,13 @@ router.get('/editArticle/:id', async function(req, res) {
         }
     });
 
+    const status = postingModel.checkStatusArticle(article.is_approved, article.published_date);
+    let disableEdit = true;
+    if (status === "Bị từ chối" || status === "Chưa duyệt")
+    {
+        disableEdit = false;
+    }
+
     res.render('vwWriter/postingEdit.hbs', {
         id: article.id,
         title: article.title,
@@ -146,7 +153,7 @@ router.get('/editArticle/:id', async function(req, res) {
         tags: tags,
         mainCategories: mainCategories,
         subCategories: subCategories,
-        disableEdit: postingModel.checkStatusArticle(article.is_approved, article.published_date)
+        disableEdit: disableEdit
     });
 });
 

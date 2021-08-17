@@ -44,6 +44,16 @@ router.get('/otp/:username', function(req, res) {
     res.render('vwUser/otp', {username: username});
 });
 
+router.get('/otppassword', function(req, res) {
+    req.user.then((user) => {
+        const username = user.user_name;
+        console.log('usermail', user);
+        sendMail(user.email, user.name, 'News Changing Password OTP Email', 
+            "You have requested a password change at News", user.otp);
+        res.render('vwUser/otpPassword', {username: username});
+    })
+});
+
 router.get('/editArticle/:id', function(req, res) {
     const id = req.params.id;
     console.log(req.params.username);
@@ -71,6 +81,26 @@ router.post('/otpConfirm', async (req, res) => {
         userModel.activateUser(user.id).then(() => res.render('vwUser/waiting', {message: "Your account is activated!"}));
     } else {
         res.render('vwUser/otp', {message: "Wrong OTP code!", username: username});
+    };
+});
+
+router.post('/otpConfirmPassword', async (req, res) => {
+    const currOTP = req.body.otp;
+    const username = req.body.username;
+    const password = req.body.password;
+    const passwordRepeat = req.body.password_repeat;
+    console.log(password, passwordRepeat);
+    const user = await userModel.findByUsername(username);
+    if (currOTP === user.otp){
+        if (password === passwordRepeat){
+            const hashedPassword = await bcrypt.hash(password, 10);
+            userModel.updatePassword(user.id, hashedPassword).then(() => res.render('vwUser/waiting', {message: "Your password has been changed!"}));
+        }
+        else {
+            res.render('vwUser/otpPassword', {message: "Password repeat need to be the same as Password.", username: username});
+        }
+    } else {
+        res.render('vwUser/otpPassword', {message: "Wrong OTP code!", username: username});
     };
 });
 
