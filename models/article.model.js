@@ -6,8 +6,10 @@ module.exports = {
   },
 
   async findByID(id){
-    const sqlArticle = `SELECT a.*, c.title as category_name, r.pen_name as author_name FROM articles a, category c, approval ap, reporters r
-    where a.id = ${id} and a.category_id = c.id and ap.article_id = a.id and r.user_id = a.author_id;`
+    const sqlArticle = `SELECT a.*, c.title as category_name, r.pen_name as author_name 
+    FROM articles a, category c, approval ap, reporters r
+    where a.id = ${id} and a.category_id = c.id and ap.article_id = a.id 
+          and r.user_id = a.author_id and ap.is_approved=1;`
     const rsArticle = await db.raw(sqlArticle);
     if(!rsArticle[0][0]) return null;
     const article = rsArticle[0][0];
@@ -28,7 +30,7 @@ module.exports = {
   async getTopWeek(){
     const time = moment().subtract(7, 'days').format('YYYY/MM/DD');
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    WHERE created_time > '${time}' and a.category_id = c.id and ap.article_id = a.id
+    WHERE created_time > '${time}' and a.category_id = c.id and ap.article_id = a.id and ap.is_approved=1
     order by view_number desc
     limit 4`
     const rs = await db.raw(sql);
@@ -36,7 +38,7 @@ module.exports = {
   },
   async getTopViews(){
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    WHERE a.category_id = c.id and ap.article_id = a.id
+    WHERE a.category_id = c.id and ap.article_id = a.id and ap.is_approved=1
     order by view_number desc
     limit 10`
     const rs = await db.raw(sql);
@@ -44,7 +46,7 @@ module.exports = {
   },
   async getMostRecent(){
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    WHERE a.category_id = c.id and ap.article_id = a.id
+    WHERE a.category_id = c.id and ap.article_id = a.id and ap.is_approved=1
     order by created_time desc
     limit 10`
     const rs = await db.raw(sql);
@@ -52,7 +54,7 @@ module.exports = {
   },
   async getTop10Cats(){
     const sql = `SELECT a.category_id as id, c.title as name FROM articles a, category c, approval ap
-    WHERE a.category_id = c.id and ap.article_id = a.id
+    WHERE a.category_id = c.id and ap.article_id = a.id and ap.is_approved=1
     group by category_id, c.title
     order by count(a.id) desc
     limit 10`
@@ -61,7 +63,7 @@ module.exports = {
   },
   async getArticleOfTop10Cats(top10Cats){
     const sql = (catID) => `SELECT a.id, a.title, a.created_time, a.thumbnail_image FROM articles a, approval ap
-    WHERE a.category_id = ${catID} and ap.article_id = a.id
+    WHERE a.category_id = ${catID} and ap.article_id = a.id and ap.is_approved=1
     order by created_time desc
     limit 4`
     await Promise.all(top10Cats.map(async (cat) => {
@@ -73,7 +75,7 @@ module.exports = {
 
   async getRandomArticlesFromCategory(catID, limit=5){
     const sql = `SELECT a.* FROM articles a, approval ap
-    where category_id = ${catID} and ap.article_id = a.id
+    where category_id = ${catID} and ap.article_id = a.id and ap.is_approved=1
     ORDER BY RAND()
     LIMIT ${limit}`
     const rs = await db.raw(sql);
@@ -93,7 +95,7 @@ module.exports = {
 
   async findByCatID(catId, offset, limit) {
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    where a.category_id = c.id and c.id = ${catId} and ap.article_id = a.id
+    where a.category_id = c.id and c.id = ${catId} and ap.article_id = a.id and ap.is_approved=1
     limit ${limit} offset ${offset}`;
     const rs = await db.raw(sql);
     return rs[0] || [];
@@ -101,14 +103,15 @@ module.exports = {
 
   async findByCatParentID(catId) {
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c , approval ap
-    where a.category_id = c.id and c.parent_id = ${catId}  and ap.article_id = a.id`
+    where a.category_id = c.id and c.parent_id = ${catId}  and ap.article_id = a.id and ap.is_approved=1`
     const rs = await db.raw(sql);
     return rs[0] || [];
   },
   
   async findByTagID(tagId, offset) {
     const sql = `SELECT a.*, c.title as category_name FROM articles a, article_tags at, category c, approval ap
-    where at.article_id = a.id and at.tag_id = ${tagId} and c.id = a.category_id and ap.article_id = a.id
+    where at.article_id = a.id and at.tag_id = ${tagId} 
+        and c.id = a.category_id and ap.article_id = a.id and ap.is_approved=1
     limit 6 offset ${offset}`;
     const rs = await db.raw(sql);
     return rs[0] || [];
@@ -124,22 +127,22 @@ module.exports = {
 
   async countByCatParentID(catId) {
     const sql = `SELECT COUNT(*) as total FROM articles a, category c, approval ap
-    where a.category_id = c.id and c.parent_id = ${catId} and ap.article_id = a.id`
+    where a.category_id = c.id and c.parent_id = ${catId} and ap.article_id = a.id and ap.is_approved=1`
     const rs = await db.raw(sql);
     return rs[0][0].total;
   },
 
   async countByTagID(tagId) {
-    const rows = await db('article_tags')
-      .where('tag_id', tagId)
-      .count('*', { as: 'total' });
-
-    return rows[0].total;
+    const sql=`SELECT COUNT(*) as total FROM  article_tags ats, approval ap
+    where ats.tag_id = ${tagId} and ap.article_id=ats.article_id and ap.is_approved=1`;
+    const rs = await db.raw(sql);
+    return rs[0][0].total;
   },
 
   async search(kw){
     const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
-    where match(a.title, a.abstract, a.content) against('${kw}') and a.category_id=c.id and ap.article_id = a.id;`
+    where match(a.title, a.abstract, a.content) against('${kw}') 
+    and a.category_id=c.id and ap.article_id = a.id and ap.is_approved=1;`
     const rs = await db.raw(sql);
     return rs[0] || [];
   }
