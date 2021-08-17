@@ -52,6 +52,10 @@ const activateUser = (id) => {
     return db('users').where('id', id).update({is_active: true});  
 };
 
+const updatePassword = (id, newPassword) => {
+    return db('users').where('id', id).update({password: newPassword});  
+}
+
 module.exports = {
     addUser,
     async findByUsername(username){
@@ -76,6 +80,7 @@ module.exports = {
      activateUser,
      isAdmin,
      isEditor,
+     updatePassword,
     async findByID(id){
         const rows = await db('users')
                             .select('id','user_name','name','email','birthday','subcription_due_date')

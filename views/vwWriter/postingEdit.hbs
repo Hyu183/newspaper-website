@@ -3,16 +3,17 @@
 
 
 <div class="container posting my-5">
-    <h1 class="text-center">Write new article</h1>
+    <h1 class="text-center">Edit article</h1>
+    <h5 class="text-center text-danger">Article cannot be edited because it has been reviewed or published</h5>
     <form action="/post_article" method="post" encType="multipart/form-data">
         <div class="form-group">
             <label for="title">Article title</label>
-            <input type="text" class="form-control" name="title" id="artical-title" aria-describedby="Title" placeholder="Title" value="{{title}}">
+            <input type="text" {{#if disableEdit}}disabled{{/if}} class="form-control" name="title" id="artical-title" aria-describedby="Title" placeholder="Title" value="{{title}}">
         </div>
 
         <div class="form-group">
             <label for="abstract">Abstract</label>
-            <textarea class="form-control" name="abstract" id="abstract" >{{abstract}}</textarea>
+            <textarea class="form-control" {{#if disableEdit}}disabled{{/if}}  name="abstract" id="abstract" >{{abstract}}</textarea>
         </div>
 
         <div class="input-group mb-3">
@@ -20,7 +21,7 @@
                 <span class="input-group-text">Thumbnail</span>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="thumbnail_image"  value="{{thumbnail_image}}" id="thumbnail_image" accept="image/*"/>
+                <input type="file" {{#if disableEdit}}disabled{{/if}} class="custom-file-input" name="thumbnail_image"  value="{{thumbnail_image}}" id="thumbnail_image" accept="image/*"/>
                 <label class="custom-file-label" for="thumbnail_image">{{thumbnail_image}}</label>
             </div>
         </div>
@@ -30,19 +31,19 @@
         <br>
 
         <label>Content</label>
-        <textarea name="content" id="editor">
+        <textarea name="content" id="editor"  {{#if disableEdit}}disabled{{/if}}>
             
         </textarea>
 
         <br>
         <label for="category">Select category</label>
-        <select class="form-control" id="main_categoryList" name="main_category_id">
+        <select class="form-control" id="main_categoryList" name="main_category_id"  {{#if disableEdit}}disabled{{/if}} >
             {{#each this.mainCategories}}
                 <option value={{id}}>{{title}}</option>
             {{/each}}
         </select>
 
-        <select class="form-control" id="subcategoryList" name="category_id">
+        <select class="form-control" id="subcategoryList" name="category_id"  {{#if disableEdit}}disabled{{/if}}>
             <option value=-1 class="default">--Please choose subcategory--</option>
             {{#each this.subCategories}}
                 <option value={{id}} class="parent-{{parent_id}} subcategory">{{title}} </option>
@@ -51,7 +52,7 @@
 
         <div class="form-group">
             <label for="tag">Tags</label>
-            <textarea class="form-control" name="tag" id="tag" rows="2">{{tags}}</textarea>
+            <textarea class="form-control" name="tag" {{#if disableEdit}}disabled{{/if}} id="tag" rows="2">{{tags}}</textarea>
         </div>
 
         <br>
