@@ -22,7 +22,7 @@ router.get('/tags/add',checkAuthenticated,isAdmin, async function (req, res) {
 
     });
 })
-router.post('/tags/add',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/tags/add', async function (req, res) {
 
     const tag = req.body.tag_name;
     await tagModel.add(tag);
@@ -56,7 +56,7 @@ router.get('/tags/edit',checkAuthenticated,isAdmin, async function (req, res) {
     });
 })
 
-router.post('/tags/patch',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/tags/patch', async function (req, res) {
 
     const updatedTag = {
         id: req.query.id,
@@ -68,7 +68,7 @@ router.post('/tags/patch',checkAuthenticated,isAdmin, async function (req, res) 
     res.redirect('/admin');
 })
 
-router.post('/tags/del',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/tags/del', async function (req, res) {
 
     await tagModel.del(req.query.id);
 

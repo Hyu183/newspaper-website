@@ -55,7 +55,7 @@ router.get('/editorRejectedList',checkAuthenticated,isEditor,  function (req, re
     });
 
 })
-router.post('/editorRejectedList/rejectReason',checkAuthenticated,isEditor, async function (req, res) {
+router.post('/editorRejectedList/rejectReason', async function (req, res) {
    
     const rejectReason = req.body;
     const authorName = (await userModel.findByID(rejectReason.author_id)).name;
@@ -134,7 +134,7 @@ router.get('/editor', checkAuthenticated,isEditor, function (req, res) {
 })
 
 
-router.post('/editor/approve',checkAuthenticated,isEditor, function (req, res) {
+router.post('/editor/approve', function (req, res) {
             
     req.user.then(async (user)=>{   
         const editorID = user.id;    
@@ -184,7 +184,7 @@ router.post('/editor/approve',checkAuthenticated,isEditor, function (req, res) {
     
 })
 
-router.post('/editor/reject',checkAuthenticated,isEditor, function (req, res) {
+router.post('/editor/reject', function (req, res) {
            
     req.user.then(async (user)=>{  
         const editorID =  user.id;

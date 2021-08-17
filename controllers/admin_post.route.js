@@ -72,7 +72,7 @@ router.get('/posts/edit',checkAuthenticated,isAdmin,async function (req, res) {
 
 });
 
-router.post('/posts/patch',checkAuthenticated,isAdmin,async function (req, res) {
+router.post('/posts/patch',async function (req, res) {
     req.user.then(async(user) =>
     {
 
@@ -128,7 +128,7 @@ router.post('/posts/patch',checkAuthenticated,isAdmin,async function (req, res) 
 
 });
 
-router.post('/posts/del',checkAuthenticated,isAdmin,async function (req, res) {
+router.post('/posts/del',async function (req, res) {
     const articleID = req.query.id;
     console.log(articleID);   
     await postingModel.delArticle(articleID); 

@@ -27,7 +27,7 @@ router.get('/usersAdmin/add',checkAuthenticated,isAdmin,  function (req, res) {
     });
 })
 
-router.post('/usersAdmin/add',checkAuthenticated,isAdmin,  function (req, res) {
+router.post('/usersAdmin/add',  function (req, res) {
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
     const user = {
@@ -69,7 +69,7 @@ router.get('/usersAdmin/edit',checkAuthenticated,isAdmin,  async function (req, 
     });
 })
 
-router.post('/usersAdmin/patch',checkAuthenticated,isAdmin,  async function (req, res) {
+router.post('/usersAdmin/patch',  async function (req, res) {
     console.log("usersAdmin patch");
 
     let updatedUser = {};
@@ -98,7 +98,7 @@ router.post('/usersAdmin/patch',checkAuthenticated,isAdmin,  async function (req
     res.redirect('/admin/usersAdmin');
 })
 
-router.post('/usersAdmin/del',checkAuthenticated,isAdmin,  async function (req, res) {
+router.post('/usersAdmin/del',  async function (req, res) {
     const userID = req.query.id;
     await userModel.del(userID);
     res.redirect('/admin/usersAdmin');

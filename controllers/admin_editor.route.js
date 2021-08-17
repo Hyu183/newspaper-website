@@ -26,7 +26,7 @@ router.get('/editors/add',checkAuthenticated,isAdmin, function (req, res) {
         editorActive: true
     });
 })
-router.post('/editors/add',checkAuthenticated,isAdmin, function (req, res) {
+router.post('/editors/add', function (req, res) {
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
     const user = {
@@ -71,7 +71,7 @@ router.get('/editors/edit',checkAuthenticated,isAdmin, async function (req, res)
     });
 })
 
-router.post('/editors/patch',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/editors/patch', async function (req, res) {
     console.log("editor patch");
 
     let updatedUser = {};
@@ -100,7 +100,7 @@ router.post('/editors/patch',checkAuthenticated,isAdmin, async function (req, re
     res.redirect('/admin/editors');
 })
 
-router.post('/editors/del', checkAuthenticated,isAdmin,async function (req, res) {
+router.post('/editors/del',async function (req, res) {
     req.user.then(async(user) =>
     {
         const userID = req.query.id;
@@ -135,7 +135,7 @@ router.get('/editors/assign', checkAuthenticated,isAdmin, async function (req, r
     });
 })
 
-router.post('/editors/assign', checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/editors/assign',  async function (req, res) {
    
     const editorID = req.query.id;
    

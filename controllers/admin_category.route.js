@@ -32,7 +32,7 @@ router.get('/is-category-available',checkAuthenticated,isAdmin, async function (
     res.json(!titles.includes(title.toLowerCase()));
 })
 
-router.post('/categories/add',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/categories/add', async function (req, res) {
     const new_category = req.body;
     await categoryModel.add(new_category);
     
@@ -59,7 +59,7 @@ router.get('/categories/edit',checkAuthenticated,isAdmin, async function (req, r
     });
 })
 
-router.post('/categories/patch',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/categories/patch', async function (req, res) {
 
     const updatedCategory ={
         id: req.query.id,
@@ -71,7 +71,7 @@ router.post('/categories/patch',checkAuthenticated,isAdmin, async function (req,
     res.redirect('/admin/categories');
 })
 
-router.post('/categories/del',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/categories/del', async function (req, res) {
     
     const catID = req.query.id;
     const catParentID = req.query.parent_id;

@@ -45,7 +45,7 @@ router.get('/users/add',checkAuthenticated,isAdmin, function (req, res) {
     });
 })
 
-router.post('/users/add',checkAuthenticated,isAdmin, function (req, res) {
+router.post('/users/add', function (req, res) {
 
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
@@ -112,7 +112,7 @@ router.get('/users/edit',checkAuthenticated,isAdmin, async function (req, res) {
     });
 })
 
-router.post('/users/patch', checkAuthenticated,isAdmin,async function (req, res) {
+router.post('/users/patch',async function (req, res) {
     console.log("patch");
     console.log(req.body);
     let updatedUser = {};
@@ -141,13 +141,13 @@ router.post('/users/patch', checkAuthenticated,isAdmin,async function (req, res)
     res.redirect('/admin/users');
 })
 
-router.post('/users/del',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/users/del', async function (req, res) {
     const userID = req.query.id;
     await userModel.del(userID);
     res.redirect('/admin/users');
 })
 
-router.post('/users/extendSubcription',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/users/extendSubcription', async function (req, res) {
 
     const userID = req.query.id;
     const url = req.headers.referer || "/admin/users";

@@ -27,7 +27,7 @@ router.get('/writers/add',checkAuthenticated,isAdmin, function (req, res) {
     });
 })
 
-router.post('/writers/add',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/writers/add',async function (req, res) {
 
     const hash = bcrypt.hashSync(req.body.raw_password, 10);
 
@@ -81,7 +81,7 @@ router.get('/writers/edit',checkAuthenticated,isAdmin, async function (req, res)
     });
 })
 
-router.post('/writers/patch',checkAuthenticated,isAdmin, async function (req, res) {
+router.post('/writers/patch',async function (req, res) {
     console.log("writer patch");
 
     let updatedUser = {};
@@ -120,7 +120,7 @@ router.post('/writers/patch',checkAuthenticated,isAdmin, async function (req, re
     res.redirect('/admin/writers');
 })
 
-router.post('/writers/del', checkAuthenticated,isAdmin,async function (req, res) {
+router.post('/writers/del', async function (req, res) {
     req.user.then(async(user) =>
     {
         const userID = req.query.id;
