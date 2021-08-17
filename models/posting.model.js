@@ -17,17 +17,18 @@ const addArticle = (article, tags) =>
             db.select("id")
             .from("tags")
             .where("tag_name", tag)
-            .then(tagList => {
+            .then(async(tagList) => {
                 if (tagList.length === 0) {
-                    tagModel.add(tag)
-                    .then( (tagId) => {
-                        //console.log(tagId, articleID);
-                        tagModel.addTagArticles(tagId, articleID).then(()=> console.log("add tag article"));
+                    await tagModel.add(tag)
+                    .then( async(tagId) => {
+                        console.log(tagId, articleID);
+                        await tagModel.addTagArticles(tagId, articleID).then(()=> console.log("add tag article"));
                     });
                 }
                 else{
-                    console.log("add tag existed");
-                    tagModel.addTagArticles(tagList[0], articleID);
+                    console.log("add tag existed");                    
+                    
+                    await tagModel.addTagArticles(tagList[0].id, articleID);
                 }
             });
         });

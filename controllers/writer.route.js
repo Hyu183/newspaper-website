@@ -179,18 +179,18 @@ router.post('/post_article', (req, res) => {
         }
             relativePath = 'public/article_img/' + req.file.filename;
             console.log(req.body);
+            let article = req.body;
+            let tags = article['tag'];
             if (article['category_id'] === -1){
                 article['category_id'] = article['main_category_id'];
             }
-            let article = req.body;
-            let tags = article['tag'];
             delete article['tag'];
             delete article['main_category_id'];
         
             article['thumbnail_image'] = relativePath;
         
             article['created_time'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            article['author_id'] = 1;
+            article['author_id'] = 24;
         
             addArticle(article, tags).then
             (
