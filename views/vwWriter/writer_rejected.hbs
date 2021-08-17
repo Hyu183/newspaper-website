@@ -205,17 +205,6 @@
                                         </td>
 
                                         <td>
-                                            {{!-- <form action="/rejectedReason" method="post">
-                                                <input type="submit" name="fe" value="Read"></input>
-                                                <input type="hidden" name="info" value={
-                                                    editorID: {{editor_id}},
-                                                    id: {{id}},
-                                                    rejectedReason: {{reject_reason}},
-                                                    title: {{title}},
-                                                    category: {{cat_title}},
-                                                }/>
-                                            </form> --}}
-
                                             <form action="/rejectReason" method="post">
                                                  <input type="hidden" name="editor_id" value={{editor_id}}></input>
                                                  <input type="hidden" name="title" value="{{title}}"></input>

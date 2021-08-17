@@ -177,43 +177,44 @@ router.get('/posting', async function(req, res) {
 });
 
 router.post('/post_article', (req, res) => {
-    let relativePath;
-    upload.single('thumbnail_image')(req, res, function (err) {
-        console.log('body', req.body);
-        if (err instanceof multer.MulterError) {
-            console.log(err);
-        } else if (err) {
-            console.log(err);
-        }
-            relativePath = 'public/article_img/' + req.file.filename;
-            console.log(req.body);
-            let article = req.body;
-            let tags = article['tag'];
-            if (article['category_id'] === -1){
-                article['category_id'] = article['main_category_id'];
+    req.user.then((user) => {
+        let relativePath;
+        upload.single('thumbnail_image')(req, res, function (err) {
+            console.log('body', req.body);
+            if (err instanceof multer.MulterError) {
+                console.log(err);
+            } else if (err) {
+                console.log(err);
             }
-            delete article['tag'];
-            delete article['main_category_id'];
-        
-            article['thumbnail_image'] = relativePath;
-        
-            article['created_time'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            article['author_id'] = 24;
-        
-            addArticle(article, tags).then
-            (
-                () => {
-                    console.log("success posting article");
-                    console.log(article);
-                    res.redirect('/posting');
+                relativePath = 'public/article_img/' + req.file.filename;
+                console.log(req.body);
+                let article = req.body;
+                let tags = article['tag'];
+                if (article['category_id'] === -1){
+                    article['category_id'] = article['main_category_id'];
                 }
-            ).catch( (err) =>
-                {
-                    console.log(err);
-                    return;
-                }        
-            );
-    })
+                delete article['tag'];
+                delete article['main_category_id'];
+            
+                article['thumbnail_image'] = relativePath;
+            
+                article['created_time'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                article['author_id'] = user.id;
+            
+                addArticle(article, tags).then
+                (
+                    () => {
+                        console.log("success posting article");
+                        console.log(article);
+                        res.redirect('/posting');
+                    }
+                ).catch( (err) =>
+                    {
+                        console.log(err);
+                        return;
+                    }        
+                );
+    });
 });
 
 router.post('/upload_img', (req, res) => {
@@ -235,6 +236,8 @@ router.post('/upload_img', (req, res) => {
                 url: url
             });
     })
+
+    });
 })
 
 module.exports = router;
