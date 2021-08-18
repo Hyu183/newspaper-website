@@ -48,6 +48,10 @@ const updateSubdate = (id, newDate) =>{
     return db('users').where({id: id}).update({subcription_due_date: newDate});
 }
 
+const addPendingSubscribe = (userID, days) => {
+    return db('pending_subscribe').insert({userID: userID, days_subscribe: days});
+};
+
 const activateUser = (id) => {
     return db('users').where('id', id).update({is_active: true});  
 };
@@ -86,6 +90,7 @@ module.exports = {
      isAdmin,
      isEditor,
      updatePassword,
+     addPendingSubscribe,
     async findByID(id){
         const rows = await db('users')
                             .select('id','user_name','name','email','birthday','subcription_due_date')
