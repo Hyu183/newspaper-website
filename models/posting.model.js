@@ -118,6 +118,15 @@ module.exports = {
         return rows[0];
     },
 
+    async getApproval(articleID){
+        const rows = await  db('approval')
+                            .where('article_id', articleID);
+        if(rows.length === 0){
+            return null;
+        }  
+        return rows[0];
+    },
+
     async findArticleByID(articleID){
         const rows = await db({a: 'articles'})
                             .join(db.select({cat_id:'c1.id'},{cat_title:'c1.title'},{parent_title:'c2.title'})

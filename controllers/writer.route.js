@@ -11,14 +11,14 @@ const postingModel = require('../models/posting.model');
 const tagModel = require('../models/tag.model');
 const userModel = require('../models/user.model');
 const moment = require('moment');
-
+const {checkAuthenticated,isWriter} = require('../models/user.model');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname,'../public/article_img'))
     },
     filename: (req, file, cb) => {
-        console.log(file);
+        //console.log(file);
         cb(null, file.originalname)
     }
 })
@@ -27,9 +27,10 @@ const upload = multer({storage: storage});
 
 const getArticles = (authorId, approvalStatus, res) => {
     findArticleByAuthorID(authorId).then((arts) => {
-        console.log(arts);
+        //console.log(arts);
         let newArts = arts.map((art) => {
             let approvalStatus = 'Chưa được duyệt';
+            let publishdate = moment(art.published_date).format("HH:mm DD-MM-YYYY");
             if (art.editor_id === null)
                 approvalStatus = 'Chưa được duyệt';
             else if (art.is_approved === 1){
@@ -51,23 +52,36 @@ const getArticles = (authorId, approvalStatus, res) => {
                 cat_title: art.catTitle,
                 parent_title: art.parentCatTitle,
                 reject_reason: art.reject_reason,
-                editor_id: art.editor_id
+                editor_id: art.editor_id,
+                published_date: publishdate
             };
         });
         newArts = newArts.filter(art => art.status===approvalStatus);
 
         switch (approvalStatus) {
             case 'Chưa được duyệt':
-                res.render('vwWriter/writer', {articles: newArts});
+                res.render('vwWriter/writer', {
+                    articles: newArts,
+                    wait: true
+                });
                 break;
             case 'Đã xuất bản':
-                res.render('vwWriter/writer_published', {articles: newArts});
+                res.render('vwWriter/writer_published', {
+                    articles: newArts,
+                    published:true
+                });
                 break;
             case 'Bị từ chối':
-                res.render('vwWriter/writer_rejected', {articles: newArts});
+                res.render('vwWriter/writer_rejected', {
+                    articles: newArts,
+                    rejected:true
+                });
                 break;
             default:
-                res.render('vwWriter/writer_pending', {articles: newArts});
+                res.render('vwWriter/writer_pending', {
+                    articles: newArts,
+                    pending_publish: true
+                });
                 break;
         }
     });
@@ -80,46 +94,49 @@ router.post('/rejectReason', async (req, res) => {
     const editor_id = parseInt(req.body.editor_id);
 
     const editor = await userModel.getUserbyId(editor_id);
+
     const info = {
         id: articleID,
         editorName: editor.name,
+        editor_id: editor_id,
         title: req.body.title,
         category: req.body.category,
+        parent_title: req.body.parent_title,
         rejectedReason: req.body.rejectedReason
     }
     res.render('vwWriter/rejectedReason', info);
 });
 
 
-router.get('/writer', function(req, res) {
+router.get('/writer',checkAuthenticated,isWriter, function(req, res) {
     req.user.then((user) => {
         const id = user.id;
         getArticles(id, 'Chưa được duyệt', res);
     });
 })
 
-router.get('/writer/rejected', function(req, res) {
+router.get('/writer/rejected', checkAuthenticated,isWriter, function(req, res) {
     req.user.then((user) => {
         const id = user.id;
         getArticles(id, 'Bị từ chối', res);
     });
 })
 
-router.get('/writer/pending', function(req, res) {
+router.get('/writer/pending',checkAuthenticated,isWriter,  function(req, res) {
     req.user.then((user) => {
         const id = user.id;
         getArticles(id, 'Đã được duyệt & chờ xuất bản', res);
     });
 })
 
-router.get('/writer/published', function(req, res) {
+router.get('/writer/published',checkAuthenticated,isWriter,  function(req, res) {
     req.user.then((user) => {
         const id = user.id;
         getArticles(id, 'Đã xuất bản', res);
     });
 })
 
-router.get('/editArticle/:id', async function(req, res) {
+router.get('/editArticle/:id',checkAuthenticated,isWriter,  async function(req, res) {
     const id = req.params.id;
     const article = await postingModel.findArticleByID2(id);
     const tagList = await tagModel.findByArticleID(id);
@@ -135,8 +152,15 @@ router.get('/editArticle/:id', async function(req, res) {
         }
     });
 
-    const status = postingModel.checkStatusArticle(article.is_approved, article.published_date);
+    const approval = await postingModel.getApproval(article.id)
+    //console.log(approval);
+    let status =  "Chưa duyệt";
+    if(approval){        
+        status =  postingModel.checkStatusArticle(approval.is_approved, approval.published_date);
+    }
     let disableEdit = true;
+    //console.log(article);
+    //console.log(status);
     if (status === "Bị từ chối" || status === "Chưa duyệt")
     {
         disableEdit = false;
@@ -157,7 +181,7 @@ router.get('/editArticle/:id', async function(req, res) {
     });
 });
 
-router.get('/getArticleContent/:id', async function(req, res){
+router.get('/getArticleContent/:id',checkAuthenticated,isWriter,  async function(req, res){
     const id = req.params.id;
     console.log("here");
     const article = await postingModel.findArticleByID2(id);
@@ -169,7 +193,7 @@ router.get('/getArticleContent/:id', async function(req, res){
     res.send(response)
   });
 
-router.get('/posting', async function(req, res) {
+router.get('/posting',checkAuthenticated,isWriter,  async function(req, res) {
     const mainCategories = await categoryModel.allMainCategories();
     const subCategories = await categoryModel.allSubCategories();
 
@@ -180,14 +204,14 @@ router.post('/post_article', (req, res) => {
     req.user.then((user) => {
         let relativePath;
         upload.single('thumbnail_image')(req, res, function (err) {
-            console.log('body', req.body);
+            //console.log('body', req.body);
             if (err instanceof multer.MulterError) {
                 console.log(err);
             } else if (err) {
                 console.log(err);
             }
                 relativePath = 'public/article_img/' + req.file.filename;
-                console.log(req.body);
+                //console.log(req.body);
                 let article = req.body;
                 let tags = article['tag'];
                 if (article['category_id'] === -1){
@@ -205,7 +229,7 @@ router.post('/post_article', (req, res) => {
                 (
                     () => {
                         console.log("success posting article");
-                        console.log(article);
+                        //console.log(article);
                         res.redirect('/posting');
                     }
                 ).catch( (err) =>
@@ -224,7 +248,7 @@ router.post('/upload_img', (req, res) => {
         } else if (err) {
             console.log(err);
         }
-            console.log(req.file);
+            //console.log(req.file);
             let filename = req.file.filename;
             let url = '/article_img/' + filename;                    
             let msg = 'Upload successfully';

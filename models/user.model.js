@@ -40,6 +40,15 @@ const isEditor = (req, res, next) => {
         res.redirect('/');
     });   
 }
+const isWriter = (req, res, next) => {
+    req.user.then((user) =>
+    {
+        if(user.user_type === 1){
+            return next();
+        }
+        res.redirect('/');
+    });   
+}
 
 
 
@@ -85,6 +94,7 @@ module.exports = {
      activateUser,
      isAdmin,
      isEditor,
+     isWriter,
      updatePassword,
     async findByID(id){
         const rows = await db('users')
