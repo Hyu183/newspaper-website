@@ -4,12 +4,9 @@ const articleModel = require('../models/article.model');
 const router = express.Router();
 const moment = require('moment');
 const tagModel = require('../models/tag.model');
-<<<<<<< HEAD
 const { getLogger } = require('nodemailer/lib/shared');
-=======
 const userModel = require('../models/user.model');
 const { checkAuthenticated } = require('../models/user.model');
->>>>>>> 9a0d32a8665ae18201b258d4070f694daa9fe572
 moment.updateLocale('en', {
     relativeTime: {
         future: "trong %s",
@@ -172,7 +169,7 @@ router.get('/search', async function(req, res) {
 });
 
 
-router.get('/articles/:id', userModel.canViewPremium , async(req, res) => {
+router.get('/articles/:id', async(req, res) => {
     const id = +req.params.id || 0;
     const article = await articleModel.findByID(id);
     if (!article) {
@@ -180,6 +177,18 @@ router.get('/articles/:id', userModel.canViewPremium , async(req, res) => {
     }
     const currentUser = await req.user;
     const loggedIn = !!currentUser;
+
+    if (article.is_premium){
+        if (!currentUser){
+            return res.redirect('/user/sign_in');
+        } else if (currentUser.subcription_due_date === null){
+            return res.redirect('/user/subscribe');
+        } else if (moment(currentUser.subcription_due_date).isBefore())
+        {
+            return res.redirect('/user/subscribe');
+        }
+    }
+
     const randomArticles = await articleModel.getRandomArticlesFromCategory(article.category_id);
     article.numOfCmt = article.comments.length;
     res.render('vwCategories/details', {
