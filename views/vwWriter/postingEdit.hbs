@@ -4,7 +4,9 @@
 
 <div class="container posting my-5">
     <h1 class="text-center">Edit article</h1>
+    {{#if disableEdit}}        
     <h5 class="text-center text-danger">Article cannot be edited because it has been reviewed or published</h5>
+    {{/if}}
     <form action="/post_article" method="post" encType="multipart/form-data">
         <div class="form-group">
             <label for="title">Article title</label>

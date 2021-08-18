@@ -14,7 +14,7 @@ router.get('/editorAssignedCat',checkAuthenticated,isEditor, function (req, res)
     req.user.then(async(user)=>{        
         const editorID = user.id;
         const assignedCatList = await assignCatModel.findByEditorID(editorID);
-        console.log(assignedCatList);
+        //console.log(assignedCatList);
         res.render('vwEditor/editorAssignedCat', {
             assignedCatList,
             assignedCat: true
@@ -47,7 +47,7 @@ router.get('/editorRejectedList',checkAuthenticated,isEditor,  function (req, re
             post.approved_date = moment(post.approved_date).format("HH:mm DD-MM-YYYY");
             return post;
         });
-        console.log(rejectedList);
+        //console.log(rejectedList);
         res.render('vwEditor/editorRejectedList', {            
             rejectedList,
             rejected: true

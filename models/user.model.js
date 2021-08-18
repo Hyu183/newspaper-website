@@ -40,6 +40,15 @@ const isEditor = (req, res, next) => {
         res.redirect('/');
     });   
 }
+const isWriter = (req, res, next) => {
+    req.user.then((user) =>
+    {
+        if(user.user_type === 1){
+            return next();
+        }
+        res.redirect('/');
+    });   
+}
 
 const getUserbyEmail = (email) => {
     return db('users').where('email', email);
@@ -92,6 +101,7 @@ module.exports = {
      activateUser,
      isAdmin,
      isEditor,
+     isWriter,
      updatePassword,
      addPendingSubscribe,
     async findByID(id){
