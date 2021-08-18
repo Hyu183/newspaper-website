@@ -56,6 +56,7 @@ router.get('/tags/:id', async function(req, res) {
         const rs = await articleModel.getArticleTags(a.id);
         a.tags = rs;
     }))
+    list.sort(compareArticlePremium);
 
     res.render('vwCategories/byTag', {
         tag,
@@ -92,11 +93,13 @@ router.get('/categories/:id', async function(req, res) {
 
     const offset = (page - 1) * limit;
     const list = category.parent_id ? await articleModel.findByCatID(catID, offset, limit) :
-        await articleModel.findByCatParentID(catID, offset, limit);
+    await articleModel.findByCatParentID(catID, offset, limit);
     await Promise.all(list.map(async(a) => {
             const rs = await articleModel.getArticleTags(a.id);
             a.tags = rs;
-        }))
+        }));
+    list.sort(compareArticlePremium);
+
         //console.log(total, list)
     res.render('vwCategories/byCat', {
         category,
@@ -106,22 +109,32 @@ router.get('/categories/:id', async function(req, res) {
     });
 });
 
-router.get('/search', async function(req, res) {
-    const keyword = req.query.keyword;
-    const list = await articleModel.search(keyword);
-    await Promise.all(list.map(async(a) => {
-        const rs = await articleModel.getArticleTags(a.id);
-        a.tags = rs;
-    }))
+const compareArticlePremium = (a, b) => {
+  if (a.is_premium > b.is_premium){
+    return -1;
+  }
+  if (a.is_premium < b.is_premium){
+    return 1;
+  }
+  return 0;
+}; 
 
-    //console.log(res.locals.lcMainCategories[0].subCat);
-    res.render('vwCategories/search', {
-        keyword,
-        articles: list,
-        empty: list.length === 0,
-    });
+router.get('/search', async function (req, res) {
+  const keyword = req.query.keyword;
+  const list = await articleModel.search(keyword);
+  list.sort(compareArticlePremium);
+  await Promise.all(list.map(async (a) => {
+    const rs = await articleModel.getArticleTags(a.id);
+    a.tags = rs;
+  }))
+
+  //console.log(res.locals.lcMainCategories[0].subCat);
+  res.render('vwCategories/search', {
+    keyword,
+    articles: list,
+    empty: list.length === 0,
+  });
 });
-
 
 
 router.get('/articles/:id', async(req, res) => {
@@ -163,4 +176,6 @@ router.get('/', async function(req, res) {
         listArticleOfTop10Cats
     });
 })
+
+
 module.exports = router;

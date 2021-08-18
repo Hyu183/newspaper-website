@@ -35,6 +35,9 @@
                   <div class="trand-right-cap">
                     <span class="color1"><a href="/categories/{{category_id}}">{{category_name}}</a></span>
                     <h4 class="mb-0"><a href="/articles/{{id}}">{{title}}</a></h4>
+                    {{#if is_premium}}
+                      <i class="fas fa-key" style="color:orange;">  Premium</i>
+                    {{/if}}
                     <div>{{abstract}}</div>
                     <div style="color: #6C639B;">
                       Tags:&nbsp;

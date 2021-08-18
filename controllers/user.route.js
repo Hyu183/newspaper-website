@@ -11,9 +11,6 @@ const moment = require('moment');
 const userModel = require('../models/user.model');
 const sendMail = require('../public/js/sendEmail.js');
 
-initializePassport(passport);
-//initializeGooglePassport(passport);
-
 const generateOTP = () => {
     const digits = '0123456789';
     let OTP = '';
@@ -52,12 +49,22 @@ router.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"]
 }));
 
-router.get("/google/callback", passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/user/login'
-    })
-);
+// router.get("/google/callback", passport.authenticate('google', {
+//     successRedirect: '/',
+//     failureRedirect: '/user/sign_in'
+//     })
+// );
 
+router.route('/google/callback').get(passport.authenticate('google', {
+    failureRedirect: '/user/sign_in'
+    }), function(req, res) {
+        // here everything works. req.user is correctly set and req.isAuthenticated() is true
+        console.log("is au: ", req.isAuthenticated());
+
+        req.session.save(function(err) {
+            res.redirect('/');
+        });
+});
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
