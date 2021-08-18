@@ -26,10 +26,10 @@ moment.updateLocale('en', {
 });
 
 
-router.get('/getCategoryData', async function(req, res) {
-    const list = await categoryModel.all();
-    console.log(list);
-})
+// router.get('/getCategoryData', async function(req, res) {
+//     const list = await categoryModel.all();
+//     console.log(list);
+// })
 
 router.get('/about', function(req, res) {
     res.render('vwCategories/about');
@@ -47,17 +47,17 @@ router.get('/latest_news', function(req, res) {
     res.render('vwCategories/latest_news');
 });
 
-router.post('/add', function(req, res) {
-    const new_category = {
-        CatID: -1,
-        CatName: req.body.txtCatName
-    };
+// router.post('/add', function(req, res) {
+//     const new_category = {
+//         CatID: -1,
+//         CatName: req.body.txtCatName
+//     };
 
 
-    categoryModel.add(new_category);
-    res.render('vwCategories/add');
+//     categoryModel.add(new_category);
+//     res.render('vwCategories/add');
 
-})
+// })
 
 router.get('/tags/:id', async function (req, res) {
   const tagID = +req.params.id || 0;
@@ -130,7 +130,7 @@ router.get('/categories/:id', async function (req, res) {
     const rs = await articleModel.getArticleTags(a.id);
     a.tags = rs;
   }))
-  console.log(total, list)
+  //console.log(total, list)
   res.render('vwCategories/byCat', {
     category,
     articles: list,
@@ -147,7 +147,7 @@ router.get('/search', async function (req, res) {
     a.tags = rs;
   }))
 
-  console.log(res.locals.lcMainCategories[0].subCat);
+  //console.log(res.locals.lcMainCategories[0].subCat);
   res.render('vwCategories/search', {
     keyword,
     articles: list,
