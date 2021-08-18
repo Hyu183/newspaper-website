@@ -14,20 +14,26 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 //app.use(cookieParser());
+initializePassport(passport);
 app.use(flash());
 app.use(session({
     name: 'sid',
     secret: 'my $%^secret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         maxAge: 1000 * 60 * 60 * 10,
         secure: false
     }
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-initializePassport(passport);
+// app.use((req, res, next) => {
+//     console.log(req.session);
+//     console.log(req.user);
+//     next();
+// })
 
 
 //app.use(fileUpload());

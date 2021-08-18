@@ -96,11 +96,8 @@ const initialize = (passport) => {
         return done(null, user.id)
     } );
 
-    passport.deserializeUser( async (id, done) => {
-        console.log('de id:gegeeegeegegegeegeg');
-        console.log('de id: ', id);
-        const user = await getUserbyId(id);
-        return done(null, user);
+    passport.deserializeUser( (id, done) => {
+        return done(null, getUserbyId(id));
     });
 };
 

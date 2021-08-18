@@ -210,7 +210,7 @@ router.post('/post_article', (req, res) => {
             } else if (err) {
                 console.log(err);
             }
-                relativePath = 'public/article_img/' + req.file.filename;
+                relativePath = '/article_img/' + req.file.filename;
                 //console.log(req.body);
                 let article = req.body;
                 let tags = article['tag'];
