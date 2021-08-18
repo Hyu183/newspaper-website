@@ -5,6 +5,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
 const initializeFacebookPassport = require('./public/js/config/auth.facebook.js');
+const initializePassport = require('./public/js/config/passport.config');
 
 
 
@@ -25,11 +26,15 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+initializePassport(passport);
+
 
 //app.use(fileUpload());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
+
 app.use('/module', express.static(path.join(__dirname, 'node_modules')))
 
 //initializeFacebookPassport(passport);

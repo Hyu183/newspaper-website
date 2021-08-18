@@ -11,9 +11,6 @@ const moment = require('moment');
 const userModel = require('../models/user.model');
 const sendMail = require('../public/js/sendEmail.js');
 
-initializePassport(passport);
-//initializeGooglePassport(passport);
-
 const generateOTP = () => {
     const digits = '0123456789';
     let OTP = '';
@@ -54,7 +51,7 @@ router.get("/auth/google", passport.authenticate("google", {
 
 router.get("/google/callback", passport.authenticate('google', {
     successRedirect: '/',
-    failureRedirect: '/user/login'
+    failureRedirect: '/user/sign_in'
     })
 );
 

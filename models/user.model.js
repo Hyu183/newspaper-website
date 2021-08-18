@@ -91,6 +91,10 @@ const getUserGoogleByGoogleID = (googleID) => {
     return db('UsersGoogle').where('googleID', googleID);
 };
 
+const addGoogleUser = (user) => {
+    return db('UsersGoogle').insert(user);
+};
+
 module.exports = {
     addUser,
     async findByUsername(username){
@@ -109,6 +113,7 @@ module.exports = {
          return rows[0];
      },
      getUserGoogleByGoogleID,
+     addGoogleUser,
      getUserbyEmail,
      checkAuthenticated,
      checkNotAuthenticated,

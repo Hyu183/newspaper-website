@@ -139,9 +139,20 @@ router.get('/categories/:id', async function (req, res) {
   });
 });
 
+const compareArticlePremium = (a, b) => {
+  if (a.is_premium > b.is_premium){
+    return -1;
+  }
+  if (a.is_premium < b.is_premium){
+    return 1;
+  }
+  return 0;
+}; 
+
 router.get('/search', async function (req, res) {
   const keyword = req.query.keyword;
   const list = await articleModel.search(keyword);
+  list.sort(compareArticlePremium);
   await Promise.all(list.map(async (a) => {
     const rs = await articleModel.getArticleTags(a.id);
     a.tags = rs;
