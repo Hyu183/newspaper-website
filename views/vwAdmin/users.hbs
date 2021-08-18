@@ -9,11 +9,10 @@
             <div class="card border-dark mb-5">
                 <div class="card-header bg-dark text-white d-flex justify-content-between">
                     <h4><span><i class="bi bi-table me-2"></i></span> Danh sách độc giả</h4>
-
                     <a class="btn btn-success" href="/admin/users/add" role="button">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        Thêm
-                    </a>
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            Thêm
+                    </a>                    
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,12 +25,12 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">Loại tài khoản</th>
                                     <th scope="col">&nbsp;</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each this.userList }}
-                                    
+
                                 <tr>
                                     <th scope="row">{{id}}</th>
                                     <td>{{user_name}}</td>
@@ -39,15 +38,15 @@
                                     <td>{{email}}</td>
                                     <td class="text-center">{{account_type}}</td>
                                     <td>
-                                        <a name="" id="" class="btn btn-primary btn-sm" href="/admin/users/edit?id={{id}}" role="button"
-                                            title="Edit">
+                                        <a name="" id="" class="btn btn-primary btn-sm"
+                                            href="/admin/users/edit?id={{id}}" role="button" title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
-                                    
+
                                 </tr>
                                 {{/each}}
-                
+
 
 
                             </tbody>
