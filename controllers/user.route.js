@@ -26,12 +26,21 @@ const generateOTP = () => {
 router.get('/userInfo', checkAuthenticated,function(req, res) {
     req.user.then((user) =>
     {
+        let subDate = "You have not subscribe yet";
+        
+        if (user.subcription_due_date){
+            const subDateMoment = moment(user.subcription_due_date);
+            if (subDateMoment.isAfter()){
+                subDate = subDateMoment.format("dddd, MMMM Do YYYY, h:mm:ss a");
+            }
+        }
         console.log(user);
         res.render('vwCategories/userInfo', {
             user_name: user.user_name,
             name: user.name,
             email: user.email,
-            birthdate: moment(user.birthday).format('DD-MM-YYYY')
+            birthdate: moment(user.birthday).format('DD-MM-YYYY'),
+            subscribeDate: subDate
         });
     })
 });
