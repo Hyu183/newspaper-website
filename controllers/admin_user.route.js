@@ -180,6 +180,51 @@ router.post('/users/extendSubcription', async function (req, res) {
     res.redirect(url);
 })
 
+router.get('/users/pending',checkAuthenticated,isAdmin, async function (req, res) {
+    
+    const userList = await userModel.getPendingSub();
+    console.log(userList);
+    
+    res.render('vwAdmin/pending', {
+        layout: 'admin.hbs',
+        userMenuActive: true,
+        pending: true,
+        userList
+    });
+});
+router.post('/users/approve', async function (req, res) {
+    
+    //const userList = await userModel.getPendingSub();
+    console.log(req.body);
+    const userID = req.body.userID;      
+
+    const dueTime = moment( req.body.subcription_due_date);
+
+    const curTime = moment();
+
+    const diffTime = dueTime.diff(curTime, 'seconds');
+
+    let newDueTime = "";
+    const day =  req.body.days_subscribe;
+
+    if (isNaN(diffTime) || diffTime < 0) {
+        newDueTime = moment().add(day, 'days');
+    }
+    else {
+        newDueTime = dueTime.add(day, 'days');
+    }
+
+    const extended = {
+        id: userID,
+        subcription_due_date: newDueTime.format("YYYY-MM-DD HH:mm:ss")
+    }
+
+    await userModel.patch(extended);
+
+    await userModel.delPendingSubApproved(req.body.id);
+    
+    res.redirect('/admin/users/pending');
+});
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 module.exports = router;

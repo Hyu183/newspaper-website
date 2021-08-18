@@ -203,4 +203,20 @@ module.exports = {
              .where({author_id: writerID})             
              .update({author_id: newID});
     },
+
+    async getPendingSub(){
+        const rows = await db({p:'pending_subscribe'})
+                            .select('p.id','p.userID','u.user_name','u.email','u.subcription_due_date','p.days_subscribe')
+                            .join({u:'users'},'p.userID','=','u.id')
+
+        if(rows.length === 0){
+            return null;
+        }
+        return rows;
+    },
+    delPendingSubApproved(idPending){
+        return db('pending_subscribe')
+                .where('id',idPending)
+                .del();
+    }
 };
