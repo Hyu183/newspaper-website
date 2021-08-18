@@ -41,6 +41,9 @@ const isEditor = (req, res, next) => {
     });   
 }
 
+const getUserbyEmail = (email) => {
+    return db('users').where('email', email);
+};
 
 
 const updateSubdate = (id, newDate) =>{
@@ -82,7 +85,7 @@ module.exports = {
          return rows[0];
      },
      getUserGoogleByGoogleID,
-
+     getUserbyEmail,
      checkAuthenticated,
      checkNotAuthenticated,
      updateSubdate,

@@ -23,8 +23,8 @@ const generateOTP = () => {
     return OTP;
 };
 
-router.get('/userInfo', checkAuthenticated,function(req, res) {
-    req.user.then((user) =>
+router.get('/userInfo', checkAuthenticated, function(req, res) {
+    req.user.then(async (user) =>
     {
         let subDate = "You have not subscribe yet";
         
@@ -35,12 +35,14 @@ router.get('/userInfo', checkAuthenticated,function(req, res) {
             }
         }
         console.log(user);
+        const penname = await userModel.findPenNameByID(user.id);
         res.render('vwCategories/userInfo', {
             user_name: user.user_name,
             name: user.name,
             email: user.email,
             birthdate: moment(user.birthday).format('DD-MM-YYYY'),
-            subscribeDate: subDate
+            subscribeDate: subDate,
+            penname: penname
         });
     })
 });
@@ -84,6 +86,26 @@ router.get('/otppassword', function(req, res) {
         res.render('vwUser/otpPassword', {username: username});
     })
 });
+
+router.post('/verifyEmail', function(req, res) {
+    const email = req.body.email;
+    userModel.getUserbyEmail(email).then((rows) => {
+        if (rows.length === 0){
+            res.render('vwUser/forgetPassword', {message: "No such email exists!"});
+        }
+        else {
+            const user = rows[0];
+            sendMail(user.email, user.name, 'News Forget Password OTP Email', 
+                "Use the OTP code to get your password back", user.otp);
+            res.render('vwUser/otpPassword', {username: user.user_name});
+        }
+    });
+});
+
+router.get('/forgetPassword', (req, res) => {
+    res.render('vwUser/forgetPassword');
+});
+
 
 router.get('/editArticle/:id', function(req, res) {
     const id = req.params.id;

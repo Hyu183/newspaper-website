@@ -68,9 +68,20 @@
                     <label for="user-name">Subscription ended time</label>
                 </div>
                 <div class="col-10">
-                    <input type="text" class="form-control" id="subscription" value="{{subscribeDate}}"" disabled>
+                    <input type="text" class="form-control" id="subscription" value="{{subscribeDate}}" disabled>
                 </div>
             </div>
+
+            {{#if penname}}
+                <div class="form-group row">
+                    <div class="col-2 text-right">
+                        <label for="penname">Pen Name</label>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="penname" value="{{penname}}" disabled>
+                </div>
+            </div>
+            {{/if}}
 
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
