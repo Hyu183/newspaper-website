@@ -35,6 +35,8 @@ app.use('/module', express.static(path.join(__dirname, 'node_modules')))
 //initializeFacebookPassport(passport);
 
 
+app.use('/public', express.static(__dirname + '/public'));
+
 app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form gửi về
     extended: true
 }));
