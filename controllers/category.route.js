@@ -164,6 +164,7 @@ router.get('/search', async function (req, res) {
     articles: list,
     empty: list.length === 0,
   });
+});
 
 
 router.get('/articles/:id', async(req, res) => {
@@ -205,4 +206,6 @@ router.get('/', async function(req, res) {
         listArticleOfTop10Cats
     });
 })
+
+
 module.exports = router;
