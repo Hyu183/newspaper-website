@@ -33,6 +33,9 @@ const isAdmin = (req, res, next) => {
 }
 
 const canViewPremium = (req, res, next) => {
+    if (!req.isAuthenticated()){
+        res.redirect('/user/sign_in');
+    }
     req.user.then((user) =>
     {
         if (user.subcription_due_date){
@@ -41,7 +44,7 @@ const canViewPremium = (req, res, next) => {
                 return next();
             }
         }
-        res.redirect('/');
+        res.redirect('/user/subscribe');
     });   
 }
 
