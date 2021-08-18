@@ -153,6 +153,19 @@ $(document).ready(function () {
     });
 
   });
+  $(".data-pending-table").each(function (_, table) {
+    $(table).DataTable({
+      "columns": [
+        { "width": "5%" },
+        { "width": "26%" },
+        { orderable: false,"width": "35%" },
+        { "width": "23%" },
+        { orderable: false,"width": "11%" }
+      ]
+      
+    });
+
+  });
 });
 
 
