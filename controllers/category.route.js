@@ -26,39 +26,6 @@ moment.updateLocale('en', {
 });
 
 
-// router.get('/getCategoryData', async function(req, res) {
-//     const list = await categoryModel.all();
-//     console.log(list);
-// })
-
-router.get('/about', function(req, res) {
-    res.render('vwCategories/about');
-})
-
-router.get('/details', function(req, res) {
-    res.render('vwCategories/details');
-});
-
-router.get('/category', function(req, res) {
-    res.render('vwCategories/category');
-});
-
-router.get('/latest_news', function(req, res) {
-    res.render('vwCategories/latest_news');
-});
-
-// router.post('/add', function(req, res) {
-//     const new_category = {
-//         CatID: -1,
-//         CatName: req.body.txtCatName
-//     };
-
-
-//     categoryModel.add(new_category);
-//     res.render('vwCategories/add');
-
-// })
-
 router.get('/tags/:id', async function(req, res) {
     const tagID = +req.params.id || 0;
 
