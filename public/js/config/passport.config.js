@@ -63,7 +63,6 @@ const initialize = (passport) => {
                 userModel.getUserGoogleByGoogleID(profile.id).then( async (rows) => {
                     if (rows.length === 0){
                         //userModel.addGoogleUser({googleID: profile.id}).then((user))
-                        done(null, {id: profile.id});
                         const user = {
                             name: profile.displayName,
                             email: profile.email,
@@ -92,10 +91,16 @@ const initialize = (passport) => {
         )
     );
 
-    passport.serializeUser( (user, done) => done(null, user.id) );
+    passport.serializeUser( (user, done) => {
+        console.log('serialize: ', user.id);
+        return done(null, user.id)
+    } );
 
-    passport.deserializeUser( (id, done) => {
-        return done(null, getUserbyId(id));
+    passport.deserializeUser( async (id, done) => {
+        console.log('de id:gegeeegeegegegeegeg');
+        console.log('de id: ', id);
+        const user = await getUserbyId(id);
+        return done(null, user);
     });
 };
 

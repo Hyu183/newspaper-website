@@ -49,12 +49,22 @@ router.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"]
 }));
 
-router.get("/google/callback", passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/user/sign_in'
-    })
-);
+// router.get("/google/callback", passport.authenticate('google', {
+//     successRedirect: '/',
+//     failureRedirect: '/user/sign_in'
+//     })
+// );
 
+router.route('/google/callback').get(passport.authenticate('google', {
+    failureRedirect: '/user/sign_in'
+    }), function(req, res) {
+        // here everything works. req.user is correctly set and req.isAuthenticated() is true
+        console.log("is au: ", req.isAuthenticated());
+
+        req.session.save(function(err) {
+            res.redirect('/');
+        });
+});
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
