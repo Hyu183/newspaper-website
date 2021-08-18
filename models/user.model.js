@@ -1,4 +1,6 @@
 const db = require('../database/db');
+const moment = require('moment');
+
 
 const addUser = (user) => {
     console.log("adding user");
@@ -25,6 +27,19 @@ const isAdmin = (req, res, next) => {
     {
         if(user.user_type === 3){
             return next();
+        }
+        res.redirect('/');
+    });   
+}
+
+const canViewPremium = (req, res, next) => {
+    req.user.then((user) =>
+    {
+        if (user.subcription_due_date){
+            const subDateMoment = moment(user.subcription_due_date);
+            if (subDateMoment.isAfter()){
+                return next();
+            }
         }
         res.redirect('/');
     });   
@@ -103,6 +118,7 @@ module.exports = {
      isEditor,
      isWriter,
      updatePassword,
+     canViewPremium,
      addPendingSubscribe,
     async findByID(id){
         const rows = await db('users')
