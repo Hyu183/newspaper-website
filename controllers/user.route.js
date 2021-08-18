@@ -11,8 +11,8 @@ const moment = require('moment');
 const userModel = require('../models/user.model');
 const sendMail = require('../public/js/sendEmail.js');
 
-//initializePassport(passport);
-initializeGooglePassport(passport);
+initializePassport(passport);
+//initializeGooglePassport(passport);
 
 const generateOTP = () => {
     const digits = '0123456789';

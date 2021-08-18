@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use('/module', express.static(path.join(__dirname, 'node_modules')))
 
-initializeFacebookPassport(passport);
+//initializeFacebookPassport(passport);
 
 
 app.use(express.urlencoded({ //Cho phép controller nhận dữ liệu do form gửi về
