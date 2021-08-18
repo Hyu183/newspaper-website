@@ -4,6 +4,7 @@ const articleModel = require('../models/article.model');
 const router = express.Router();
 const moment = require('moment');
 const tagModel = require('../models/tag.model');
+const { getLogger } = require('nodemailer/lib/shared');
 moment.updateLocale('en', {
     relativeTime: {
         future: "trong %s",
@@ -93,14 +94,14 @@ router.get('/categories/:id', async function(req, res) {
 
     const offset = (page - 1) * limit;
     const list = category.parent_id ? await articleModel.findByCatID(catID, offset, limit) :
-    await articleModel.findByCatParentID(catID, offset, limit);
+        await articleModel.findByCatParentID(catID, offset, limit);
     await Promise.all(list.map(async(a) => {
-            const rs = await articleModel.getArticleTags(a.id);
-            a.tags = rs;
-        }));
+        const rs = await articleModel.getArticleTags(a.id);
+        a.tags = rs;
+    }));
     list.sort(compareArticlePremium);
 
-        //console.log(total, list)
+    //console.log(total, list)
     res.render('vwCategories/byCat', {
         category,
         articles: list,
@@ -110,30 +111,59 @@ router.get('/categories/:id', async function(req, res) {
 });
 
 const compareArticlePremium = (a, b) => {
-  if (a.is_premium > b.is_premium){
-    return -1;
-  }
-  if (a.is_premium < b.is_premium){
-    return 1;
-  }
-  return 0;
-}; 
+    if (a.is_premium > b.is_premium) {
+        return -1;
+    }
+    if (a.is_premium < b.is_premium) {
+        return 1;
+    }
+    return 0;
+};
 
-router.get('/search', async function (req, res) {
-  const keyword = req.query.keyword;
-  const list = await articleModel.search(keyword);
-  list.sort(compareArticlePremium);
-  await Promise.all(list.map(async (a) => {
-    const rs = await articleModel.getArticleTags(a.id);
-    a.tags = rs;
-  }))
+router.get('/search', async function(req, res) {
+    const keyword = req.query.keyword;
 
-  //console.log(res.locals.lcMainCategories[0].subCat);
-  res.render('vwCategories/search', {
-    keyword,
-    articles: list,
-    empty: list.length === 0,
-  });
+
+    const limit = 6;
+    let page = req.query.page || 1;
+    if (page < 1) page = 1;
+
+    const total = await articleModel.countSearch(keyword);
+    console.log(total);
+
+    let nPages = Math.floor(total / limit);
+    if (total % limit > 0) nPages++;
+
+    const page_numbers = [];
+    for (i = 1; i <= nPages; i++) {
+        page_numbers.push({
+            value: i,
+            isCurrent: i === +page
+        });
+    }
+
+    const offset = (page - 1) * limit;
+
+    //const list = await articleModel.findByTagID(tagID, offset);
+
+    const list = await articleModel.findBySearch(keyword, offset);
+
+    await Promise.all(list.map(async(a) => {
+        const rs = await articleModel.getArticleTags(a.id);
+        a.tags = rs;
+        console.log(rs);
+
+    }))
+
+    list.sort(compareArticlePremium);
+
+    //console.log(res.locals.lcMainCategories[0].subCat);
+    res.render('vwCategories/search', {
+        keyword,
+        articles: list,
+        empty: list.length === 0,
+        page_numbers
+    });
 });
 
 

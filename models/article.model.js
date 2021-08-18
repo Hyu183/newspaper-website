@@ -145,6 +145,23 @@ module.exports = {
     and a.category_id=c.id and ap.article_id = a.id and ap.is_approved=1;`
         const rs = await db.raw(sql);
         return rs[0] || [];
+    },
+
+    async findBySearch(kw, offset) {
+        const sql = `SELECT a.*, c.title as category_name FROM articles a, category c, approval ap
+    where match(a.title, a.abstract, a.content) against('${kw}') 
+    and a.category_id=c.id and ap.article_id = a.id and ap.is_approved=1
+    limit 6 offset ${offset}`;
+        const rs = await db.raw(sql);
+        return rs[0] || [];
+    },
+
+    async countSearch(kw) {
+        const sql = `SELECT COUNT(*) as total FROM articles a, category c, approval ap
+    where match(a.title, a.abstract, a.content) against('${kw}') 
+    and a.category_id=c.id and ap.article_id = a.id and ap.is_approved=1;`
+        const rs = await db.raw(sql);
+        return rs[0][0].total;
     }
 
 };
