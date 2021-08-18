@@ -139,7 +139,6 @@ router.get('/categories/:id', async function(req, res) {
     });
 });
 
-<<<<<<< HEAD
 const compareArticlePremium = (a, b) => {
   if (a.is_premium > b.is_premium){
     return -1;
@@ -165,39 +164,6 @@ router.get('/search', async function (req, res) {
     articles: list,
     empty: list.length === 0,
   });
-||||||| merged common ancestors
-router.get('/search', async function (req, res) {
-  const keyword = req.query.keyword;
-  const list = await articleModel.search(keyword);
-  await Promise.all(list.map(async (a) => {
-    const rs = await articleModel.getArticleTags(a.id);
-    a.tags = rs;
-  }))
-
-  //console.log(res.locals.lcMainCategories[0].subCat);
-  res.render('vwCategories/search', {
-    keyword,
-    articles: list,
-    empty: list.length === 0,
-  });
-=======
-router.get('/search', async function(req, res) {
-    const keyword = req.query.keyword;
-    const list = await articleModel.search(keyword);
-    await Promise.all(list.map(async(a) => {
-        const rs = await articleModel.getArticleTags(a.id);
-        a.tags = rs;
-    }))
-
-    //console.log(res.locals.lcMainCategories[0].subCat);
-    res.render('vwCategories/search', {
-        keyword,
-        articles: list,
-        empty: list.length === 0,
-    });
->>>>>>> d147ecc0c04f1777e00783029e1c38f74f871d84
-});
-
 
 
 router.get('/articles/:id', async(req, res) => {
