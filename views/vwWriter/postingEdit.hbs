@@ -1,4 +1,25 @@
+{{#section 'css'}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{{/section}}
 <script src="/module/ckeditor/ckeditor.js"></script>
+
+
+{{#section 'js'}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.js-multi').select2();
+
+            $('#btn-save').on('click', function (e) {          
+                e.preventDefault(); 
+                $('#frmAssignEditor').submit();
+            })
+        });
+
+    </script>
+{{/section}}
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 
@@ -53,10 +74,20 @@
         </select>
 
         <div class="form-group">
-            <label for="tag">Tags</label>
-            <textarea class="form-control" name="tag" {{#if disableEdit}}disabled{{/if}} id="tag" rows="2">{{tags}}</textarea>
+            <label for="assignCat">Tags</label>
+            <select class="js-multi form-control" id="assignCat" name="tags"
+                multiple="multiple">
+                {{#each allTags}}
+                    <option value="{{id}}">{{tag_name}}</option>
+                {{/each}}
+                {{#each selectedTags}}
+                    <option value="{{id}}" selected="selected">{{tag_name}}</option>
+                {{/each}}
+            </select>
         </div>
 
+        <input type="hidden" id="custId" name="isEdit" value="true">
+        <input type="hidden" id="id" name="id" value="{{id}}">
         <br>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Submit article</button>
