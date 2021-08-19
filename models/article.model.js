@@ -101,9 +101,10 @@ module.exports = {
         return rs[0] || [];
     },
 
-    async findByCatParentID(catId) {
+    async findByCatParentID(catId, offset, limit) {
         const sql = `SELECT a.*, c.title as category_name FROM articles a, category c , approval ap
-    where a.category_id = c.id and c.parent_id = ${catId}  and ap.article_id = a.id and ap.is_approved=1`
+    where a.category_id = c.id and c.parent_id = ${catId}  and ap.article_id = a.id and ap.is_approved=1
+    limit 6 offset ${offset}`;
         const rs = await db.raw(sql);
         return rs[0] || [];
     },
