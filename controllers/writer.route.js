@@ -211,7 +211,7 @@ router.post('/post_article', (req, res) => {
             let article = req.body;
             console.log(article);
             let tags = article['tags'];
-            if (article['category_id'] === -1) {
+            if (article['category_id'] === '-1') {
                 article['category_id'] = article['main_category_id'];
             }
             delete article['tags'];
