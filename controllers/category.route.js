@@ -95,8 +95,14 @@ router.get('/categories/:id', async function(req, res) {
     }
 
     const offset = (page - 1) * limit;
+
+
+
     const list = category.parent_id ? await articleModel.findByCatID(catID, offset, limit) :
         await articleModel.findByCatParentID(catID, offset, limit);
+
+
+
     await Promise.all(list.map(async(a) => {
         const rs = await articleModel.getArticleTags(a.id);
         a.tags = rs;
