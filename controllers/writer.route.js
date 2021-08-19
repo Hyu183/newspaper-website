@@ -257,28 +257,28 @@ router.post('/post_article', (req, res) => {
                 });
             }
         });
-
-        router.post('/upload_img', (req, res) => {
-            upload.single('upload')(req, res, function(err) {
-                if (err instanceof multer.MulterError) {
-                    console.log(err);
-                } else if (err) {
-                    console.log(err);
-                }
-                //console.log(req.file);
-                let filename = req.file.filename;
-                let url = '/article_img/' + filename;
-                let msg = 'Upload successfully';
-                let funcNum = req.query.CKEditorFuncNum;
-                res.status(200).json({
-                    uploaded: 1,
-                    fileName: filename,
-                    url: url
-                });
-            })
-
-        });
     })
 })
+
+router.post('/upload_img', (req, res) => {
+    upload.single('upload')(req, res, function(err) {
+        if (err instanceof multer.MulterError) {
+            console.log(err);
+        } else if (err) {
+            console.log(err);
+        }
+        console.log(req.file);
+        let filename = req.file.filename;
+        let url = '/article_img/' + filename;
+        let msg = 'Upload successfully';
+        let funcNum = req.query.CKEditorFuncNum;
+        res.status(200).json({
+            uploaded: 1,
+            fileName: filename,
+            url: url
+        });
+    })
+
+});
 
 module.exports = router;
