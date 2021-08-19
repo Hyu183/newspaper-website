@@ -7,6 +7,7 @@ const tagModel = require('../models/tag.model');
 const { getLogger } = require('nodemailer/lib/shared');
 const userModel = require('../models/user.model');
 const { checkAuthenticated } = require('../models/user.model');
+const postingModel = require('../models/posting.model');
 moment.updateLocale('en', {
     relativeTime: {
         future: "trong %s",
@@ -182,6 +183,7 @@ router.get('/articles/:id', async(req, res) => {
     if (!article) {
         res.redirect('/');
     }
+    
     const currentUser = await req.user;
     const loggedIn = !!currentUser;
 
@@ -196,6 +198,8 @@ router.get('/articles/:id', async(req, res) => {
     }
 
     const randomArticles = await articleModel.getRandomArticlesFromCategory(article.category_id);
+    await articleModel.addView(article.id, article.view_number + 1);
+
     article.numOfCmt = article.comments.length;
     res.render('vwCategories/details', {
         article,
