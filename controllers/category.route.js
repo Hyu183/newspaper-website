@@ -140,7 +140,8 @@ router.get('/search', async function(req, res) {
     for (i = 1; i <= nPages; i++) {
         page_numbers.push({
             value: i,
-            isCurrent: i === +page
+            isCurrent: i === +page,
+            key_word: keyword
         });
     }
 
@@ -178,13 +179,12 @@ router.get('/articles/:id', async(req, res) => {
     const currentUser = await req.user;
     const loggedIn = !!currentUser;
 
-    if (article.is_premium){
-        if (!currentUser){
+    if (article.is_premium) {
+        if (!currentUser) {
             return res.redirect('/user/sign_in');
-        } else if (currentUser.subcription_due_date === null){
+        } else if (currentUser.subcription_due_date === null) {
             return res.redirect('/user/subscribe');
-        } else if (moment(currentUser.subcription_due_date).isBefore())
-        {
+        } else if (moment(currentUser.subcription_due_date).isBefore()) {
             return res.redirect('/user/subscribe');
         }
     }
