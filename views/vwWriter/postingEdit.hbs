@@ -76,7 +76,7 @@
         <div class="form-group">
             <label for="assignCat">Tags</label>
             <select class="js-multi form-control" id="assignCat" name="tags"
-                multiple="multiple">
+                multiple="multiple" {{#if disableEdit}}disabled{{/if}}>
                 {{#each allTags}}
                     <option value="{{id}}">{{tag_name}}</option>
                 {{/each}}

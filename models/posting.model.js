@@ -39,10 +39,16 @@ const updateArticle = (article, tags, id) => {
     console.log(tagArticles);
     tagModel.delTagsByArticleID(id)
     .then(() => {
+        
         tagModel.addTagArticlesList(tagArticles).then(() => {
-            return db('articles')
-                .where('id', id)
-                .update(article);
+            db('approval')
+                .where({article_id: id})
+                .del().then(() => {
+                    console.log('delete approval')
+                    return db('articles')
+                        .where('id', id)
+                        .update(article);
+                })
         })
     })
 
@@ -207,6 +213,12 @@ module.exports = {
                 is_approved: 1,
                 published_date: publish_date,
                 approved_date: approved_date});
+    },
+
+    delApprovalByArticalID(articleID){
+        return db('approval')
+                .where({article_id: articleID})
+                .del();
     },
     setPremium(articleID){
         return db('articles')
