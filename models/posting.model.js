@@ -5,35 +5,48 @@ const moment = require('moment');
 const addArticle = (article, tags) =>
 {
     let tagList = tags;
-    if (tagList){
-        tagList = tags.split('|');
-    }
-    else
-        tagList = [];
     console.log("taglist", tagList);
     return db('articles').insert(article).then( articleID => {
         tagList.forEach(tag => {
             console.log(tag);
-            db.select("id")
-            .from("tags")
-            .where("tag_name", tag)
-            .then(async(tagList) => {
-                if (tagList.length === 0) {
-                    await tagModel.add(tag)
-                    .then( async(tagId) => {
-                        console.log(tagId, articleID);
-                        await tagModel.addTagArticles(tagId, articleID).then(()=> console.log("add tag article"));
-                    });
-                }
-                else{
-                    console.log("add tag existed");                    
+            let tagID = parseInt(tag);
+            console.log(tag, articleID);
+            tagModel.addTagArticles(tag, articleID).then(()=> console.log("add tag article"));
+            // db.select("id")
+            // .from("tags")
+            // .where("tag_name", tag)
+            // .then(async(tagList) => {
+            //     if (tagList.length === 0) {
+            //         await tagModel.add(tag)
+            //         .then( async(tagId) => {
+            //             console.log(tagId, articleID);
+            //             await tagModel.addTagArticles(tagId, articleID).then(()=> console.log("add tag article"));
+            //         });
+            //     }
+            //     else{
+            //         console.log("add tag existed");                    
                     
-                    await tagModel.addTagArticles(tagList[0].id, articleID);
-                }
+            //         await tagModel.addTagArticles(tagList[0].id, articleID);
+            //     }
             });
         });
-    });
 };
+
+const updateArticle = (article, tags, id) => {
+    const tagArticles = tags.map((tag) => {
+        return {"article_id": id, "tag_id": tag};
+    });
+    console.log(tagArticles);
+    tagModel.delTagsByArticleID(id)
+    .then(() => {
+        tagModel.addTagArticlesList(tagArticles).then(() => {
+            return db('articles')
+                .where('id', id)
+                .update(article);
+        })
+    })
+
+}
 
 const findArticleByAuthorID = (authorID) => {
     console.log('auid', authorID);
@@ -64,6 +77,7 @@ module.exports = {
     addArticle,
     checkStatusArticle,
     findArticleByAuthorID,
+    updateArticle,
     getArticleList(){                           
         return db({a: 'articles'})
                 .select('a.id','a.title','a.category_id',{cat_title:'c.title'},'c.parent_title','app.is_approved', 'app.published_date')

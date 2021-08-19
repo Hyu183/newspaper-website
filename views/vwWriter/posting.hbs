@@ -1,4 +1,24 @@
+{{#section 'css'}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{{/section}}
 <script src="/module/ckeditor/ckeditor.js"></script>
+
+
+{{#section 'js'}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.js-multi').select2();
+
+            $('#btn-save').on('click', function (e) {          
+                e.preventDefault(); 
+                $('#frmAssignEditor').submit();
+            })
+        });
+
+    </script>
+{{/section}}
 
 <div class="container posting my-5">
     <h1 class="text-center">Write new article</h1>
@@ -49,8 +69,13 @@
         </select>
 
         <div class="form-group">
-            <label for="tag">Tags</label>
-            <textarea class="form-control" name="tag" id="tag" rows="2"></textarea>
+            <label for="assignCat">Tags</label>
+            <select class="js-multi form-control" id="assignCat" name="tags"
+                multiple="multiple">
+                {{#each tags}}
+                    <option value="{{id}}">{{tag_name}}</option>
+                {{/each}}
+            </select>
         </div>
 
         <br>

@@ -53,6 +53,9 @@ module.exports = {
     addTagArticles(tagID, articleID){
         return db('article_tags').insert({tag_id: tagID, article_id: articleID});
     },
+    addTagArticlesList(tagArtList){
+        return db('article_tags').insert(tagArtList);
+    },
 
     delTagArticles(articleID,delList){
         return db('article_tags')
@@ -61,6 +64,14 @@ module.exports = {
               })
               .whereIn('tag_id',delList)
              .del();
+    },
+    delTagsByArticleID(articleID){
+        return db('article_tags')
+             .where( {
+                article_id: articleID              
+              })
+              .del();
+
     },
 
     findByArticleID(articleID){

@@ -6,6 +6,7 @@ const knex = require('knex')({
         database: 'newspaperdb',
         port: 3306,
 
+
     },
     pool: { min: 0, max: 7 }
 });

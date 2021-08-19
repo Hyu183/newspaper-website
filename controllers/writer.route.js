@@ -140,14 +140,8 @@ router.get('/editArticle/:id', checkAuthenticated, isWriter, async function(req,
     const tagList = await tagModel.findByArticleID(id);
     const mainCategories = await categoryModel.allMainCategories();
     const subCategories = await categoryModel.allSubCategories();
+    const allTags = await tagModel.all();
 
-    let tags = "";
-    tagList.forEach((tag, index) => {
-        tags += tag.tag_name;
-        if (index < tagList.length - 1) {
-            tags += '|';
-        }
-    });
 
     const approval = await postingModel.getApproval(article.id)
         //console.log(approval);
@@ -170,7 +164,8 @@ router.get('/editArticle/:id', checkAuthenticated, isWriter, async function(req,
         content: "",
         mainCatID: article.parent_id,
         subCatID: article.cat_id,
-        tags: tags,
+        selectedTags: tagList,
+        allTags: allTags,
         mainCategories: mainCategories,
         subCategories: subCategories,
         disableEdit: disableEdit
@@ -192,68 +187,98 @@ router.get('/getArticleContent/:id', checkAuthenticated, isWriter, async functio
 router.get('/posting', checkAuthenticated, isWriter, async function(req, res) {
     const mainCategories = await categoryModel.allMainCategories();
     const subCategories = await categoryModel.allSubCategories();
+    const tags = await tagModel.all();
 
-    res.render('vwWriter/posting.hbs', { mainCategories: mainCategories, subCategories: subCategories });
+    res.render('vwWriter/posting.hbs', { mainCategories: mainCategories, subCategories: subCategories, tags: tags });
 });
 
 router.post('/post_article', (req, res) => {
     req.user.then((user) => {
         let relativePath;
-        upload.single('thumbnail_image')(req, res, function(err) {
+        upload.single('thumbnail_image')(req, res, async function(err) {
             //console.log('body', req.body);
             if (err instanceof multer.MulterError) {
                 console.log(err);
             } else if (err) {
                 console.log(err);
             }
-            relativePath = '/article_img/' + req.file.filename;
+            if (req.file) {
+                relativePath = '/article_img/' + req.file.filename;
+            } else {
+                relativePath = '/article_img/' + req.body.thumbnail_image;
+            }
             //console.log(req.body);
             let article = req.body;
-            let tags = article['tag'];
+            let tags = article['tags'];
             if (article['category_id'] === -1) {
                 article['category_id'] = article['main_category_id'];
             }
-            delete article['tag'];
+            delete article['tags'];
             delete article['main_category_id'];
 
             article['thumbnail_image'] = relativePath;
 
             article['created_time'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
             article['author_id'] = user.id;
+            console.log(tags);
 
-            addArticle(article, tags).then(
-                () => {
-                    console.log("success posting article");
-                    //console.log(article);
-                    res.redirect('/posting');
-                }
-            ).catch((err) => {
-                console.log(err);
-                return;
-            });
-        });
-    });
+            if (req.body.isEdit) {
+                const id = article['id'];
+                delete article['isEdit'];
+                delete article['id'];
+                const post = await postingModel.updateArticle(article, tags, id);
+                console.log(post);
+                // (
+                //     () => {
+                //         console.log("success posting article");
+                //         //console.log(article);
+                //         res.redirect('/posting');
+                //     }
+                // ).catch( (err) =>
+                //     {
+                //         console.log(err);
+                //         return;
+                //     }        
+                // );
+                console.log("success posting article");
+                //console.log(article);
+                res.redirect('/posting');
+            } else {
 
-    router.post('/upload_img', (req, res) => {
-        upload.single('upload')(req, res, function(err) {
-            if (err instanceof multer.MulterError) {
-                console.log(err);
-            } else if (err) {
-                console.log(err);
+                addArticle(article, tags).then(
+                    () => {
+                        console.log("success posting article");
+                        //console.log(article);
+                        res.redirect('/posting');
+                    }
+                ).catch((err) => {
+                    console.log(err);
+                    return;
+                });
             }
-            //console.log(req.file);
-            let filename = req.file.filename;
-            let url = '/article_img/' + filename;
-            let msg = 'Upload successfully';
-            let funcNum = req.query.CKEditorFuncNum;
-            res.status(200).json({
-                uploaded: 1,
-                fileName: filename,
-                url: url
-            });
-        })
+        });
 
-    });
+        router.post('/upload_img', (req, res) => {
+            upload.single('upload')(req, res, function(err) {
+                if (err instanceof multer.MulterError) {
+                    console.log(err);
+                } else if (err) {
+                    console.log(err);
+                }
+                //console.log(req.file);
+                let filename = req.file.filename;
+                let url = '/article_img/' + filename;
+                let msg = 'Upload successfully';
+                let funcNum = req.query.CKEditorFuncNum;
+                res.status(200).json({
+                    uploaded: 1,
+                    fileName: filename,
+                    url: url
+                });
+            })
+
+        });
+    })
 })
 
 module.exports = router;
