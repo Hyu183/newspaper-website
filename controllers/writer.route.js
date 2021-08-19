@@ -209,6 +209,7 @@ router.post('/post_article', (req, res) => {
             }
             //console.log(req.body);
             let article = req.body;
+            console.log(article);
             let tags = article['tags'];
             if (article['category_id'] === -1) {
                 article['category_id'] = article['main_category_id'];
@@ -248,6 +249,7 @@ router.post('/post_article', (req, res) => {
                 addArticle(article, tags).then(
                     () => {
                         console.log("success posting article");
+                        console.log(tags);
                         //console.log(article);
                         res.redirect('/posting');
                     }
