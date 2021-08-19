@@ -28,9 +28,9 @@
 
       <div class="form-group">
         <label for="username">User Name</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+        <input type="text" class="form-control" id="username" name="username" pattern="[^()/><\][\\\x22,@;|]+" required>
         <div class="invalid-feedback">
-          Must have a username.
+          Must have a username without a special character.
         </div>
       </div>
 
@@ -76,7 +76,7 @@
 </div>
 
 <script>
-  {{!-- (function() {
+  (function() {
   'use strict';
   window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -92,7 +92,7 @@
       }, false);
     });
     }, false);
-  })(); --}}
+  })();
 
   $('#birthdaypicker').datepicker({
         format: "dd/mm/yyyy"

@@ -64,7 +64,7 @@ const initialize = (passport) => {
                     const user = {
                         name: profile.displayName,
                         email: profile.email,
-                        user_name: `google_${profile.id}`,
+                        user_name: `google@_${profile.id}`,
                         password: null,
                         birthday: null,
                         user_type: 0,
