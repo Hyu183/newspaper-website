@@ -5,7 +5,7 @@ const knex = require('knex')({
         user: 'root',
         database: 'newspaperdb',
         port: 3306,
-
+        password: '1234'
 
     },
     pool: { min: 0, max: 7 }
