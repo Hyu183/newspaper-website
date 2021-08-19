@@ -282,6 +282,13 @@ module.exports = {
                     console.log("del approval");
                 })
 
+        await db('comments')
+                .where({article_id: articleID})
+                .del()
+                .then(()=>{
+                    console.log("del comments");
+                })
+        
         //del article
         return await db('articles')
                 .where({id: articleID})
