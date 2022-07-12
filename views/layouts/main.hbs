@@ -5,7 +5,7 @@
     {{{_sections.headscript}}}
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Online Newspaper</title>
+    <title>E-Newspaper</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{!--
@@ -86,7 +86,7 @@
                             
                             {{#if currentUser}}
                             <button type="button" class="btn btn-primary active btn-sm mr-1">
-                                <a href="/user/subscribe">Subcribe</a>
+                                <a href="/user/subscribe">Subscribe</a>
                             </button>
                             <nav class="navbar navbar-expand-lg navbar-light  bg-transparent">                         
                                                                 
@@ -100,26 +100,34 @@
                                             </a>
                                             <div class="dropdown-menu text-dark" aria-labelledby="navbarDropdownMenuLink">
                                                 <a class="dropdown-item text-dark" href="/user/userInfo">
-                                                <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                                                Thông tin cá nhân</a>
+                                               
+                                                 
+
+                                                <i class="fa fa-id-card-o" aria-hidden="true" style="margin-right: 5px; width: 20px;"></i>
+                                                  
+
+                                                Thông tin cá nhân
+                                                  
+                                                
+                                                </a>
                                                 {{#if isAdmin}}
                                                 <a class="dropdown-item text-dark" href="/admin">
-                                                <i class="fa fa-tachometer" aria-hidden="true"></i>
+                                                <i class="fa fa-tachometer" aria-hidden="true" style="margin-right: 5px; width: 20px;"></i>
                                                 Dashboard</a>
                                                 {{/if}}
                                                 {{#if isEditor}}
                                                 <a class="dropdown-item text-dark" href="/editorAssignedCat">
-                                                <i class="fa fa-archive" aria-hidden="true"></i>
+                                                <i class="fa fa-archive" aria-hidden="true"  style="margin-right: 5px;width: 20px;"></i>
                                                 Quản lý bài viết</a>
                                                 {{/if}}
                                                 {{#if isWriter}}
                                                 <a class="dropdown-item text-dark" href="/writer">
-                                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                                <i class="fa fa-newspaper-o" aria-hidden="true"  style="margin-right: 5px;width: 20px;"></i>
                                                 Bài viết của tôi</a>
                                                 {{/if}}
 
                                                 <a class="dropdown-item text-dark" href="/user/logout">
-                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                                <i class="fa fa-sign-out" aria-hidden="true"  style="margin-right: 5px;width: 20px;"></i>
                                                 Đăng xuất</a>
                                             </div>
                                         </li>
@@ -129,10 +137,10 @@
                             
                             {{else}}
                             <button type="button" class="btn btn-primary active btn-sm mr-1">
-                                <a href="/user/register">Sign Up</a>
+                                <a href="/user/register">Đăng ký</a>
                             </button>
                             <button type="button" class="btn btn-primary active btn-sm">
-                                <a href="/user/sign_in">Sign In</a>
+                                <a href="/user/sign_in">Đăng nhập</a>
                             </button>
                             {{/if}}
                         </div>

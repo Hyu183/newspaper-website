@@ -8,21 +8,21 @@
 
 <div class="container reg">
 
-  <h1 class="text-center">Register</h1>
+  <h1 class="text-center">Đăng ký</h1>
   <br>
   <form class="form-reg" id="form-reg" action="/user/register" method="POST" novalidate>
       <div class="form-group">
         <label for="exampleInputEmail1">Email</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
         <div class="invalid-feedback">
-          Please enter an email.
+          Hãy điền email
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+        <label for="exampleInputPassword1">Mật khẩu</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Mật khẩu" required>
         <div class="invalid-feedback">
-          Please choose a password.
+          Hãy điền mật khẩu
         </div>
       </div>
 
@@ -30,20 +30,20 @@
         <label for="username">User Name</label>
         <input type="text" class="form-control" id="username" name="username" pattern="[^()/><\][\\\x22,@;|]+" required>
         <div class="invalid-feedback">
-          Must have a username without a special character.
+          Tên đăng nhập không chứa kí tự đặc biệt
         </div>
       </div>
 
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+        <label for="name">Tên</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Tên" required>
         <div class="invalid-feedback">
-          Name is required.
+          Tên không được trống
         </div>
       </div>
 
       <div class="form-group">
-        <label for="name">Birthdate</label>
+        <label for="name">Ngày sinh</label>
         <div class="input-group date">
             <input type="text" name="birthdate" class="form-control" id="birthdaypicker" required>
             <div class="input-group-addon">
@@ -51,15 +51,15 @@
             </div>
         </div>
         <div class="invalid-feedback">
-          Birthdate is required.
+          Ngày sinh không được trống
         </div>
       </div>
 
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="check" required>
-        <label class="form-check-label" for="exampleCheck1">Yes, I agree to the privacy policies of the newspaper</label>
+        <label class="form-check-label" for="exampleCheck1">Vâng, tôi đồng ý với các chính sách của trang</label>
         <div class="invalid-feedback">
-          You have to agree to continue.
+          Bạn phải đồng ý để tiếp tục
         </div>
       </div>
 
@@ -67,10 +67,10 @@
         <div class="g-recaptcha" data-sitekey="6Lc-5wgcAAAAAGSAF-r31dkyJiLP0G884UtYlpOm"</div>
       </div>
 
-      <button type="submit" class="btn btn-primary active btn-sm">Create Account</button>
+      <button type="submit" class="btn btn-primary active btn-sm">Tạo tài khoản</button>
 
       <hr style="width: 100%; height: 1px; background-color:gray;" />
-      <h6 class="text-center">Already have an account?  <a href="user/sign_in"><b>Sign In<b></a></h5>
+      <h6 class="text-center">Bạn đã có tài khoản?  <a href="user/sign_in"><b>Đăng nhập<b></a></h5>
         <br>
   </form>
 </div>

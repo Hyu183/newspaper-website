@@ -13,7 +13,7 @@
 
  Date: 18/08/2021 12:36:00
 */
-
+use `newspaper_db`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

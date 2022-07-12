@@ -53,12 +53,12 @@
       <div class="row ">
         <div class="col-lg-8" id="topTrending">
           <div class="section-tittle">
-            <h3>Weekly Top News</h3>
+            <h3>Tin nóng trong tuần</h3>
           </div>
           <!-- Trending Top -->
           <div class="trending-top mb-30">
             <div class="trend-top-img">
-              <img src="{{top1Week.thumbnail_image}}" alt="">
+              <img src="{{top1Week.thumbnail_image}}" alt="" >
               <div class="trend-top-cap">
                 <span><a href="/categories/{{top1Week.category_id}}">{{top1Week.category_name}}</a></span>
                 <h2><a href="/articles/{{top1Week.id}}">{{top1Week.title}}</a></h2>
@@ -76,7 +76,7 @@
                 <div class="col-lg-4">
                   <div class="single-bottom">
                     <div class="trend-bottom-img mb-30">
-                      <img src="{{this.thumbnail_image}}" alt="">
+                      <img src="{{this.thumbnail_image}}" alt="" style="width: 220px; height:150px ;">
                     </div>
                     <div class="trend-bottom-cap">
                       <span class="color1"><a href="/categories/{{category_id}}">{{this.category_name}}</a></span>
@@ -95,7 +95,7 @@
         <!-- Riht content -->
         <div class="col-lg-4">
           <div class="section-tittle">
-            <h3>Most Views</h3>
+            <h3>Nhiều lượt xem nhất</h3>
           </div>
           <div class="myScroll" id="topWeekScroll">
             {{#each listTopViews}}
@@ -126,7 +126,8 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="section-tittle mb-30">
-            <h3>What&#39;s new</h3>
+            {{!-- <h3>What&#39;s new</h3> --}}
+            <h3>Tin mới</h3>
           </div>
         </div>
       </div>
@@ -159,7 +160,7 @@
     <div class="row">
       <div class="col-lg-12 ">
         <div class="section-tittle mb-30">
-          <h3>Top Categories</h3>
+          <h3>Chủ đề nổi bật</h3>
         </div>
         <div class="row d-flex justify-content-between">
           <div class="col-12">

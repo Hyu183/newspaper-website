@@ -1,6 +1,6 @@
 <div class="container reg">
 
-    <h1 class="text-center">Sign In</h1>
+    <h1 class="text-center">Đăng nhập</h1>
     <br>
     {{#if messages.error}}
         {{{messages.error}}}
@@ -8,26 +8,26 @@
     <br>
     <form class="form-reg"  action="/user/login" method="POST">
         <div class="form-group">
-            <label for="user-name">User name</label>
-            <input type="text" class="form-control" id="user-name" name="user_name" placeholder="Enter username">
+            <label for="user-name">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="user-name" name="user_name" placeholder="Tên đăng nhập">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+            <label for="exampleInputPassword1">Mật khẩu</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Mật khẩu">
         </div>
 
         <div class="d-flex justify-content-between px-2">
-            <a href="/user/forgetPassword">Forgot password?</a>
-            <button type="submit" class="btn btn-primary active btn-sm">Login</button>
+            <a href="/user/forgetPassword">Quên mật khẩu?</a>
+            <button type="submit" class="btn btn-primary active btn-sm">Đăng nhập</button>
         </div>
 
-        <h4 class="text-center text-secondary">Or try login by</h4>
+        <h4 class="text-center text-secondary">Hoặc đăng nhập bằng</h4>
         <div class="d-flex p-2 justify-content-center align-items-center">
             <a href="http://localhost:3000/user/auth/google"><i class="fa fa-google text-center fa-3x" style="color:red" aria-hidden="true"></i></a>
         </div>
 
         <hr style="width: 100%; height: 1px; background-color:gray;" />
-        <h6 class="text-center">Don't have an account yet? <a href="/user/register"><b>Register<b></a></h6>
+        <h6 class="text-center">Bạn chưa có tài khoản? <a href="/user/register"><b>Đăng ký<b></a></h6>
         <br>
     </form>
 
