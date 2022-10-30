@@ -8,7 +8,6 @@ const initializeFacebookPassport = require("./public/js/config/auth.facebook.js"
 const initializePassport = require("./public/js/config/passport.config");
 const cookieParser = require("cookie-parser");
 
-
 const app = express();
 //app.use(cookieParser());
 initializePassport(passport);
@@ -57,7 +56,9 @@ require("./middlewares/view.mdw")(app);
 require("./middlewares/locals.mdw")(app);
 require("./middlewares/routes.mdw")(app);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  console.log(`Online Newspaper Web App listening at http://localhost:${PORT}`);
+  console.log(
+    `Online Newspaper Web App listening at ${process.env.HOST}:${PORT}`
+  );
 });
